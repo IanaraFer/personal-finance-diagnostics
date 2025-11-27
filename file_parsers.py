@@ -9,7 +9,14 @@ from io import BytesIO
 
 def parse_csv(file_content):
     """Parse CSV file content into DataFrame."""
-    return pd.read_csv(BytesIO(file_content))
+    # Try different encodings
+    for encoding in ['utf-8', 'latin-1', 'iso-8859-1', 'cp1252']:
+        try:
+            return pd.read_csv(BytesIO(file_content), encoding=encoding)
+        except UnicodeDecodeError:
+            continue
+    # If all encodings fail, try with error handling
+    return pd.read_csv(BytesIO(file_content), encoding='utf-8', errors='ignore')
 
 
 def parse_excel(file_content):
