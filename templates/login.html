@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Sign In</h1>
+  </header>
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+  {% if request.args.get('registered') %}
+    <div class="success">Registration successful! Please log in.</div>
+  {% endif %}
+  {% if request.args.get('reset') %}
+    <div class="success">Password reset successful! Please log in.</div>
+  {% endif %}
+  {% if request.args.get('deleted') %}
+    <div class="success">Account deleted successfully.</div>
+  {% endif %}
+  <form action="/login" method="post" class="upload-form">
+    <label>Email
+      <input type="email" name="email" required placeholder="demo@example.com" />
+    </label>
+    <label>Password
+      <input type="password" name="password" required placeholder="Demo123!" />
+    </label>
+    <button type="submit">Login</button>
+    <p style="opacity:.7">Demo: email <code>demo@example.com</code>, password <code>Demo123!</code></p>
+    <p style="margin-top:12px;">
+      <a href="/register">Create account</a> | 
+      <a href="/forgot-password">Forgot password?</a>
+    </p>
+  </form>
+</body>
+</html>

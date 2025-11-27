@@ -1,0 +1,16 @@
+date,type,category,amount,description
+2025-10-01,income,Salary,3500,Monthly salary
+2025-10-02,expense,Rent,1400,Apartment rent
+2025-10-03,expense,Groceries,350,Weekly groceries
+2025-10-04,expense,Dining,180,Restaurant
+2025-10-05,expense,Transport,120,Public transport
+2025-10-06,expense,Utilities,220,Electricity & Gas
+2025-10-07,income,Side Hustle,300,Freelance work
+2025-10-10,expense,Entertainment,150,Concert
+2025-10-12,expense,Dining,90,Cafe
+2025-10-15,expense,Subscriptions,50,Streaming services
+2025-10-20,expense,Healthcare,80,Pharmacy
+2025-10-25,expense,Groceries,330,Weekly groceries
+2025-10-28,expense,Dining,120,Restaurant
+2025-10-29,expense,Transport,60,Taxi
+2025-10-30,expense,Misc,70,Household items

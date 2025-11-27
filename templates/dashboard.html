@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Diagnostics Dashboard</title>
+  <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Personal Finance Diagnostics</h1>
+    <nav>
+      <a href="/upload">Upload Data</a>
+      <a href="/account/export" style="margin-left:12px;">Export My Data</a>
+      <a href="/logout" style="margin-left:12px;">Logout</a>
+    </nav>
+  </header>
+
+  <section class="stats">
+    <div class="card">
+      <h3>Income</h3>
+      <p>€{{ results.income }}</p>
+    </div>
+    <div class="card">
+      <h3>Expenses</h3>
+      <p>€{{ results.expenses }}</p>
+    </div>
+    <div class="card">
+      <h3>Savings Rate</h3>
+      <p>{{ (results.savings_rate * 100)|round(1) }}%</p>
+    </div>
+  </section>
+
+  <section class="alerts">
+    <h2>Alerts</h2>
+    {% if results.alerts %}
+      <ul>
+        {% for a in results.alerts %}
+          <li>{{ a }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No alerts. Nice work!</p>
+    {% endif %}
+  </section>
+
+  <section class="recommendations">
+    <h2>Recommendations</h2>
+    <ul>
+      {% for r in results.recommendations %}
+        <li>{{ r }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="benchmarks">
+    <h2>Benchmarks</h2>
+    <p>You: {{ results.benchmarks.your_savings_rate }}% | Age Group Avg: {{ results.benchmarks.age_group_average }}%</p>
+  </section>
+
+  <section class="charts">
+    <div id="incomeExpenses" class="chart"></div>
+    <div id="categoryBreakdown" class="chart"></div>
+    <div id="savingsProgress" class="chart"></div>
+  </section>
+
+  <section>
+    <h2>Overspending Categories (≥ 20%)</h2>
+    <table>
+      <thead>
+        <tr><th>Category</th><th>Amount (€)</th><th>Percent</th></tr>
+      </thead>
+      <tbody>
+        {% for o in results.overspending %}
+          <tr>
+            <td>{{ o.category }}</td>
+            <td>{{ o.amount }}</td>
+            <td>{{ (o.percent * 100) | round(1) }}%</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section style="padding:16px; margin-top:24px; border-top:1px solid #eee;">
+    <h3 style="margin-bottom:12px;">Account Settings</h3>
+    <p style="margin-bottom:8px;">Logged in as: <strong>{{ current_user.email }}</strong></p>
+    <form action="/account/delete" method="post" onsubmit="return confirm('Delete your account permanently? This cannot be undone.');">
+      <button type="submit" style="background:#d32f2f;">Delete My Account</button>
+    </form>
+  </section>
+
+  <script>
+    const incomeVsExpenses = {
+      labels: {{ results.charts.income_vs_expenses.labels | tojson }},
+      values: {{ results.charts.income_vs_expenses.data | tojson }}
+    };
+    Plotly.newPlot('incomeExpenses', [{
+      type: 'bar',
+      x: incomeVsExpenses.labels,
+      y: incomeVsExpenses.values,
+      marker: { color: ['#2ca02c', '#d62728'] }
+    }], { title: 'Income vs Expenses' });
+
+    const categoryBreakdown = {
+      labels: {{ results.charts.category_breakdown.labels | tojson }},
+      values: {{ results.charts.category_breakdown.data | tojson }}
+    };
+    Plotly.newPlot('categoryBreakdown', [{
+      type: 'pie',
+      labels: categoryBreakdown.labels,
+      values: categoryBreakdown.values
+    }], { title: 'Expense Categories' });
+
+    const savingsProgress = {
+      liquid: {{ results.charts.savings_progress.liquid_savings | tojson }},
+      target: {{ results.charts.savings_progress.target_emergency | tojson }}
+    };
+    Plotly.newPlot('savingsProgress', [{
+      type: 'bar',
+      x: ['Liquid Savings', 'Target (3 months)'],
+      y: [savingsProgress.liquid, savingsProgress.target],
+      marker: { color: ['#1f77b4', '#ff7f0e'] }
+    }], { title: 'Emergency Fund Progress' });
+  </script>
+</body>
+</html>

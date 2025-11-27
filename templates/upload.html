@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Financial Data</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Upload Financial Data</h1>
+    <nav>
+      <a href="/">Back to Dashboard</a>
+    </nav>
+  </header>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  <form action="/upload" method="post" enctype="multipart/form-data" class="upload-form">
+    <label>Transactions File (CSV, Excel, or PDF)
+      <input type="file" name="transactions" accept=".csv,.xlsx,.xls,.pdf" required />
+    </label>
+    <label>Accounts File (CSV, Excel, or PDF)
+      <input type="file" name="accounts" accept=".csv,.xlsx,.xls,.pdf" required />
+    </label>
+    <button type="submit">Analyze</button>
+    
+    <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px;">
+      <h3 style="margin-top: 0;">Supported Formats:</h3>
+      <ul style="margin: 10px 0;">
+        <li><strong>CSV:</strong> Standard comma-separated values</li>
+        <li><strong>Excel:</strong> .xlsx or .xls spreadsheet files</li>
+        <li><strong>PDF:</strong> Bank statements with transaction tables (best effort extraction)</li>
+      </ul>
+      <p style="margin-bottom: 0;"><em>Note: For best results with PDFs, ensure the document contains clear transaction tables.</em></p>
+    </div>
+  </form>
+</body>
+</html>
