@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify, session
 from flask.json.provider import DefaultJSONProvider
 import os
 import pandas as pd
@@ -9,6 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from os import getenv
 import user_store
+import json
+from datetime import datetime
+import io
 try:
     from azure.identity import DefaultAzureCredential
     from azure.keyvault.secrets import SecretClient
@@ -75,7 +78,7 @@ def index():
     # Load sample data for the landing demo
     tx_df, acct_df = load_sample_data()
     results = analyze_finances(tx_df, acct_df)
-    return render_template('dashboard.html', results=results)
+    return render_template('dashboard_enhanced.html', results=results)
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -110,7 +113,7 @@ def upload():
             
             # Run analysis
             results = analyze_finances(tx_df, acct_df)
-            return render_template('dashboard.html', results=results)
+            return render_template('dashboard_enhanced.html', results=results)
             
         except ValueError as e:
             return render_template('upload.html', error=str(e))
@@ -206,9 +209,141 @@ def logout():
 @login_required
 def export_data():
     """Export user data (GDPR compliance)."""
-    from flask import jsonify
     data = user_store.export_user_data(current_user.email)
     return jsonify(data)
+
+
+@app.route('/api/export/data')
+@login_required
+def api_export_data():
+    """Export user financial data as JSON file."""
+    try:
+        # Get user's uploaded data file path
+        data_file = session.get('data_file')
+        if not data_file or not os.path.exists(data_file):
+            # Use demo data if no file uploaded
+            transactions_df, accounts_df = load_sample_data()
+        else:
+            transactions_df = pd.read_csv(data_file)
+            accounts_df = pd.DataFrame()  # Empty if not provided
+        
+        # Analyze the data
+        results = analyze_finances(transactions_df, accounts_df)
+        
+        # Prepare export data
+        export_data = {
+            'exported_at': datetime.now().isoformat(),
+            'user': current_user.email,
+            'transactions_count': len(transactions_df),
+            'summary': {
+                'total_income': float(results['income']),
+                'total_expenses': float(results['expenses']),
+                'savings_rate': float(results['savings_rate']),
+                'health_score': float(results.get('diagnostic_report', {}).get('overall_score', 0))
+            },
+            'transactions': transactions_df.to_dict('records'),
+            'diagnostic_report': results.get('diagnostic_report', {})
+        }
+        
+        # Create JSON file in memory
+        json_data = json.dumps(export_data, indent=2, default=str)
+        buffer = io.BytesIO()
+        buffer.write(json_data.encode('utf-8'))
+        buffer.seek(0)
+        
+        # Generate filename with timestamp
+        filename = f"financial_data_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        
+        return send_file(
+            buffer,
+            mimetype='application/json',
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/export/pdf')
+@login_required
+def api_export_pdf():
+    """Export financial health report as PDF."""
+    try:
+        # Get user's uploaded data file path
+        data_file = session.get('data_file')
+        if not data_file or not os.path.exists(data_file):
+            # Use demo data if no file uploaded
+            transactions_df, accounts_df = load_sample_data()
+        else:
+            transactions_df = pd.read_csv(data_file)
+            accounts_df = pd.DataFrame()  # Empty if not provided
+        
+        # Analyze the data
+        results = analyze_finances(transactions_df, accounts_df)
+        diagnostic = results.get('diagnostic_report', {})
+        
+        # Create simple text-based report (PDF libraries like reportlab can be added later)
+        report_lines = [
+            "FINANCIAL HEALTH DIAGNOSTIC REPORT",
+            "=" * 80,
+            f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+            f"User: {current_user.email}",
+            "",
+            f"OVERALL HEALTH SCORE: {diagnostic.get('overall_score', 0):.0f}/100 (Grade: {diagnostic.get('grade', 'N/A')})",
+            "",
+            "CATEGORY SCORES:",
+            "-" * 80
+        ]
+        
+        for category, data in diagnostic.get('categories', {}).items():
+            score = data.get('score', 0)
+            status = data.get('status', 'unknown')
+            report_lines.append(f"{category.replace('_', ' ').title():30s}: {score:3.0f}/100 ({status})")
+        
+        report_lines.extend([
+            "",
+            "FINANCIAL SUMMARY:",
+            "-" * 80,
+            f"Total Income:     €{results['income']:,.2f}",
+            f"Total Expenses:   €{results['expenses']:,.2f}",
+            f"Savings Rate:     {results['savings_rate']:.1f}%",
+            ""
+        ])
+        
+        # Add risks
+        risks = diagnostic.get('risks', [])
+        if risks:
+            report_lines.extend(["RISKS IDENTIFIED:", "-" * 80])
+            for i, risk in enumerate(risks, 1):
+                report_lines.append(f"{i}. [{risk.get('severity', 'medium').upper()}] {risk.get('message', '')}")
+            report_lines.append("")
+        
+        # Add recommendations
+        recommendations = diagnostic.get('recommendations', [])
+        if recommendations:
+            report_lines.extend(["RECOMMENDATIONS:", "-" * 80])
+            for i, rec in enumerate(recommendations, 1):
+                report_lines.append(f"{i}. [{rec.get('priority', 'medium').upper()}] {rec.get('action', '')}")
+                report_lines.append(f"   Impact: {rec.get('impact', '')}")
+                report_lines.append("")
+        
+        # Create text file (can be enhanced to proper PDF later)
+        report_text = "\n".join(report_lines)
+        buffer = io.BytesIO()
+        buffer.write(report_text.encode('utf-8'))
+        buffer.seek(0)
+        
+        # Generate filename with timestamp
+        filename = f"financial_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        
+        return send_file(
+            buffer,
+            mimetype='text/plain',
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/account/delete', methods=['POST'])
@@ -225,6 +360,62 @@ def delete_account():
 def health():
     """Health check endpoint for monitoring."""
     return {'status': 'healthy', 'service': 'finance-diagnostics'}, 200
+
+
+@app.route('/demo')
+def demo():
+    """Demo route with Revolut data - no authentication required."""
+    try:
+        tx_df = pd.read_csv('data/transactions_from_pdf.csv')
+        acct_df = pd.read_csv('data/accounts_from_pdf.csv')
+        results = analyze_finances(tx_df, acct_df)
+        return render_template('dashboard_enhanced.html', results=results)
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        return f"<pre>Error loading demo data:\n\n{error_details}</pre>", 500
+
+
+@app.route('/questionnaire', methods=['GET', 'POST'])
+@login_required
+def questionnaire():
+    """Dynamic questionnaire based on data gaps."""
+    if request.method == 'POST':
+        # Save questionnaire responses
+        responses = request.form.to_dict()
+        # Store in session or database
+        from flask import session
+        session['questionnaire_responses'] = responses
+        return redirect(url_for('index'))
+    
+    # Get questionnaire from latest analysis
+    # For demo purposes, render empty questionnaire template
+    questions = [
+        {
+            'id': 'insurance_coverage',
+            'category': 'Insurance',
+            'question': 'What types of insurance coverage do you currently have?',
+            'type': 'multiple_choice',
+            'options': ['Health', 'Life', 'Disability', 'Home/Renters', 'Auto', 'None'],
+            'required': True
+        },
+        {
+            'id': 'financial_goals',
+            'category': 'Goals',
+            'question': 'What are your top 3 financial goals for the next 5 years?',
+            'type': 'text',
+            'required': True
+        },
+        {
+            'id': 'risk_tolerance',
+            'category': 'Investments',
+            'question': 'How comfortable are you with investment risk?',
+            'type': 'single_choice',
+            'options': ['Very Conservative', 'Conservative', 'Moderate', 'Aggressive', 'Very Aggressive'],
+            'required': True
+        }
+    ]
+    return render_template('questionnaire.html', questions=questions)
 
 
 if __name__ == '__main__':

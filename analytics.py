@@ -1,6 +1,15 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime
+from advanced_analytics import (
+    detect_recurring_transactions,
+    calculate_monthly_trends,
+    predict_next_month,
+    analyze_category_trends,
+    detect_unusual_spending,
+    analyze_spending_optimization
+)
+from diagnostic_engine import FinancialDiagnostics
 
 
 def load_sample_data():
@@ -12,8 +21,20 @@ def load_sample_data():
 def analyze_finances(transactions_df: pd.DataFrame, accounts_df: pd.DataFrame):
     # Normalize columns
     df = transactions_df.copy()
-    df['date'] = pd.to_datetime(df['date'])
-    df['amount'] = pd.to_numeric(df['amount'])
+    
+    # Flexible date parsing - handle multiple formats
+    try:
+        df['date'] = pd.to_datetime(df['date'], format='mixed', dayfirst=True, errors='coerce')
+    except:
+        # Fallback: try common formats
+        df['date'] = pd.to_datetime(df['date'], errors='coerce')
+    
+    # Remove rows with invalid dates
+    df = df.dropna(subset=['date'])
+    
+    df['amount'] = pd.to_numeric(df['amount'], errors='coerce')
+    df = df.dropna(subset=['amount'])  # Remove rows with invalid amounts
+    
     df['type'] = df['type'].str.lower()
     df['category'] = df['category'].fillna('Uncategorized')
 
@@ -38,9 +59,19 @@ def analyze_finances(transactions_df: pd.DataFrame, accounts_df: pd.DataFrame):
 
     # Accounts and emergency fund check
     acct = accounts_df.copy()
-    acct['balance'] = pd.to_numeric(acct['balance'])
+    acct['balance'] = pd.to_numeric(acct['balance'], errors='coerce')
+    acct = acct.dropna(subset=['balance'])  # Remove invalid balances
+    
     liquid_savings = float(acct[acct['type'].isin(['cash', 'savings'])]['balance'].sum())
-    monthly_expenses = float(df[(df['type'] == 'expense') & (df['date'] >= df['date'].max() - pd.DateOffset(months=1))]['amount'].sum())
+    
+    # Calculate monthly expenses more safely
+    if len(df) > 0:
+        latest_date = df['date'].max()
+        one_month_ago = latest_date - pd.DateOffset(months=1)
+        monthly_expenses = float(df[(df['type'] == 'expense') & (df['date'] >= one_month_ago)]['amount'].sum())
+    else:
+        monthly_expenses = 0.0
+    
     target_emergency = monthly_expenses * 3  # 3 months basic guideline
     has_emergency_fund = liquid_savings >= target_emergency
 
@@ -96,6 +127,35 @@ def analyze_finances(transactions_df: pd.DataFrame, accounts_df: pd.DataFrame):
             'percent': float(row['percent'])
         })
 
+    # ADVANCED ANALYTICS
+    # Monthly trends and predictions
+    monthly_trends = calculate_monthly_trends(df, num_months=6)
+    prediction = predict_next_month(monthly_trends)
+    
+    # Recurring transactions
+    recurring_transactions = detect_recurring_transactions(df)
+    
+    # Category trends
+    category_trends = analyze_category_trends(df, top_n=5)
+    
+    # Unusual spending detection
+    unusual_transactions = detect_unusual_spending(df)
+    
+    # Spending optimization analysis
+    optimization = analyze_spending_optimization(df, num_months=6)
+    
+    # Comprehensive diagnostic analysis
+    diagnostic_engine = FinancialDiagnostics(transactions_df, accounts_df)
+    diagnostic_report = diagnostic_engine.run_full_diagnostic()
+    
+    # Add to charts
+    charts['monthly_trends'] = {
+        'months': monthly_trends['months'],
+        'income': monthly_trends['income'],
+        'expenses': monthly_trends['expenses'],
+        'savings': monthly_trends['savings']
+    }
+
     return {
         'income': float(income),
         'expenses': float(expenses),
@@ -105,4 +165,12 @@ def analyze_finances(transactions_df: pd.DataFrame, accounts_df: pd.DataFrame):
         'benchmarks': benchmarks,
         'overspending': overspending_list,
         'charts': charts,
+        # Advanced features
+        'monthly_trends': monthly_trends,
+        'prediction': prediction,
+        'recurring_transactions': recurring_transactions,
+        'category_trends': category_trends,
+        'unusual_transactions': unusual_transactions,
+        'optimization': optimization,
+        'diagnostic_report': diagnostic_report,
     }
