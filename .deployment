@@ -1,0 +1,8 @@
+{
+  "runtime": "python|3.11",
+  "virtualenv_path": "venv",
+  "build": {
+    "active": true
+  },
+  "sync_lock": false
+}
