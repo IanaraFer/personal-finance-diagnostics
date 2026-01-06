@@ -60,6 +60,7 @@ user_store.init_db()
 
 # Stripe configuration (optional; only used if keys are provided)
 STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')  # e.g., 'price_1SmcTcEPS0ev8tkiLDa2mJqM'
 STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET')
 if STRIPE_SECRET_KEY:
@@ -83,6 +84,9 @@ def load_user(user_id):
 @app.route('/')
 @login_required
 def index():
+    # Gate access if user hasn't paid
+    if not user_store.has_paid(current_user.email):
+        return redirect(url_for('paywall'))
     # Load sample data for the landing demo
     tx_df, acct_df = load_sample_data()
     results = analyze_finances(tx_df, acct_df)
@@ -160,6 +164,9 @@ def register():
         if len(password) < 8:
             return render_template('register.html', error='Password must be at least 8 characters.')
         
+        # Require payment before allowing registration
+        if not user_store.has_paid(email):
+            return render_template('register.html', error='Please complete payment to create an account.')
         user = user_store.create_user(email, password)
         if user:
             return redirect(url_for('login', registered=1))
@@ -419,15 +426,28 @@ def stripe_webhook():
     # Handle the checkout session completed event
     if event['type'] == 'checkout.session.completed':
         session_obj = event['data']['object']
-        # TODO: Mark user/tester as paid. If you collect email at Checkout,
-        # you can use `session_obj.get('customer_details', {}).get('email')`.
-        # Example stub:
-        # email = (session_obj.get('customer_details') or {}).get('email')
-        # if email:
-        #     user_store.mark_paid(email)
-        pass
+        email = None
+        if session_obj.get('customer_details'):
+            email = (session_obj.get('customer_details') or {}).get('email')
+        if not email:
+            email = session_obj.get('customer_email')
+        if email:
+            try:
+                user_store.mark_paid(email.lower())
+            except Exception:
+                pass
 
     return ('', 200)
+
+
+@app.route('/pay')
+def paywall():
+    return (
+        '<h2>Beta Access Required</h2>'
+        '<p>This beta requires a one-time €1.99 payment.</p>'
+        '<p><a href="/checkout">Buy access</a> to continue.</p>'
+        '<p><a href="/login">Back to login</a></p>'
+    )
 
 
 @app.route('/health')

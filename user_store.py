@@ -16,9 +16,17 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            paid INTEGER DEFAULT 0
         )
     ''')
+    # Backfill: add 'paid' column if DB exists without it
+    try:
+        cursor.execute('ALTER TABLE users ADD COLUMN paid INTEGER DEFAULT 0')
+        conn.commit()
+    except sqlite3.OperationalError:
+        # Column already exists
+        pass
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS reset_tokens (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,8 +42,8 @@ def init_db():
     
     # Insert demo user if not exists
     try:
-        cursor.execute('INSERT INTO users (email, password_hash) VALUES (?, ?)',
-                      ('demo@example.com', generate_password_hash('Demo123!')))
+        cursor.execute('INSERT INTO users (email, password_hash, paid) VALUES (?, ?, ?)',
+                      ('demo@example.com', generate_password_hash('Demo123!'), 1))
         conn.commit()
     except sqlite3.IntegrityError:
         pass  # User already exists
@@ -67,8 +75,8 @@ def create_user(email, password):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     try:
-        cursor.execute('INSERT INTO users (email, password_hash) VALUES (?, ?)',
-                      (email, generate_password_hash(password)))
+        cursor.execute('INSERT INTO users (email, password_hash, paid) VALUES (?, ?, 0)',
+                  (email, generate_password_hash(password)))
         conn.commit()
         user_id = cursor.lastrowid
         conn.close()
@@ -76,6 +84,21 @@ def create_user(email, password):
     except sqlite3.IntegrityError:
         conn.close()
         return None  # User already exists
+
+
+def mark_paid(email):
+    """Mark a user's account as paid (beta access granted)."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('UPDATE users SET paid = 1 WHERE email = ?', (email,))
+    conn.commit()
+    conn.close()
+
+
+def has_paid(email):
+    """Return True if the user has paid (or record exists and paid=1)."""
+    user = get_user_by_email(email)
+    return bool(user and user.get('paid', 0))
 
 
 def create_reset_token(email):
