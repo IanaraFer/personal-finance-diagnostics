@@ -12,6 +12,7 @@ import user_store
 import json
 from datetime import datetime
 import io
+import stripe
 try:
     from azure.identity import DefaultAzureCredential
     from azure.keyvault.secrets import SecretClient
@@ -56,6 +57,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Initialize database
 user_store.init_db()
+
+# Stripe configuration (optional; only used if keys are provided)
+STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
+STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')  # e.g., 'price_1SmcTcEPS0ev8tkiLDa2mJqM'
+STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET')
+if STRIPE_SECRET_KEY:
+    stripe.api_key = STRIPE_SECRET_KEY
 
 
 class User(UserMixin):
@@ -203,6 +211,37 @@ def reset_password(token):
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+# --- Payments: Stripe Checkout ---
+@app.route('/checkout', methods=['GET'])
+def checkout():
+    """Create a Stripe Checkout Session and redirect to payment."""
+    if not STRIPE_SECRET_KEY or not STRIPE_PRICE_ID:
+        return ("Stripe not configured. Set STRIPE_SECRET_KEY and STRIPE_PRICE_ID.", 500)
+
+    try:
+        success_url = url_for('checkout_success', _external=True) + "?session_id={CHECKOUT_SESSION_ID}"
+        cancel_url = url_for('checkout_cancel', _external=True)
+        session_obj = stripe.checkout.Session.create(
+            mode='payment',
+            line_items=[{'price': STRIPE_PRICE_ID, 'quantity': 1}],
+            success_url=success_url,
+            cancel_url=cancel_url,
+        )
+        return redirect(session_obj.url, code=303)
+    except Exception as e:
+        return (f"Failed to create checkout session: {str(e)}", 500)
+
+
+@app.route('/checkout/success')
+def checkout_success():
+    return "Payment successful. You can now register/login to access the beta."
+
+
+@app.route('/checkout/cancel')
+def checkout_cancel():
+    return "Payment canceled. No charge was made."
 
 
 @app.route('/account/export')
@@ -354,6 +393,41 @@ def delete_account():
     logout_user()
     user_store.delete_user_account(email)
     return redirect(url_for('login', deleted=1))
+
+
+@app.route('/stripe/webhook', methods=['POST'])
+def stripe_webhook():
+    """Handle Stripe webhook events.
+    For local testing: use `stripe listen --forward-to http://localhost:5001/stripe/webhook`.
+    """
+    payload = request.get_data(as_text=False)
+    sig_header = request.headers.get('Stripe-Signature')
+
+    # If no webhook secret configured, accept silently (useful in non-production)
+    if not STRIPE_WEBHOOK_SECRET:
+        return ('', 200)
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload=payload,
+            sig_header=sig_header,
+            secret=STRIPE_WEBHOOK_SECRET
+        )
+    except Exception as e:
+        return (f"Webhook signature verification failed: {str(e)}", 400)
+
+    # Handle the checkout session completed event
+    if event['type'] == 'checkout.session.completed':
+        session_obj = event['data']['object']
+        # TODO: Mark user/tester as paid. If you collect email at Checkout,
+        # you can use `session_obj.get('customer_details', {}).get('email')`.
+        # Example stub:
+        # email = (session_obj.get('customer_details') or {}).get('email')
+        # if email:
+        #     user_store.mark_paid(email)
+        pass
+
+    return ('', 200)
 
 
 @app.route('/health')
