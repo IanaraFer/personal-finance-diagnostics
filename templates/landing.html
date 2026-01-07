@@ -134,6 +134,137 @@
             color: #667eea;
         }
 
+        /* Registration Form Styles */
+        .registration-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .registration-form h3 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group.password-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group.password-group input {
+            width: 100%;
+        }
+
+        .password-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .form-divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #999;
+        }
+
+        .form-divider::before {
+            content: "";
+            display: block;
+            height: 1px;
+            background: #ddd;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
         /* Features Section */
         .features {
             padding: 5rem 2rem;
@@ -494,9 +625,42 @@
         <div class="container">
             <h1>Understand Your Financial Health</h1>
             <p>Get instant insights into your spending habits, savings rate, and financial wellness with our AI-powered diagnostics platform.</p>
-            <div class="cta-buttons">
-                <a href="/register" class="btn btn-primary">Get Started Free</a>
-                <a href="demo.html" class="btn btn-secondary" target="_blank">Try Demo (No Login)</a>
+            
+            <!-- Inline Registration Form -->
+            <div class="registration-form">
+                <h3>Get Started - €1.99</h3>
+                
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group password-group">
+                        <div>
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+                        </div>
+                        <div>
+                            <label for="confirm_password">Confirm Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required minlength="6">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Register & Pay €1.99
+                    </button>
+
+                    <div class="form-message" id="formMessage"></div>
+
+                    <div class="login-link">
+                        Already have an account? <a href="/login">Login here</a>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <a href="demo.html" class="btn btn-secondary" target="_blank">Or Try Free Demo (No Payment)</a>
             </div>
         </div>
     </section>
@@ -690,7 +854,102 @@
         <p>&copy; 2026 Personal Finance Diagnostics. <a href="PLATFORM_EXPLANATION.md">Learn more about how it works</a></p>
     </footer>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
+        // Initialize Stripe
+        const stripe = Stripe('{{ stripe_publishable_key }}');
+        const priceId = '{{ stripe_price_id }}';
+
+        // Registration Form Handler
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+
+            // Validation
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters.', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                // Step 1: Register user
+                const registerResponse = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const registerData = await registerResponse.json();
+
+                if (!registerResponse.ok) {
+                    showMessage(registerData.error || 'Registration failed.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Register & Pay €1.99';
+                    return;
+                }
+
+                // Step 2: Create Stripe checkout session
+                const checkoutResponse = await fetch('/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email
+                    })
+                });
+
+                const checkoutData = await checkoutResponse.json();
+
+                if (!checkoutResponse.ok) {
+                    showMessage(checkoutData.error || 'Could not initiate payment.', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Register & Pay €1.99';
+                    return;
+                }
+
+                // Step 3: Redirect to Stripe checkout
+                window.location.href = checkoutData.checkout_url;
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('An error occurred. Please try again.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register & Pay €1.99';
+            }
+        });
+
+        function showMessage(message, type) {
+            const formMessage = document.getElementById('formMessage');
+            formMessage.textContent = message;
+            formMessage.className = `form-message ${type}`;
+            formMessage.style.display = 'block';
+            
+            if (type === 'error') {
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', function() {

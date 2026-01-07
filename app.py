@@ -84,7 +84,9 @@ def load_user(user_id):
 @app.route('/')
 def landing():
     # Public landing page (no login required)
-    return render_template('landing.html')
+    return render_template('landing.html', 
+                         stripe_publishable_key=STRIPE_PUBLISHABLE_KEY or '',
+                         stripe_price_id=STRIPE_PRICE_ID or '')
 
 
 @app.route('/dashboard')
@@ -179,6 +181,32 @@ def register():
             return redirect(url_for('login', registered=1))
         return render_template('register.html', error='Email already registered.')
     return render_template('register.html')
+
+
+@app.route('/api/register', methods=['POST'])
+def api_register():
+    """API endpoint for registering a new user"""
+    data = request.get_json()
+    email = data.get('email', '').strip().lower()
+    password = data.get('password', '')
+    
+    if not email or not password:
+        return jsonify({'error': 'Email and password required.'}), 400
+    
+    if len(password) < 6:
+        return jsonify({'error': 'Password must be at least 6 characters.'}), 400
+    
+    # Check if user already exists
+    existing = user_store.get_user_by_email(email)
+    if existing:
+        return jsonify({'error': 'Email already registered. Please login.'}), 400
+    
+    # Create user (unpaid initially, will be marked paid after Stripe webhook)
+    user = user_store.create_user(email, password)
+    if not user:
+        return jsonify({'error': 'Could not create user. Please try again.'}), 500
+    
+    return jsonify({'success': True, 'message': 'User registered. Redirecting to payment...'}), 201
 
 
 @app.route('/forgot-password', methods=['GET', 'POST'])
