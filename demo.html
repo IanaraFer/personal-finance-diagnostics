@@ -158,15 +158,15 @@
         <p class="subtitle">Upload your transaction CSV to get instant insights</p>
 
         <div class="info">
-            📋 <strong>CSV Format:</strong> Your file should have columns: date, amount, type (income/expense), category, description
+            📋 <strong>Supported Formats:</strong> CSV, Excel (.xlsx), JSON. File should have columns: date, amount, type (income/expense), category, description
         </div>
 
         <div class="upload-section">
             <div class="file-input">
-                <label for="csvFile">Upload Transaction CSV</label>
-                <input type="file" id="csvFile" accept=".csv" />
+                <label for="dataFile">Upload Transaction File</label>
+                <input type="file" id="dataFile" accept=".csv,.xlsx,.xls,.json" />
             </div>
-            <button onclick="analyzeCsv()">Analyze Finances</button>
+            <button onclick="analyzeFile()">Analyze Finances</button>
         </div>
 
         <div id="results" class="results">
@@ -203,31 +203,30 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
     <script>
-        function parseCsv(text) {
-            const lines = text.trim().split('\n');
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            const data = [];
-            
-            for (let i = 1; i < lines.length; i++) {
-                const values = lines[i].split(',');
-                const row = {};
-                headers.forEach((header, index) => {
-                    row[header] = values[index]?.trim() || '';
-                });
-                data.push(row);
-            }
-            
-            return data;
-        }
-
-        function analyzeCsv() {
-            const fileInput = document.getElementById('csvFile');
+        function analyzeFile() {
+            const fileInput = document.getElementById('dataFile');
             if (!fileInput.files.length) {
-                alert('Please select a CSV file first');
+                alert('Please select a file first');
                 return;
             }
 
+            const file = fileInput.files[0];
+            const fileName = file.name.toLowerCase();
+            
+            if (fileName.endsWith('.json')) {
+                parseJson(file);
+            } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                parseExcel(file);
+            } else if (fileName.endsWith('.csv')) {
+                parseCsvFile(file);
+            } else {
+                alert('Unsupported file format. Please use CSV, Excel, or JSON.');
+            }
+        }
+
+        function parseCsvFile(file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
@@ -235,12 +234,67 @@
                     const results = analyzeFinances(data);
                     displayResults(results);
                 } catch (error) {
-                    document.getElementById('results').innerHTML = 
-                        `<div class="error">Error: ${error.message}</div>`;
-                    document.getElementById('results').style.display = 'block';
+                    showError(`CSV Error: ${error.message}`);
                 }
             };
-            reader.readAsText(fileInput.files[0]);
+            reader.readAsText(file);
+        }
+
+        function parseExcel(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    
+                    // Normalize column names to lowercase
+                    const normalized = jsonData.map(row => {
+                        const newRow = {};
+                        Object.keys(row).forEach(key => {
+                            newRow[key.toLowerCase()] = row[key];
+                        });
+                        return newRow;
+                    });
+                    
+                    const results = analyzeFinances(normalized);
+                    displayResults(results);
+                } catch (error) {
+                    showError(`Excel Error: ${error.message}`);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function parseJson(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    const data = Array.isArray(jsonData) ? jsonData : jsonData.transactions || [];
+                    
+                    // Normalize column names to lowercase
+                    const normalized = data.map(row => {
+                        const newRow = {};
+                        Object.keys(row).forEach(key => {
+                            newRow[key.toLowerCase()] = row[key];
+                        });
+                        return newRow;
+                    });
+                    
+                    const results = analyzeFinances(normalized);
+                    displayResults(results);
+                } catch (error) {
+                    showError(`JSON Error: ${error.message}`);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function showError(message) {
+            document.getElementById('results').innerHTML = `<div class="error">${message}</div>`;
+            document.getElementById('results').style.display = 'block';
         }
 
         function analyzeFinances(data) {
@@ -333,6 +387,5 @@
 
             document.getElementById('results').style.display = 'block';
         }
-    </script>
 </body>
 </html>

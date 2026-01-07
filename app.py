@@ -82,6 +82,12 @@ def load_user(user_id):
 
 
 @app.route('/')
+def landing():
+    # Public landing page (no login required)
+    return render_template('landing.html')
+
+
+@app.route('/dashboard')
 @login_required
 def index():
     # Gate access if user hasn't paid
@@ -145,7 +151,8 @@ def login():
         if user_data:
             user = User(id=user_data['email'], email=user_data['email'])
             login_user(user)
-            return redirect(url_for('index'))
+            # Redirect to dashboard instead of index (which is now the landing page)
+            return redirect(url_for('paywall') if not user_store.has_paid(email) else url_for('index'))
         return render_template('login.html', error='Invalid credentials.')
     return render_template('login.html')
 
