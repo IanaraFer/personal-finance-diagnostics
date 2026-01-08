@@ -8,6 +8,7 @@ const repoRoot = path.resolve(__dirname, '..', '..');
 const demoSrc = path.join(repoRoot, 'demo.html');
 const wwwDir = path.join(__dirname, '..', 'www');
 const indexDst = path.join(wwwDir, 'index.html');
+const appConfigPath = path.join(wwwDir, 'app-config.json');
 const vendorDir = path.join(wwwDir, 'vendor');
 const xlsxLocal = path.join(vendorDir, 'xlsx.min.js');
 const xlsxCdn = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js';
@@ -31,7 +32,7 @@ function adjustDemoHtml(html, useLocalXlsx) {
   const withBar = html.replace('<body>', '<body>' + inject);
 
   // Append script to handle opening the hosted site and settings panel
-  const script = `\n<script type=\"module\">\n  import { Browser } from 'https://cdn.skypack.dev/@capacitor/browser';\n  const btn = document.getElementById('openFullPlatform');\n  const openSettings = document.getElementById('openSettings');\n  const closeSettings = document.getElementById('closeSettings');\n  const savePlatformUrl = document.getElementById('savePlatformUrl');\n  const settingsPanel = document.getElementById('settingsPanel');\n  const input = document.getElementById('platformUrlInput');\n\n  function currentUrl() {\n    return localStorage.getItem('FULL_PLATFORM_URL') || 'https://YOUR-RENDER-APP-URL';\n  }\n  input.value = currentUrl();\n\n  openSettings?.addEventListener('click', () => { settingsPanel.style.display = 'block'; });\n  closeSettings?.addEventListener('click', () => { settingsPanel.style.display = 'none'; });\n  savePlatformUrl?.addEventListener('click', () => {\n    if (input.value) { localStorage.setItem('FULL_PLATFORM_URL', input.value); }\n    settingsPanel.style.display = 'none';\n  });\n\n  btn?.addEventListener('click', async () => {\n    try {\n      const TARGET_URL = currentUrl();\n      if (Browser && Browser.open) {\n        await Browser.open({ url: TARGET_URL });\n      } else {\n        window.open(TARGET_URL, '_blank');\n      }\n    } catch (e) {\n      console.error(e);\n      window.open(currentUrl(), '_blank');\n    }\n  });\n</script>\n`;
+  const script = `\n<script type=\"module\">\n  import { Browser } from 'https://cdn.skypack.dev/@capacitor/browser';\n  const btn = document.getElementById('openFullPlatform');\n  const openSettings = document.getElementById('openSettings');\n  const closeSettings = document.getElementById('closeSettings');\n  const savePlatformUrl = document.getElementById('savePlatformUrl');\n  const settingsPanel = document.getElementById('settingsPanel');\n  const input = document.getElementById('platformUrlInput');\n\n  async function ensureDefaultFromConfig() {\n    try {\n      if (localStorage.getItem('FULL_PLATFORM_URL')) return;\n      const res = await fetch('app-config.json', { cache: 'no-store' });\n      if (!res.ok) return;\n      const cfg = await res.json();\n      if (cfg && cfg.defaultFullPlatformUrl) {\n        localStorage.setItem('FULL_PLATFORM_URL', cfg.defaultFullPlatformUrl);\n      }\n    } catch (_) {}\n  }\n  await ensureDefaultFromConfig();\n\n  function currentUrl() {\n    return localStorage.getItem('FULL_PLATFORM_URL') || 'https://YOUR-RENDER-APP-URL';\n  }\n  input.value = currentUrl();\n\n  openSettings?.addEventListener('click', () => { settingsPanel.style.display = 'block'; });\n  closeSettings?.addEventListener('click', () => { settingsPanel.style.display = 'none'; });\n  savePlatformUrl?.addEventListener('click', () => {\n    if (input.value) { localStorage.setItem('FULL_PLATFORM_URL', input.value); }\n    settingsPanel.style.display = 'none';\n  });\n\n  btn?.addEventListener('click', async () => {\n    try {\n      const TARGET_URL = currentUrl();\n      if (Browser && Browser.open) {\n        await Browser.open({ url: TARGET_URL });\n      } else {\n        window.open(TARGET_URL, '_blank');\n      }\n    } catch (e) {\n      console.error(e);\n      window.open(currentUrl(), '_blank');\n    }\n  });\n</script>\n`;
   // Replace CDN XLSX reference with local vendor file when available
   const finalHtml = useLocalXlsx ? replaceCdnWithLocal(withBar) : withBar;
   return finalHtml.replace('</body>', script + '\n</body>');
@@ -75,5 +76,8 @@ function adjustDemoHtml(html, useLocalXlsx) {
   const html = fs.readFileSync(demoSrc, 'utf8');
   const out = adjustDemoHtml(html, haveLocalXlsx);
   fs.writeFileSync(indexDst, out);
+  if (!fs.existsSync(appConfigPath)) {
+    fs.writeFileSync(appConfigPath, JSON.stringify({ defaultFullPlatformUrl: "" }, null, 2));
+  }
   console.log('Copied demo.html to mobile/www/index.html with top bar. Local XLSX:', haveLocalXlsx);
 })();

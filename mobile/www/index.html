@@ -413,6 +413,19 @@
   const settingsPanel = document.getElementById('settingsPanel');
   const input = document.getElementById('platformUrlInput');
 
+  async function ensureDefaultFromConfig() {
+    try {
+      if (localStorage.getItem('FULL_PLATFORM_URL')) return;
+      const res = await fetch('app-config.json', { cache: 'no-store' });
+      if (!res.ok) return;
+      const cfg = await res.json();
+      if (cfg && cfg.defaultFullPlatformUrl) {
+        localStorage.setItem('FULL_PLATFORM_URL', cfg.defaultFullPlatformUrl);
+      }
+    } catch (_) {}
+  }
+  await ensureDefaultFromConfig();
+
   function currentUrl() {
     return localStorage.getItem('FULL_PLATFORM_URL') || 'https://YOUR-RENDER-APP-URL';
   }
