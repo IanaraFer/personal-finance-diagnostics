@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Diagnostics - Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .upload-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .file-input {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #667eea;
+            border-radius: 6px;
+            background: white;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .results {
+            display: none;
+        }
+        .score-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .score-number {
+            font-size: 64px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .grade {
+            font-size: 24px;
+            opacity: 0.9;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .metric {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .metric-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        .alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        .recommendation {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            color: #0c5460;
+        }
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #721c24;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #004085;
+        }
+    </style>
+</head>
+<body>
+<div style="position:sticky;top:0;background:#333;color:#fff;padding:10px 16px;z-index:9999;display:flex;justify-content:space-between;align-items:center;">
+  <div>📱 Finance Diagnostics (Mobile)</div>
+  <div style="display:flex;gap:8px;">
+    <button id="openSettings" style="background:#444;color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;">Settings</button>
+    <button id="openFullPlatform" style="background:#667eea;color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;">Open Full Platform</button>
+  </div>
+</div>
+<div id="settingsPanel" style="display:none;padding:10px 16px;border-bottom:1px solid #ddd;background:#fafafa;">
+  <label style="display:block;margin-bottom:6px;">Full Platform URL</label>
+  <input id="platformUrlInput" type="url" placeholder="https://your-app.onrender.com" style="width:100%;padding:8px;border:1px solid #ccc;border-radius:6px;" />
+  <div style="margin-top:8px;display:flex;gap:8px;">
+    <button id="savePlatformUrl" style="background:#667eea;color:#fff;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;">Save</button>
+    <button id="closeSettings" style="background:#e0e0e0;color:#333;border:0;border-radius:6px;padding:8px 12px;cursor:pointer;">Close</button>
+  </div>
+</div>
+
+    <div class="container">
+        <h1>💰 Personal Finance Diagnostics</h1>
+        <p class="subtitle">Upload your transaction CSV to get instant insights</p>
+
+        <div class="info">
+            📋 <strong>Supported Formats:</strong> CSV, Excel (.xlsx), JSON. File should have columns: date, amount, type (income/expense), category, description
+        </div>
+
+        <div class="upload-section">
+            <div class="file-input">
+                <label for="dataFile">Upload Transaction File</label>
+                <input type="file" id="dataFile" accept=".csv,.xlsx,.xls,.json" />
+            </div>
+            <button onclick="analyzeFile()">Analyze Finances</button>
+        </div>
+
+        <div id="results" class="results">
+            <div class="score-card">
+                <div>Financial Health Score</div>
+                <div class="score-number" id="score">--</div>
+                <div class="grade" id="grade">--</div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-label">Total Income</div>
+                    <div class="metric-value" id="income">€0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Total Expenses</div>
+                    <div class="metric-value" id="expenses">€0</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Savings Rate</div>
+                    <div class="metric-value" id="savingsRate">0%</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">⚠️ Alerts</div>
+                <div id="alerts"></div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">💡 Recommendations</div>
+                <div id="recommendations"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vendor/xlsx.min.js"></script>
+    <script>
+        function analyzeFile() {
+            const fileInput = document.getElementById('dataFile');
+            if (!fileInput.files.length) {
+                alert('Please select a file first');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const fileName = file.name.toLowerCase();
+            
+            if (fileName.endsWith('.json')) {
+                parseJson(file);
+            } else if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                parseExcel(file);
+            } else if (fileName.endsWith('.csv')) {
+                parseCsvFile(file);
+            } else {
+                alert('Unsupported file format. Please use CSV, Excel, or JSON.');
+            }
+        }
+
+        function parseCsvFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = parseCsv(e.target.result);
+                    const results = analyzeFinances(data);
+                    displayResults(results);
+                } catch (error) {
+                    showError(`CSV Error: ${error.message}`);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function parseExcel(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                    
+                    // Normalize column names to lowercase
+                    const normalized = jsonData.map(row => {
+                        const newRow = {};
+                        Object.keys(row).forEach(key => {
+                            newRow[key.toLowerCase()] = row[key];
+                        });
+                        return newRow;
+                    });
+                    
+                    const results = analyzeFinances(normalized);
+                    displayResults(results);
+                } catch (error) {
+                    showError(`Excel Error: ${error.message}`);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function parseJson(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const jsonData = JSON.parse(e.target.result);
+                    const data = Array.isArray(jsonData) ? jsonData : jsonData.transactions || [];
+                    
+                    // Normalize column names to lowercase
+                    const normalized = data.map(row => {
+                        const newRow = {};
+                        Object.keys(row).forEach(key => {
+                            newRow[key.toLowerCase()] = row[key];
+                        });
+                        return newRow;
+                    });
+                    
+                    const results = analyzeFinances(normalized);
+                    displayResults(results);
+                } catch (error) {
+                    showError(`JSON Error: ${error.message}`);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function showError(message) {
+            document.getElementById('results').innerHTML = `<div class="error">${message}</div>`;
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function analyzeFinances(data) {
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            const categories = {};
+
+            data.forEach(row => {
+                const amount = parseFloat(row.amount) || 0;
+                const type = row.type?.toLowerCase() || '';
+                const category = row.category || 'Uncategorized';
+
+                if (type === 'income') {
+                    totalIncome += amount;
+                } else if (type === 'expense') {
+                    totalExpenses += amount;
+                    categories[category] = (categories[category] || 0) + amount;
+                }
+            });
+
+            const savingsRate = totalIncome > 0 ? ((totalIncome - totalExpenses) / totalIncome) * 100 : 0;
+            
+            // Calculate score
+            let score = 0;
+            if (savingsRate > 20) score += 40;
+            else if (savingsRate > 10) score += 30;
+            else if (savingsRate > 0) score += 20;
+
+            if (totalExpenses < totalIncome) score += 30;
+            if (totalIncome > 2000) score += 20;
+            else if (totalIncome > 1000) score += 10;
+
+            const categoryCount = Object.keys(categories).length;
+            if (categoryCount > 5) score += 10;
+
+            const grade = score >= 80 ? 'A - Excellent' : 
+                         score >= 60 ? 'B - Good' : 
+                         score >= 40 ? 'C - Fair' : 'D - Needs Improvement';
+
+            // Generate alerts
+            const alerts = [];
+            if (totalExpenses >= totalIncome) {
+                alerts.push('Spending meets or exceeds income. Review budget urgently.');
+            }
+            if (savingsRate < 10) {
+                alerts.push('Savings rate below 10%. Aim to raise gradually.');
+            }
+
+            // Generate recommendations
+            const recommendations = [];
+            if (savingsRate < 20) {
+                const targetSaving = totalIncome * 0.15 - (totalIncome - totalExpenses);
+                recommendations.push(`Increase savings by €${targetSaving.toFixed(0)}/month to reach 15% savings rate.`);
+            }
+
+            // Find top spending category
+            const topCategory = Object.entries(categories)
+                .sort((a, b) => b[1] - a[1])[0];
+            if (topCategory && topCategory[1] / totalExpenses > 0.3) {
+                recommendations.push(`${topCategory[0]} is ${((topCategory[1]/totalExpenses)*100).toFixed(0)}% of expenses. Consider reducing.`);
+            }
+
+            return {
+                score: Math.round(score),
+                grade,
+                income: totalIncome,
+                expenses: totalExpenses,
+                savingsRate,
+                alerts,
+                recommendations
+            };
+        }
+
+        function displayResults(results) {
+            document.getElementById('score').textContent = results.score;
+            document.getElementById('grade').textContent = results.grade;
+            document.getElementById('income').textContent = '€' + results.income.toFixed(2);
+            document.getElementById('expenses').textContent = '€' + results.expenses.toFixed(2);
+            document.getElementById('savingsRate').textContent = results.savingsRate.toFixed(1) + '%';
+
+            const alertsHtml = results.alerts.length > 0 
+                ? results.alerts.map(a => `<div class="alert">${a}</div>`).join('')
+                : '<div class="alert">No critical alerts. Keep it up!</div>';
+            document.getElementById('alerts').innerHTML = alertsHtml;
+
+            const recHtml = results.recommendations.length > 0
+                ? results.recommendations.map(r => `<div class="recommendation">${r}</div>`).join('')
+                : '<div class="recommendation">Great job! Keep monitoring your finances.</div>';
+            document.getElementById('recommendations').innerHTML = recHtml;
+
+            document.getElementById('results').style.display = 'block';
+        }
+
+<script type="module">
+  import { Browser } from 'https://cdn.skypack.dev/@capacitor/browser';
+  const btn = document.getElementById('openFullPlatform');
+  const openSettings = document.getElementById('openSettings');
+  const closeSettings = document.getElementById('closeSettings');
+  const savePlatformUrl = document.getElementById('savePlatformUrl');
+  const settingsPanel = document.getElementById('settingsPanel');
+  const input = document.getElementById('platformUrlInput');
+
+  function currentUrl() {
+    return localStorage.getItem('FULL_PLATFORM_URL') || 'https://YOUR-RENDER-APP-URL';
+  }
+  input.value = currentUrl();
+
+  openSettings?.addEventListener('click', () => { settingsPanel.style.display = 'block'; });
+  closeSettings?.addEventListener('click', () => { settingsPanel.style.display = 'none'; });
+  savePlatformUrl?.addEventListener('click', () => {
+    if (input.value) { localStorage.setItem('FULL_PLATFORM_URL', input.value); }
+    settingsPanel.style.display = 'none';
+  });
+
+  btn?.addEventListener('click', async () => {
+    try {
+      const TARGET_URL = currentUrl();
+      if (Browser && Browser.open) {
+        await Browser.open({ url: TARGET_URL });
+      } else {
+        window.open(TARGET_URL, '_blank');
+      }
+    } catch (e) {
+      console.error(e);
+      window.open(currentUrl(), '_blank');
+    }
+  });
+</script>
+
+</body>
+</html>
