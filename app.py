@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, send_file, jsonify, session, send_from_directory
 from flask.json.provider import DefaultJSONProvider
 import os
 import pandas as pd
@@ -87,6 +87,12 @@ def landing():
     return render_template('landing.html', 
                          stripe_publishable_key=STRIPE_PUBLISHABLE_KEY or '',
                          stripe_price_id=STRIPE_PRICE_ID or '')
+
+
+@app.route('/service-worker.js')
+def service_worker_file():
+    # Serve SW from root so it controls the whole scope
+    return send_from_directory(app.root_path, 'service-worker.js', mimetype='application/javascript')
 
 
 @app.route('/dashboard')
