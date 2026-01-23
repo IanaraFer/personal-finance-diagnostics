@@ -1,0 +1,124 @@
+﻿================================================================================
+COMPLETE FINANCIAL ACCOUNT DIAGNOSTIC REPORT
+================================================================================
+
+1. BASIC ACCOUNT INFORMATION
+--------------------------------------------------------------------------------
+Account Name: Revolut EUR Account (Checking)
+Analysis Period: 01 Jan 2025 to 27 Nov 2025
+Duration: 330 days (~10.8 months)
+Total Transactions Analyzed: 3,575
+Current Balance: EUR 0.00
+
+2. INCOME ANALYSIS
+--------------------------------------------------------------------------------
+Total Income: EUR 54,505.99
+Income Transactions: 1,387
+Average Transaction: EUR 39.30
+Largest Transaction: EUR 4650.00
+Smallest Transaction: EUR 0.00
+
+Income Sources:
+  Transfer: EUR 44,531.76 (81.7%) - 441 transactions
+  Savings: EUR 9,971.82 (18.3%) - 791 transactions
+  Interest: EUR 2.41 (0.0%) - 155 transactions
+
+Average Monthly Income: EUR 4955.09
+Monthly Income Range: EUR 993.00 to EUR 17821.92
+
+3. EXPENSE ANALYSIS
+--------------------------------------------------------------------------------
+Total Expenses: EUR 65,130.62
+Expense Transactions: 2,188
+Average Transaction: EUR 29.77
+Largest Transaction: EUR 4600.00
+Smallest Transaction: EUR 0.10
+
+Expense Breakdown by Category:
+  Transfer: EUR 38,273.88 (58.8%) - 1155 transactions
+  Savings: EUR 14,146.80 (21.7%) - 705 transactions
+  Uncategorized: EUR 12,709.94 (19.5%) - 328 transactions
+
+Average Monthly Expenses: EUR 5920.97
+Monthly Expense Range: EUR 2237.66 to EUR 18605.57
+
+4. SAVINGS & PROFITABILITY METRICS
+--------------------------------------------------------------------------------
+Total Net Balance: EUR -10,624.63
+Savings Rate: -19.5%
+Expense Ratio: 119.5%
+
+Monthly Savings Trend:
+  2025-01: Income EUR 2,249.20 | Expenses EUR 4,508.00 | Net EUR -2,258.80 | Savings Rate -100.4%
+  2025-02: Income EUR 2,501.20 | Expenses EUR 4,061.20 | Net EUR -1,560.00 | Savings Rate -62.4%
+  2025-03: Income EUR 993.00 | Expenses EUR 2,237.66 | Net EUR -1,244.66 | Savings Rate -125.3%
+  2025-04: Income EUR 2,036.39 | Expenses EUR 2,899.00 | Net EUR -862.61 | Savings Rate -42.4%
+  2025-05: Income EUR 2,448.36 | Expenses EUR 3,150.53 | Net EUR -702.17 | Savings Rate -28.7%
+  2025-06: Income EUR 5,517.08 | Expenses EUR 5,793.80 | Net EUR -276.72 | Savings Rate -5.0%
+  2025-07: Income EUR 9,733.90 | Expenses EUR 10,559.04 | Net EUR -825.14 | Savings Rate -8.5%
+  2025-08: Income EUR 5,110.34 | Expenses EUR 5,614.49 | Net EUR -504.15 | Savings Rate -9.9%
+  2025-09: Income EUR 3,318.25 | Expenses EUR 3,624.92 | Net EUR -306.67 | Savings Rate -9.2%
+  2025-10: Income EUR 17,821.92 | Expenses EUR 18,605.57 | Net EUR -783.65 | Savings Rate -4.4%
+  2025-11: Income EUR 2,776.35 | Expenses EUR 4,076.41 | Net EUR -1,300.06 | Savings Rate -46.8%
+
+Emergency Fund Analysis:
+  Average Monthly Expenses: EUR 5920.97
+  Recommended Emergency Fund (3 months): EUR 17762.90
+  Current Liquid Savings: EUR 0.00
+  Emergency Fund Status: INSUFFICIENT (0% of target)
+
+5. CASH FLOW ANALYSIS
+--------------------------------------------------------------------------------
+Average Daily Income: EUR 165.17
+Average Daily Expenses: EUR 197.37
+Average Daily Net Flow: EUR -32.20
+
+Transaction Frequency:
+  Total Transactions: 3575
+  Average per Day: 10.8
+  Average per Month: 330
+  Income Transactions: 1387 (38.8%)
+  Expense Transactions: 2188 (61.2%)
+
+6. CATEGORY RISK ASSESSMENT
+--------------------------------------------------------------------------------
+High-Risk Categories (>20% of total expenses):
+  [CRITICAL] Transfer: EUR 38,273.88 (58.8%)
+  [HIGH] Savings: EUR 14,146.80 (21.7%)
+
+Moderate-Risk Categories (10-20% of total expenses):
+  Uncategorized: EUR 12,709.94 (19.5%)
+
+7. ANOMALY DETECTION & UNUSUAL TRANSACTIONS
+--------------------------------------------------------------------------------
+Large Transactions (Top 10% by amount, threshold: EUR 54.30):
+  07 Oct 2025 | To Theo new house: EUR 4600.00
+  07 Oct 2025 | To Theo new house: EUR 4600.00
+  09 Oct 2025 | To Ianara Fernandes: EUR 2900.00
+  24 Jul 2025 | Booking.com: EUR 1059.68
+  12 Oct 2025 | IKEA: EUR 761.00
+  20 Jan 2025 | Pocket Withdrawal: EUR 613.00
+  20 Jan 2025 | Pocket Withdrawal: EUR 613.00
+  21 Jan 2025 | Allianz: EUR 612.71
+  31 Oct 2025 | Google Pay top-up by *8687: EUR 600.00
+  21 Jul 2025 | To Holiday: EUR 445.00
+
+Transaction Patterns:
+  Busiest Day: 49 transactions (EUR 14198.31)
+  Quietest Day: 1 transactions (EUR 0.01)
+  Average Daily Transactions: 11.0
+
+Recurring Expense Patterns:
+  To Theo new house: EUR 18573.40 (710 occurrences)
+  To Holiday: EUR 7068.00 (346 occurrences)
+  Saving vault topup prefunding wallet: EUR 4148.00 (277 occurrences)
+  Savings Vault topup: EUR 1228.00 (208 occurrences)
+  Pocket Withdrawal: EUR 7850.80 (144 occurrences)
+  To Instant Access Savings: EUR 920.00 (76 occurrences)
+  Circle K Gas Station: EUR 1458.43 (53 occurrences)
+  Temu: EUR 994.58 (30 occurrences)
+  Dunnes Stores: EUR 886.20 (22 occurrences)
+  Amazon: EUR 577.58 (19 occurrences)
+
+8. FINANCIAL HEALTH SCORE
+--------------------------------------------------------------------------------
