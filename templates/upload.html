@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload & Analyze Financial Data</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header nav {
+      margin-top: 1rem;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+
+    header a:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .upload-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 0.5rem;
+    }
+
+    .upload-area {
+      border: 3px dashed #667eea;
+      border-radius: 8px;
+      padding: 3rem;
+      text-align: center;
+      background: #f8f9ff;
+      transition: all 0.3s;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-area:hover {
+      background: #f0f2ff;
+      border-color: #764ba2;
+    }
+
+    .upload-area.dragover {
+      background: #e8ebff;
+      border-color: #764ba2;
+      transform: scale(1.02);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .upload-area p {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-area .small {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 1.05rem;
+    }
+
+    .form-group .description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      width: 100%;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      background: #5568d3;
+    }
+
+    .btn-secondary {
+      background: #e0e7ff;
+      color: #667eea;
+      margin-top: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: #cdd5ff;
+    }
+
+    .file-info {
+      background: #f8f9ff;
+      border-left: 4px solid #667eea;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .file-info.show {
+      display: block;
+    }
+
+    .file-name {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .file-size {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .error {
+      background: #fee;
+      color: #c33;
+      border-left: 4px solid #c33;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid #e0e7ff;
+      padding: 1rem;
+      border-radius: 6px;
+      border-top: 3px solid #667eea;
+    }
+
+    .feature-card h4 {
+      color: #667eea;
+      margin-bottom: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .format-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      background: #667eea;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .divider {
+      height: 1px;
+      background: #e0e7ff;
+      margin: 2rem 0;
+    }
+
+    .info-box {
+      background: #f8f9ff;
+      border-left: 4px solid #667eea;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+    }
+
+    .info-box h3 {
+      color: #667eea;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .info-box ul {
+      list-style: none;
+      padding-left: 1.5rem;
+    }
+
+    .info-box li {
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-box li:before {
+      content: "✓ ";
+      color: #667eea;
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .upload-section {
+        padding: 1.5rem;
+      }
+
+      .upload-area {
+        padding: 2rem 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        padding: 0.8rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📊 Upload & Analyze Your Financial Data</h1>
+    <nav>
+      <a href="/dashboard">← Back to Dashboard</a>
+      <a href="/logout" style="margin-left: 1rem; background: rgba(255, 100, 100, 0.2);">Logout</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    {% if error %}
+    <div class="error">
+      <strong>❌ Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+
+    <div class="upload-section">
+      <h2>Step 1: Upload Your Files</h2>
+            
+      <p style="color: #666; margin-bottom: 1.5rem;">
+        Upload your bank transaction and account files. We support CSV, Excel, PDF, JSON, and TXT formats.
+      </p>
+
+      <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+        <div class="form-group">
+          <label>📄 Transactions File *</label>
+          <p class="description">Your transaction history (CSV, Excel, PDF, JSON, or TXT)</p>
+          <div class="upload-area" id="uploadAreaTx">
+            <div class="upload-icon">📥</div>
+            <p><strong>Click to upload or drag and drop</strong></p>
+            <p class="small">Supported: CSV, XLSX, XLS, PDF, JSON, TXT</p>
+            <input type="file" id="fileInputTx" name="transactions" accept=".csv,.xlsx,.xls,.pdf,.json,.txt" required />
+          </div>
+          <div class="file-info" id="fileInfoTx"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="form-group">
+          <label>🏦 Accounts File *</label>
+          <p class="description">Your account summary (CSV, Excel, PDF, JSON, or TXT)</p>
+          <div class="upload-area" id="uploadAreaAcc">
+            <div class="upload-icon">📥</div>
+            <p><strong>Click to upload or drag and drop</strong></p>
+            <p class="small">Supported: CSV, XLSX, XLS, PDF, JSON, TXT</p>
+            <input type="file" id="fileInputAcc" name="accounts" accept=".csv,.xlsx,.xls,.pdf,.json,.txt" required />
+          </div>
+          <div class="file-info" id="fileInfoAcc"></div>
+        </div>
+
+        <button type="submit" class="btn">🚀 Analyze My Data</button>
+        <button type="reset" class="btn btn-secondary">🔄 Clear Files</button>
+      </form>
+    </div>
+
+    <div class="upload-section">
+      <h2>What You'll Get</h2>
+            
+      <div class="features-grid">
+        <div class="feature-card">
+          <h4>📊 Spending Analysis</h4>
+          <p>Detailed breakdown of your spending by category with visual charts and trends.</p>
+        </div>
+        <div class="feature-card">
+          <h4>💰 Budget Insights</h4>
+          <p>See how your actual spending compares to recommended budgets and identify areas to save.</p>
+        </div>
+        <div class="feature-card">
+          <h4>📈 Financial Health Score</h4>
+          <p>Get a comprehensive assessment of your financial health with personalized recommendations.</p>
+        </div>
+        <div class="feature-card">
+          <h4>🎯 Smart Recommendations</h4>
+          <p>AI-powered suggestions to optimize your spending and improve your financial situation.</p>
+        </div>
+        <div class="feature-card">
+          <h4>📋 Detailed Reports</h4>
+          <p>Export comprehensive reports in PDF format for your records and planning.</p>
+        </div>
+        <div class="feature-card">
+          <h4>🔄 Multi-Account Support</h4>
+          <p>Analyze data from multiple banks and financial institutions simultaneously.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="upload-section">
+      <h2>Supported File Formats</h2>
+            
+      <div class="format-badges">
+        <div class="badge">📄 CSV</div>
+        <div class="badge">📊 Excel (XLS/XLSX)</div>
+        <div class="badge">📑 PDF</div>
+        <div class="badge">🔗 JSON</div>
+        <div class="badge">📝 TXT</div>
+      </div>
+
+      <div class="info-box">
+        <h3>File Requirements</h3>
+        <ul>
+          <li>Transactions file should include: Date, Amount, and Description columns</li>
+          <li>Accounts file should include: Balance and Account Type</li>
+          <li>Maximum file size: 10MB per file</li>
+          <li>Files must contain actual financial data</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="upload-section" style="background: #f8f9ff; border: 1px solid #667eea;">
+      <h2 style="border-color: #667eea; color: #667eea;">🔒 Your Data is Secure</h2>
+            
+      <ul style="list-style: none; padding-left: 1.5rem;">
+        <li style="color: #666; margin-bottom: 0.5rem;">
+          <strong style="color: #667eea;">✓ Encrypted:</strong> All data is encrypted in transit and at rest
+        </li>
+        <li style="color: #666; margin-bottom: 0.5rem;">
+          <strong style="color: #667eea;">✓ Private:</strong> Your financial data is never shared with third parties
+        </li>
+        <li style="color: #666; margin-bottom: 0.5rem;">
+          <strong style="color: #667eea;">✓ Secure:</strong> We follow industry-standard security practices
+        </li>
+        <li style="color: #666;">
+          <strong style="color: #667eea;">✓ Your Control:</strong> You can delete your data anytime from your account settings
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Setup drag and drop for transactions
+    setupDropZone('uploadAreaTx', 'fileInputTx', 'fileInfoTx');
+    // Setup drag and drop for accounts
+    setupDropZone('uploadAreaAcc', 'fileInputAcc', 'fileInfoAcc');
+
+    function setupDropZone(areaId, inputId, infoId) {
+      const uploadArea = document.getElementById(areaId);
+      const fileInput = document.getElementById(inputId);
+      const fileInfo = document.getElementById(infoId);
+
+      uploadArea.addEventListener('click', () => fileInput.click());
+
+      uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+      });
+
+      uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+      });
+
+      uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length > 0) {
+          fileInput.files = e.dataTransfer.files;
+          updateFileInfo(fileInput, fileInfo);
+        }
+      });
+
+      fileInput.addEventListener('change', () => {
+        updateFileInfo(fileInput, fileInfo);
+      });
+    }
+
+    function updateFileInfo(input, infoDiv) {
+      if (input.files.length > 0) {
+        const file = input.files[0];
+        infoDiv.innerHTML = `
+          <div class="file-name">📄 ${file.name}</div>
+          <div class="file-size">Size: ${(file.size / 1024).toFixed(2)} KB | Type: ${file.name.split('.').pop().toUpperCase()}</div>
+        `;
+        infoDiv.classList.add('show');
+      } else {
+        infoDiv.classList.remove('show');
+      }
+    }
+
+    // Form validation
+    document.getElementById('uploadForm').addEventListener('submit', (e) => {
+      const txInput = document.getElementById('fileInputTx');
+      const accInput = document.getElementById('fileInputAcc');
+
+      if (!txInput.files.length || !accInput.files.length) {
+        e.preventDefault();
+        alert('Please select both files before uploading.');
+        return;
+      }
+
+      // Show loading state
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerHTML = '⏳ Processing...';
+    });
+  </script>
+</body>
+</html>

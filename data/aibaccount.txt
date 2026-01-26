@@ -1,0 +1,1956 @@
+Date Details Debit € Credit € Balance €
+31 Jan 2025 BALANCE FORWARD 447.06
+4 Feb 2025 Interest Rate
+Lending @ 11.850%
+V165158435040225NA 140.00
+IE25020314667909
+HAP 29.20
+D/D CLUBWISE SOFTW 48.00
+IE25013113758217
+D/D Electric Irela 65.28
+IE25012909664083
+D/D NAPS LOAN AIB 203.41
+IE25012909333234
+D/D VIRGIN MEDIA I 70.00
+IE25012909968914 171.17
+5 Feb 2025 TRANSFER 45.00
+D/D THREE IRELAND 35.39
+IE25020416543211 180.78
+6 Feb 2025 V165179435060225NA 327.00
+IE25020618982023 507.78
+7 Feb 2025 VDP-Revolut**9877* 140.00
+*MOBI CARD IANAR 100.00
+D/D Electric Irela 95.43
+IE25020315136546
+VDC-CIRCLE K NEWLA 40.00 132.35
+10 Feb 2025 HAP 29.20 103.15
+13 Feb 2025 V165179435130225NA 327.00
+IE25021325863409
+*MOBI RENT MILLPAR 250.00 180.15
+17 Feb 2025 HAP 29.20
+*MOBI CARD IANAR 55.00 95.95
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 36432B101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+282
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+17 Feb 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+D/D eFlow
+IE25021426858104
+18 Feb 2025 IANARA ARAUJO FERN
+IE25021860858644
+TxnDate: 18Feb2025
+VDP-NETFLIX.COM
+*MOBI CARD IANAR
+20 Feb 2025 V165179435200225NA
+IE25022032855803
+*MOBI CARD IANAR
+24 Feb 2025 IANARA ARAUJO FERN
+IE25022460981929
+TxnDate: 23Feb2025
+HAP
+*MOBI CARD IANAR
+D/D NAPS LOAN AIB
+IE25021931712737
+D/D ROYAL LONDON
+IE25021931999238
+27 Feb 2025 V165179435270225NA
+IE25022741243695
+3 Mar 2025 HAP
+D/D CLUBWISE SOFTW
+IE25022844042262
+D/D NAPS LOAN AIB
+IE25022639530363
+VDC-DUNNES CLONDAL
+VDC-EUROGIANT CLON
+Debit €
+121.00
+247.00
+203.41
+Credit € Balance €
+75.23
+8.99
+29.20
+10.00
+83.41
+64.03
+29.20
+48.00
+43.21
+6.00
+130.00
+327.00
+100.00
+327.00
+95.95
+20.72
+20.73
+100.73
+14.09
+341.09
+11.27
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 36432C101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+283
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+4 Mar 2025 BALANCE FORWARD 11.27
+Interest Rate
+Lending @ 11.850%
+V165158435040325NA 140.00
+IE25030446928829 151.27
+5 Mar 2025 VDC-TOWER MEDICAL 35.00 116.27
+6 Mar 2025 V165179435060325NA 327.00
+IE25030650041275 443.27
+7 Mar 2025 D/D VIRGIN MEDIA I 70.00
+IE25030447845930
+VDC-HICKEYS PHARMA 155.00 218.27
+10 Mar 2025 HAP 29.20
+D/D THREE IRELAND 35.39
+IE25030751846097 153.68
+11 Mar 2025 VDC-DUNNES CLONDAL 41.67 112.01
+12 Mar 2025 VDC-CONT BOM DIA C 20.10
+VDC-MCDONALDS AERO 17.80
+VDC-TD COIMBRA 26.30 47.81
+13 Mar 2025 V165179435130325NA 327.00
+IE25031356892877
+VDP-FLIXBUS.COM 33.95
+*MOBI RENT MILLPAR 250.00 90.86
+14 Mar 2025 VDC-EUROGIANT CLON 8.00
+VDC-SUMUP  *MBEAUT 48.75 34.11
+18 Mar 2025 IANARA ARAUJO FERN 54.00
+IE25031761523508
+TxnDate: 16Mar2025
+LN 93338491657575 9993.17
+VDP-NETFLIX INTERN 10.99
+HAP 29.20
+*MOBI CARD IANAR 150.00 9891.09
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 36432D101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+284
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+18 Mar 2025 BALANCE FORWARD 9891.09
+Interest Rate
+Lending @ 11.850%
+D/D eFlow 54.43
+IE25031457974144 9836.66
+20 Mar 2025 V165179435200325NA 327.00
+IE25032003526044 10163.66
+21 Mar 2025 VDP-IKEA IRELAND L 286.50
+VDP-Revolut**9877* 300.00
+VDC-CLONDALKIN WAS 9.00
+VDC-D Nail 45.00 9523.16
+24 Mar 2025 HAP 29.20
+D/D ROYAL LONDON 64.03
+IE25031903170115
+VDC-CIRCLE K NEWLA 20.00
+VDC-MCDONALDS 7091 5.05
+VDC-NYA*Gough Brot 1.00 9403.88
+25 Mar 2025 VDC-DUNNES CLONDAL 5.58 9398.30
+26 Mar 2025 VDC-LIDL DUBLIN -23.88 9374.42
+27 Mar 2025 V165179435270325NA 327.00
+IE25032711681849
+D/D Electric Irela 192.43
+IE25032406879416 9508.99
+28 Mar 2025 FEE-QTR TO 28FEB25 19.10
+933384-91657062
+VDC-TESCO STORES 28.56 9461.33
+31 Mar 2025 VDP-Revolut**9877* 300.00
+HAP 29.20
+VDC-CLONDALKIN SER 33.01 9099.12
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 36432E101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+285
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+1 Apr 2025 BALANCE FORWARD 9099.12
+Interest Rate
+Lending @ 11.850%
+V165158435010425NA 140.00
+IE25040117362096
+D/D CLUBWISE SOFTW 48.00
+IE25033116451117
+VDC-DUNNES CLONDAL 49.79 9141.33
+3 Apr 2025 V165179435030425NA 327.00
+IE25040320818265
+D/D NAPS LOAN AIB 203.41
+IE25033115904242 9264.92
+4 Apr 2025 D/D VIRGIN MEDIA I 70.00
+IE25040118494774
+VDC-CLONDALKIN SER 30.01 9164.91
+7 Apr 2025 HAP 29.20
+D/D THREE IRELAND 34.99
+IE25040422863696 9100.72
+8 Apr 2025 VDC-CIRCLE K NEWLA 35.00 9065.72
+10 Apr 2025 V165179435100425NA 294.00
+IE25041027713549
+WITHDRAWAL 8246.89
+D/D Electric Irela 179.04
+IE25040825678801 933.79
+14 Apr 2025 HAP 29.20
+D/D NAPS LOAN AIB 285.59
+IE25040422819198
+VDC-CIRCLE K DUBLI 40.00 579.00
+15 Apr 2025 VDP-CIRCLE K GRANG 7.00
+*MOBI RENT MILLPAR 250.00
+VDC-HICKEYS PHARMA 155.00 167.00
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 36432F101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+286
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+30 Apr 2025
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Authorised Limit At Date Of Statement: Nil
+Date Details Debit € Credit € Balance €
+16 Apr 2025 BALANCE FORWARD 167.00
+Interest Rate
+Lending @ 11.850%
+V165179435160425NA 294.00
+IE25041633694089
+D/D eFlow 61.23
+IE25041532009180 399.77
+22 Apr 2025 VDP-Netflix.com 10.99
+HAP 29.20
+*MOBI CARD IANAR 90.00
+VDC-BAXTERSTOREY D 3.30
+VDC-CIRCLE K DUBLI 35.00
+VDC-D Nail 45.00
+VDC-DUBLIN ZOO 20.00
+VDC-DUNNES CLONDAL 60.86 105.42
+23 Apr 2025 D/D ROYAL LONDON 64.03
+IE25041634530473 41.39
+24 Apr 2025 V165179435240425NA 294.00
+IE25042441425378 335.39
+25 Apr 2025 VDC-CIRCLE K NEWLA 20.00
+VDC-DUNNES CLONDAL 50.71 264.68
+28 Apr 2025 VDP-Revolut**9877* 20.00
+VDP-Revolut**9877* 50.00
+HAP 29.20 165.48
+30 Apr 2025 V165179435300425NA 294.00
+IE25043049125987 459.48
+Date Details Debit € Credit € Balance €
+30 Apr 2025 BALANCE FORWARD 459.48
+1 May 2025 Interest Rate
+Lending @ 11.850%
+VDP-Revolut**9877* 200.00 259.48
+2 May 2025 VDP-PAYZONE 10.00
+D/D CLUBWISE SOFTW 48.00
+IE25043049466047
+VDC-DUNNES CLONDAL 60.78
+VDC-GINOS GELATO L 5.80
+VDC-Liffey Valley 2.50 132.40
+6 May 2025 V165158435060525NA 140.00
+IE25050553916754
+VDP-Revolut**9877* 20.00
+VDP-Revolut**9877* 140.00
+HAP 29.20
+D/D THREE IRELAND 36.53
+IE25050554025838
+VDC-SUMUP  *MR SOF 2.00 44.67
+7 May 2025 VDC-CIRCLE K NEWLA 20.00 24.67
+8 May 2025 V165179435080525NA 294.00
+IE25050857870192 318.67
+9 May 2025 VDC-CIRCLE K NEWLA 20.00 298.67
+12 May 2025 HAP 29.20 269.47
+13 May 2025 IANARA ARAUJO FERN 60.00
+IE25051363125320
+TxnDate: 13May2025 329.47
+14 May 2025 D/D NAPS LOAN AIB 285.59
+IE25050959743739
+VDC-CIRCLE K NEWLA 20.00 23.88
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 24624B101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+288
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+15 May 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+IANARA ARAUJO FERN
+IE25051563203343
+TxnDate: 15May2025
+V165179435150525NA
+IE25051504717077
+*MOBI RENT MILLPAR
+16 May 2025 D/D eFlow
+IE25051403169446
+19 May 2025 VDP-NETFLIX INTERN
+HAP
+VDC-DUNNES CLONDAL
+VDC-Junos coffee
+21 May 2025 IANARA ARAUJO FERN
+IE25052163347730
+TxnDate: 21May2025
+D/D VIRGIN MEDIA I
+IE25051607123499
+22 May 2025 IANARA ARAUJO FERN
+IE25052263377546
+TxnDate: 22May2025
+V165179435220525NA
+IE25052211846397
+*MOBI CARD IANAR
+*MOBI CARD IANAR
+23 May 2025 D/D ROYAL LONDON
+IE25052010133583
+VDC-DUNNES CLONDAL
+26 May 2025 HAP
+Debit €
+250.00
+115.83
+150.00
+150.00
+Credit € Balance €
+100.00
+294.00
+10.99
+29.20
+7.00
+3.00
+91.00
+64.03
+19.66
+29.20
+100.00
+160.00
+294.00
+23.88
+167.88
+52.05
+1.86
+10.86
+164.86
+81.17
+51.97
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 24624C101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+289
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+28 May 2025 BALANCE FORWARD 51.97
+Interest Rate
+Lending @ 11.850%
+VDC-SQ *CAFE GRA 3.30 48.67
+29 May 2025 V165179435290525NA 294.00
+IE25052919923868
+D/D Electric Irela 140.70
+IE25052615986449 201.97
+3 Jun 2025 V165158435030625NA 140.00
+IE25060223808002
+HAP 29.20
+D/D CLUBWISE SOFTW 48.00
+IE25053022821382 264.77
+4 Jun 2025 *MOBI THEO SCHOOL 155.62 109.15
+5 Jun 2025 V165179435050625NA 294.00
+IE25060528431391
+D/D Electric Irela 26.41
+IE25053023114405
+D/D THREE IRELAND 69.64
+IE25060427102138 307.10
+9 Jun 2025 HAP 29.20
+VDC-Obriens Crafts 19.40
+VDC-THE BURREN TAK 3.00
+VDC-THE BURREN TAK 14.00 241.50
+10 Jun 2025 VDP-MYIQ.COM EU 0.50
+VDP-MYIQ.COM/EU 0.50 240.50
+11 Jun 2025 D/D Electric Irela 132.95
+IE25060630744614 107.55
+12 Jun 2025 V165179435120625NA 294.00
+IE25061235309408 401.55
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 24624D101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+290
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+13 Jun 2025 BALANCE FORWARD 401.55
+Interest Rate
+Lending @ 11.850%
+*ATMLDG C'DALKIN C 200.00
+RENT
+VDC-CIRCLE K NEWLA 30.00 571.55
+16 Jun 2025 *MOBI RENT MILLPAR 250.00
+HAP 29.20
+D/D NAPS LOAN AIB 285.59
+IE25061134123039 6.76
+18 Jun 2025 IANARA ARAUJO FERN 110.00
+IE25061760304465
+TxnDate: 17Jun2025
+VDP-Netflix.com 10.99
+D/D eFlow 108.43
+IE25061638014297 2.66dr
+19 Jun 2025 V165179435190625NA 294.00
+IE25061942287955
+*MOBI CARD IANAR 50.00 241.34
+20 Jun 2025 VDP-MYIQ.COM/EU 14.99
+VDC-DUNNES CLONDAL 77.94 148.41
+23 Jun 2025 HAP 29.20
+D/D ROYAL LONDON 64.03
+IE25061841677378 55.18
+25 Jun 2025 VDC-CIRCLE K NEWLA 30.00 25.18
+26 Jun 2025 V165179435260625NA 294.00
+IE25062650059003 319.18
+27 Jun 2025 VDC-VILLAGE VETS C 64.80 254.38
+30 Jun 2025 HAP 29.20 225.18
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 24624E101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+291
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+30 Jun 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+FEE-QTR TO 30MAY25
+933384-91657062
+1 Jul 2025 V165158435010725NA
+IE25070156304531
+VDP-MYIQ.COM/EU
+VDP-Revolut**9877*
+D/D CLUBWISE SOFTW
+IE25063054969918
+2 Jul 2025 VDP-Revolut**9877*
+3 Jul 2025 V165179435030725NA
+IE25070359476664
+*MOBI THEO SCHOOL
+4 Jul 2025 VDP-Revolut**9877*
+7 Jul 2025 IANARA ARAUJO FERN
+IE25070760946994
+TxnDate: 07Jul2025
+HAP
+D/D THREE IRELAND
+IE25070401147987
+VDC-CIRCLE K DUBLI
+10 Jul 2025 V165179435100725NA
+IE25071006201201
+14 Jul 2025 IANARA ARAUJO FERN
+IE25071461154392
+TxnDate: 14Jul2025
+HAP
+Debit €
+125.00
+140.00
+155.62
+Credit € Balance €
+19.10
+14.99
+48.00
+65.00
+29.20
+56.78
+14.19
+29.20
+140.00
+294.00
+10.00
+294.00
+100.00
+225.18
+206.08
+158.09
+18.09
+156.47
+91.47
+1.30
+295.30
+366.10
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 24624F101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+292
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+14 Jul 2025 BALANCE FORWARD 366.10
+Interest Rate
+Lending @ 11.850%
+D/D NAPS LOAN AIB 285.59
+IE25070904994485 80.51
+15 Jul 2025 VDP-MYIQ.COM/EU 14.99 65.52
+16 Jul 2025 IANARA ARAUJO FERN 135.00
+IE25071661219597
+TxnDate: 16Jul2025
+*ATMLDG C'DALKIN A 160.00
+*MOBI RENT MILLPAR 250.00
+D/D eFlow 106.63
+IE25071510436714 3.89
+17 Jul 2025 V165179435170725NA 294.00
+IE25071713252426 297.89
+18 Jul 2025 VDP-Netflix.com 10.99
+VDP-Revolut**9877* 240.00 46.90
+21 Jul 2025 HAP 29.20 17.70
+22 Jul 2025 *ATMLDG C'DALKIN A 310.00
+LN 93338491657575 1000.00
+*MOBI CARD IANAR 127.00
+*MOBI CARD IANAR 200.00 1000.70
+23 Jul 2025 VDP-Revolut**9877* 100.00
+D/D ROYAL LONDON 64.03
+IE25071815684208 836.67
+24 Jul 2025 V165179435240725NA 294.00
+IE25072420244955
+VDP-Revolut**9877* 100.00
+*MOBI CARD IANAR 100.00 930.67
+28 Jul 2025 VDP-Revolut**9877* 170.00
+HAP 29.20 731.47
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 24624G101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+293
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Authorised Limit At Date Of Statement: Nil
+Date
+Details
+29 Jul 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+VDP-MYIQ.COM EU
+31 Jul 2025 V165179435310725NA
+IE25073128897807
+D/D Electric Irela
+IE25072824610582
+Debit €
+Credit € Balance €
+14.99
+72.66
+294.00
+731.47
+716.48
+937.82
+
+Date Details Debit € Credit € Balance €
+31 Jul 2025 BALANCE FORWARD 937.82
+1 Aug 2025 Interest Rate
+Lending @ 11.850%
+D/D CLUBWISE SOFTW 48.00
+IE25073129233224 889.82
+5 Aug 2025 V165158435050825NA 140.00
+IE25080432686374
+VDP-Revolut**9877* 200.00
+HAP 29.20
+D/D THREE IRELAND 62.07
+IE25080433448146
+VDC-DUNNES CLONDAL 55.73
+VDC-MCDONALDS 7025 5.65 677.17
+6 Aug 2025 *MOBI THEO CRECHE 155.62
+VDC-CIRCLE K CITY 50.00 471.55
+7 Aug 2025 V165179435070825NA 294.00
+IE25080736552149
+VDC-MCDONALDS 7025 18.35 747.20
+11 Aug 2025 HAP 29.20
+D/D Electric Irela 134.70
+IE25080635600794
+VDC-KIDS SPACE RAT 3.90
+VDC-KIDS SPACE RAT 15.50
+VDC-LIDL DUBLIN -44.89
+VDC-MCDONALDS 7091 14.25 504.76
+12 Aug 2025 VDP-MYIQ.COM/EU 14.99 489.77
+13 Aug 2025 VDC-DUNNES CLONDAL 49.02
+VDC-MCDONALDS 7025 9.65 431.10
+14 Aug 2025 V165179435140825NA 294.00
+IE25081443152175
+*MOBI RENT MILLPAR 250.00 475.10
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 67989B101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+295
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+15 Aug 2025 BALANCE FORWARD 475.10
+Interest Rate
+Lending @ 11.850%
+VDC-MORE 4 LESS 5.00 470.10
+18 Aug 2025 VDP-NETFLIX INTERN 10.99
+HAP 29.20
+D/D eFlow 124.03
+IE25081442700671
+VDC-BOOKSTATION TH 18.85 287.03
+19 Aug 2025 *ATMLDG C'DALKIN A 170.00
+RENT
+VDP-OOOSCH 2.99 454.04
+20 Aug 2025 VDP-Revolut**9877* 150.00 304.04
+21 Aug 2025 V165179435210825NA 294.00
+IE25082150031315 598.04
+22 Aug 2025 VDA-Point Cash ATM 150.00
+D22 XD37
+21AUG25 16:27 448.04
+25 Aug 2025 HAP 29.20
+D/D NAPS LOAN AIB 290.63
+IE25081545098272
+D/D ROYAL LONDON 64.03
+IE25082049360828 64.18
+26 Aug 2025 VDP-MYIQ.COM/EU 14.99
+VDC-CC ATLANTICO C 27.83
+VDC-HD EX CASTILLO 14.25 7.11
+27 Aug 2025 VDC-CAYBEACH CALET 5.00 2.11
+28 Aug 2025 V165179435280825NA 294.00
+IE25082858219971 296.11
+1 Sep 2025 HAP 29.20
+VDC-CAYBEACH CALET 9.00 257.91
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 67989C101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+296
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+1 Sep 2025 BALANCE FORWARD 257.91
+Interest Rate
+Lending @ 11.850%
+VDC-TAXI LM 19 350 4.35 253.56
+2 Sep 2025 V165158435020925NA 140.00
+IE25090204070044
+*MOBI CARD IANAR 90.00 303.56
+4 Sep 2025 V165179435040925NA 294.00
+IE25090406826907
+*MOBI THEO SCHOOL 155.62 441.94
+5 Sep 2025 D/D THREE IRELAND 56.53
+IE25090406970784
+VDC-Avolta FUE BUY 5.05
+VDC-CIRCLE K NEWLA 30.00
+VDC-DUNNES CLONDAL 108.14 242.22
+8 Sep 2025 HAP 29.20
+VDC-CIRCLE K ROUND 8.00
+VDC-NYA*Circle K I 1.00 204.02
+9 Sep 2025 VDP-MYIQ.COM/EU 14.99
+VDC-ALDI 14 872 47.35 141.68
+11 Sep 2025 V165179435110925NA 294.00
+IE25091113749093 435.68
+12 Sep 2025 VDC-CIRCLE K NEWLA 35.00 400.68
+15 Sep 2025 *MOBI RENT MILLPAR 250.00
+HAP 29.20
+VDC-DUNNES CLONDAL 40.43
+VDC-LIDL DUBLIN -43.07
+VDC-SQ *PACKS BBQ 10.00
+VDC-SUMUP  *MR SOF 2.00 25.98
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 67989D101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+297
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+17 Sep 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+D/D eFlow
+IE25091617903104
+18 Sep 2025 V165179435180925NA
+IE25091820635396
+VDP-NETFLIX.COM
+22 Sep 2025 HAP
+*MOBI CARD IANAR
+23 Sep 2025 VDP-MYIQ.COM/EU
+D/D ROYAL LONDON
+IE25091821160888
+25 Sep 2025 IANARA ARAUJO FERN
+IE25092560396409
+TxnDate: 25Sep2025
+V165179435250925NA
+IE25092527966918
+D/D NAPS LOAN AIB
+IE25092223655392
+26 Sep 2025 D/D Electric Irela
+IE25092325021702
+VDC-SUMUP  *MR SOF
+29 Sep 2025 HAP
+FEE-QTR TO 29AUG25
+933384-91657062
+1 Oct 2025 IANARA ARAUJO FERN
+IE25100160648604
+TxnDate: 01Oct2025
+Debit €
+100.00
+290.63
+Credit € Balance €
+84.83
+10.99
+29.20
+14.99
+64.03
+64.16
+3.00
+29.20
+22.05
+294.00
+50.00
+327.00
+30.00
+25.98
+58.85dr
+224.16
+94.96
+15.94
+102.31
+35.15
+16.10dr
+13.90
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 67989E101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+298
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+2 Oct 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+V165179435021025NA
+IE25100237085358
+3 Oct 2025 VDC-MCDONALDS 7025
+6 Oct 2025 PASSAT PAYMENT
+*MOBI  TOP-UP
+0838134468
+*MOBI THEO SCHOOL
+HAP
+D/D THREE IRELAND
+IE25100338868652
+VDC-LIDL IRELAND
+Debit €
+155.62
+Credit € Balance €
+327.00
+15.75
+20.00
+29.20
+56.53
+10.97
+3100.00
+13.90
+340.90
+325.15
+3152.83
+7 Oct 2025 V165158435071025NA
+IE25100741549316
+VDP-MYIQ.COM/EU
+VDC-DUBLIN AIRPORT
+8 Oct 2025 VDC-AN POST-OFFICE
+VDC-EUROLINK MOTOR
+VDC-EUROLINK MOTOR
+9 Oct 2025 IANARA ARAUJO FERN
+IE25100961147981
+TxnDate: 09Oct2025
+V165179435091025NA
+IE25100944499218
+ATM CLONDALKIN 1
+09OCT25 TIME 12:59
+VDP-Just Eat Irela
+WITHDRAWAL
+140.00
+14.99
+3.00
+2.95
+3.50
+3.50
+900.00
+47.47
+5000.00
+2900.00
+327.00
+3274.84
+3264.89
+544.42
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 67989F101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+299
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+9 Oct 2025 BALANCE FORWARD 544.42
+Interest Rate
+Lending @ 11.850%
+D/D Electric Irela 137.02
+IE25100640831592
+VDC-NYA*Gough Brot 1.00 406.40
+10 Oct 2025 VDC-CIRCLE K GROSV 44.76
+VDC-DIRECT ROUTE ( 2.30
+VDC-EUROLINK MOTOR 3.50
+VDC-EUROLINK MOTOR 3.50
+VDC-MAXOL SSTN CLA 25.94
+VDC-MIDLINK M7/M8 2.30
+VDC-N6 (CONCESSION 2.30
+VDC-N6 (CONCESSION 2.30
+VDC-N6 (CONCESSION 2.30 317.20
+13 Oct 2025 HAP 29.20
+VDC-EUROLINK MOTOR 3.50
+VDC-SUMUP  *MR SOF 7.50 277.00
+14 Oct 2025 IANARA ARAUJO FERN 300.00
+IE25101461493587
+TxnDate: 14Oct2025
+*MOBI RENT MILLPAR 250.00
+VDC-DUNNES CLONDAL 143.66 183.34
+15 Oct 2025 VDC-FUNKY MONKEYS 6.80
+VDC-FUNKY MONKEYS 8.60
+VDC-FUNKY MONKEYS 20.00 147.94
+16 Oct 2025 V165179435161025NA 327.00
+IE25101651028712
+VDP-SMYTHS TOYS FO 61.97 412.97
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 67989G101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+300
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+16 Oct 2025 BALANCE FORWARD 412.97
+Interest Rate
+Lending @ 11.850%
+D/D eFlow 52.93
+IE25101448520649
+VDC-DUNDRUM CAR PA 3.70 356.34
+17 Oct 2025 VDC-CIRCLE K NEWLA 20.00
+VDC-EUROGIANT CLON 12.00 324.34
+20 Oct 2025 VDP-FRN*HOLD.FREE-21.20
+VDP-Netflix.com 10.99
+HAP 29.20
+VDC-CIRCLE K FINGL 35.00
+VDC-CIRCLE K NEWLA 8.00
+VDC-CIRCLE K NEWLA 20.00
+VDC-DUNNES CLONDAL 65.91
+VDC-KIDS SPACE RAT 29.00 105.04
+21 Oct 2025 VDP-MYIQ.COM/EU 14.99
+VDC-FUNKY MONKEYS 15.00
+VDC-NYA*Gough Brot 1.00
+VDC-TESCO STORES 3 43.63 30.42
+22 Oct 2025 VDC-DUNDRUM CAR PA 3.70
+VDC-NYA*Coillte CG 6.00 20.72
+23 Oct 2025 V165179435231025NA 327.00
+IE25102358046197
+D/D ROYAL LONDON 64.03
+IE25102055039956 283.69
+24 Oct 2025 *MOBI CARD IANAR 180.00
+VDC-CIRCLE K NEWLA 50.00 53.69
+28 Oct 2025 IANARA ARAUJO FERN 315.00
+IE25102762870555
+TxnDate: 26Oct2025 368.69
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 67989H101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+301
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Authorised Limit At Date Of Statement: Nil
+Date
+Details
+28 Oct 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+HAP
+D/D NAPS LOAN AIB
+IE25102256708777
+VDC-Decathlon Ball
+30 Oct 2025 V165179435301025NA
+IE25103005484640
+VDC-JUSTTIP
+31 Oct 2025 LN 93338491657658
+Debit €
+290.63
+Credit € Balance €
+29.20
+40.00
+0.25
+327.00
+1500.00
+368.69
+8.86
+335.61
+1835.61
+Date Details Debit € Credit € Balance €
+31 Oct 2025 BALANCE FORWARD 1835.61
+3 Nov 2025 Interest Rate
+Lending @ 11.850%
+VDP-Revolut**9877* 600.00
+HAP 29.20
+VDC-CIRCLE K NEWLA 8.00
+VDC-DUBLIN AIRPORT 9.00
+VDC-24 HOUR PLUMBE 255.70 933.71
+4 Nov 2025 V165158435041125NA 140.00
+IE25110411097125
+VDP-MYIQ.COM/EU 14.99
+VDP-Revolut**9877* 300.00
+*MOBI SAVE FOR THE 140.00
+VDC-NYA*Gough Brot 1.00 617.72
+5 Nov 2025 *MOBI JUNIOR GENIU 155.62
+SAVE FOR THEO 140.00
+D/D THREE IRELAND 58.62
+IE25110411211215 263.48
+6 Nov 2025 V165179435061125NA 327.00
+IE25110613618125 590.48
+7 Nov 2025 VDC-DUNNES CLONDAL 49.64 540.84
+10 Nov 2025 HAP 29.20 511.64
+11 Nov 2025 VDC-HICKEYS PHARMA 4.50 507.14
+13 Nov 2025 V165179435131125NA 327.00
+IE25111320063927 834.14
+17 Nov 2025 *MOBI RENT MILLPAR 250.00
+HAP 29.20
+*MOBI CARD IANAR 100.00
+D/D eFlow 66.23
+IE25111421100761
+VDC-CIRCLE K GRANG 20.00 368.71
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 22521B101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+303
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Authorised Limit At Date Of Statement: Nil
+Date
+Details
+17 Nov 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+VDC-DUBLIN ZOO
+18 Nov 2025 VDP-MYIQ.COM/EU
+VDP-NETFLIX.COM
+20 Nov 2025 V165179435201125NA
+IE25112027062915
+VDP-BRAZIER SPORTS
+VDP-BRAZIER SPORTS
+VDC-CIRCLE K BALRO
+24 Nov 2025 HAP
+D/D ROYAL LONDON
+IE25111926539891
+VDC-CIRCLE K M9 KI
+VDC-DUBLIN AIRPORT
+VDC-DUNNES CLONDAL
+25 Nov 2025 D/D NAPS LOAN AIB
+IE25112027312669
+27 Nov 2025 V165179435271125NA
+IE25112735202866
+VDC-CIRCLE K NEWLA
+VDC-MR PRICE
+VDC-NYA*Gough Brot
+Debit €
+290.63
+Credit € Balance €
+12.00
+14.99
+10.99
+30.00
+60.00
+30.00
+29.20
+64.03
+50.00
+3.00
+17.85
+8.50
+9.27
+1.00
+327.00
+327.00
+368.71
+356.71
+330.73
+537.73
+373.65
+83.02
+391.25
+Date Details Debit € Credit € Balance €
+31 Oct 2024 BALANCE FORWARD 809.20
+1 Nov 2024 Interest Rate
+Lending @ 11.850%
+D/D CLUBWISE SOFTW 48.00
+IE24103174336156 761.20
+4 Nov 2024 HAP 29.20
+D/D NAPS LOAN AIB 203.41
+IE24103072213264
+D/D VIRGIN MEDIA I 70.00
+IE24103072721404 458.59
+5 Nov 2024 V165158435051124NA 280.00
+IE24110579160887
+D/D THREE IRELAND 34.99
+IE24110477360304 703.60
+6 Nov 2024 VDC-CIRCLE K NEWLA 38.02
+VDC-HICKEYS PHARMA 74.90 590.68
+7 Nov 2024 V165179435071124NA 611.00
+IE24110782026599
+VDP-Revolut**9877* 280.00 921.68
+8 Nov 2024 VDP-Revolut**9877* 100.00
+VDC-DUNNES CLONDAL 10.39 811.29
+11 Nov 2024 HAP 29.20
+VDC-CIRCLE K NEWLA 50.00
+VDC-NYA*Gough Brot 1.00
+VDC-NYA*Gough Brot 1.00 730.09
+12 Nov 2024 VDC-CIRCLE K NEWLA 14.00
+VDC-HICKEYS PHARMA 147.00
+VDC-TOWER MEDICAL 20.00 549.09
+14 Nov 2024 V165179435141124NA 311.00
+IE24111488946842
+*MOBI RENT MILLPAR 250.00 610.09
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 76321B101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+274
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+14 Nov 2024 BALANCE FORWARD 610.09
+Interest Rate
+Lending @ 11.850%
+VDC-CIRCLE K NEWLA 20.00 590.09
+15 Nov 2024 VDP-RYANAIR GL 32.00 558.09
+18 Nov 2024 VDP-Netflix.com 8.99
+HAP 29.20
+*MOBI CARD IANAR 200.00
+D/D eFlow 50.43
+IE24111488440356
+VDC-COCA COLA 2.50
+VDC-POLONEZ 6.50
+VDC-TESCO STORES 29.73
+VDC-28302591 DUB N 6.95 223.79
+19 Nov 2024 VDP-BOLT.EU/O/2411 4.12
+VDP-BOLT.EU/O/2411 4.92
+VDC-BAGGA 5.00
+VDC-CAPRI DOLCE VI 8.95
+VDC-CONTINENTE BOM 8.04
+VDC-MUNICIPIO LISB 18.00
+VDC-WELLS SAUDE 13.28
+VDC-WH Smith Dubli 5.93 155.55
+20 Nov 2024 VDP-BOLT.EU/O/2411 3.64
+VDP-BOLT.EU/O/2411 4.50
+VDC-OCEANARIO DE L 16.99
+VDC-SEA THE FUTURE 26.25 104.17
+21 Nov 2024 V165179435211124NA 311.00
+IE24112196086754
+*MOBI CARD IANAR 40.00 375.17
+22 Nov 2024 VDC-DUNNES CLONDAL 65.59 309.58
+25 Nov 2024 HAP 29.20 280.38
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 76321C101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+275
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+25 Nov 2024 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+D/D NAPS LOAN AIB
+IE24112094829412
+D/D ROYAL LONDON
+IE24112095480281
+28 Nov 2024 V165179435281124NA
+IE24112804451903
+VDP-ONLINE MOTOR T
+D/D Electric Irela
+IE24112500159116
+VDC-DUNNES CLONDAL
+2 Dec 2024 HAP
+D/D CLUBWISE SOFTW
+IE24112907073782
+3 Dec 2024 V165158435031224NA
+IE24120310530341
+D/D NAPS LOAN AIB
+IE24112804742624
+VDC-CIRCLE K NEWLA
+VDC-NYA*Gough Brot
+4 Dec 2024 VDC-CLONDALKIN SER
+5 Dec 2024 V165179435051224NA
+IE24120513478132
+*MOBI CARD IANAR
+D/D VIRGIN MEDIA I
+IE24120209438617
+6 Dec 2024 VDP-Revolut**9877*
+Debit €
+121.23
+203.41
+170.00
+300.00
+Credit € Balance €
+83.41
+64.03
+53.00
+14.54
+29.20
+48.00
+14.00
+1.00
+33.35
+70.00
+411.00
+280.00
+589.00
+280.38
+132.94
+355.17
+277.97
+339.56
+306.21
+655.21
+355.21
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 76321D101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+276
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date
+Details
+6 Dec 2024 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+D/D Electric Irela
+IE24120310799203
+D/D THREE IRELAND
+IE24120513565798
+VDC-DUNNES CLONDAL
+VDC-SUMUP  *MBEAUT
+9 Dec 2024 VDP-Just Eat Irela
+HAP
+VDC-CIRCLE K NEWLA
+VDC-DUBLIN AIRPORT
+VDC-MORE 4 LESS
+VDC-NYA*Superleagu
+10 Dec 2024 VDC-Liffey Valley
+VDC-TST-The Rollin
+VDC-3 STORE LIFFEY
+12 Dec 2024 V165179435121224NA
+IE24121220608775
+*MOBI RENT MILLPAR
+13 Dec 2024 VDC-FREYNES PHARMA
+16 Dec 2024 VDP-BOLT.EU/O/2412
+8.60 GBP@
+0.824544
+INCL FX FEE E0.45
+VDP-BOLT.EU/O/2412
+26.60 GBP@
+0.822002
+INCL FX FEE E0.56
+HAP
+Debit €
+250.00
+Credit € Balance €
+24.61
+35.14
+50.49
+20.00
+30.98
+29.20
+20.00
+3.00
+3.50
+2.00
+2.50
+18.00
+20.00
+9.75
+10.88
+32.92
+29.20
+311.00
+355.21
+224.97
+136.29
+95.79
+156.79
+147.04
+74.04
+For Important Information and Standard Conditions regarding your account log onto
+www.aib.ie/standardconditions
+Overdrawn balances are marked dr
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+Allied Irish Banks, p.l.c. is regulated by the Central Bank of Ireland.
+Thank you for banking with us.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 76321E101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+277
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+16 Dec 2024 BALANCE FORWARD 74.04
+Interest Rate
+Lending @ 11.850%
+VDC-NATURAL HISTOR 49.65
+40.25 GBP@
+0.824795
+INCL FX FEE E0.85 24.39
+18 Dec 2024 IANARA FERNANDES 100.00
+IE24121827129071
+VDP-Netflix.com 8.99
+D/D eFlow 41.23
+IE24121623499595
+VDC-MCDONALDS 7025 2.50 71.67
+19 Dec 2024 V165179435191224NA 622.00
+IE24121928607960
+VDC-CIRCLE K NEWLA 20.00 673.67
+20 Dec 2024 VDC-BOOKSTATION TH 13.00
+VDC-CIRCLE K NEWLA 11.00
+VDC-D Nail 40.00
+VDC-D Nail 45.00
+VDC-DUNNES CLONDAL 15.50
+VDC-THE NATURAL BA 4.50
+VDC-TUTHILLS 12.98 531.69
+23 Dec 2024 HAP 29.20
+D/D NAPS LOAN AIB 83.41
+IE24121827064177
+D/D ROYAL LONDON 64.03
+IE24121828074823 355.05
+24 Dec 2024 VDC-CLONDALKIN WAS 30.00 325.05
+30 Dec 2024 HAP 29.20 295.85
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 76321F101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+278
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+30 Dec 2024 BALANCE FORWARD 295.85
+Interest Rate
+Lending @ 11.850%
+FEE-QTR TO 29NOV24 20.30
+933384-91657062
+VDC-GINO'S GELATO 7.40
+VDC-Q PARK ST. STE 13.50
+VDC-TST-Le Centre 2.75
+VDC-TST-Le Centre 12.90 239.00
+2 Jan 2025 V165179435020125NA 311.00
+IE25010241688432
+VDP-CIRCLE K DUBLI 20.00
+D/D CLUBWISE SOFTW 48.00
+IE24123140611891 482.00
+3 Jan 2025 D/D NAPS LOAN AIB 203.41
+IE24122737059950 278.59
+6 Jan 2025 TRANSFER 55.00
+IANARA FERNANDES 19.00
+IE25010645714349
+HAP 29.20
+D/D THREE IRELAND 34.99
+IE25010344152288
+D/D VIRGIN MEDIA I 70.00
+IE24123140948198
+VDC-CIRCLE K NEWLA 35.00
+VDC-HICKEYS PHARMA 159.39
+VDC-TUTHILLS 12.99 11.02
+7 Jan 2025 V165158435070125NA 140.00
+IE25010746858414 151.02
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+ 76321G101
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+  
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+279
+Account Name
+IANARA FERNANDES
+Account Number
+91657-062
+Date of Statement
+Forward
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Date Details Debit € Credit € Balance €
+7 Jan 2025 BALANCE FORWARD 151.02
+Interest Rate
+Lending @ 11.850%
+*MOBI  TOP-UP 20.00
+0838134468 131.02
+9 Jan 2025 V165179435090125NA 327.00
+IE25010949211701 458.02
+10 Jan 2025 VDC-EL CORTE INGLE 2.45
+VDC-EL CORTE INGLE 10.20
+VDC-EL CORTE INGLE 17.65 427.72
+13 Jan 2025 HAP 29.20 398.52
+14 Jan 2025 *MOBI RENT MILLPAR 250.00
+VDC-ALE-HOP LAGOS 6.00 142.52
+16 Jan 2025 V165179435160125NA 327.00
+IE25011656183006
+D/D eFlow 111.13
+IE25011453332156
+VDC-INTERMARCHE LA 6.89 351.50
+17 Jan 2025 *MOBI CARD IANAR 307.00 44.50
+20 Jan 2025 VDP-NETFLIX.COM 8.99
+HAP 29.20 6.31
+23 Jan 2025 IANARA FERNANDES 200.00
+IE25012360269138
+TxnDate: 23Jan2025
+V165179435230125NA 327.00
+IE25012302860867
+D/D NAPS LOAN AIB 83.41
+IE25012059001293
+D/D ROYAL LONDON 64.03
+IE25012000085496 385.87
+27 Jan 2025 HAP 29.20 356.67
+ThisisaneligibledepositundertheDepositGuaranteeScheme.Formoreinformation,pleaseseethe
+'DepositGuaranteeScheme-DepositorInformationSheet'whichisavailablefromyourbranchoron
+ourwebsite-www.aib.ie
+ForImportantInformationandStandardConditionsregardingyouraccountlogonto
+www.aib.ie/standardconditions
+Thank you for banking with us. Overdrawn balances are marked dr
+AlliedIrishBanks,p.l.c.isregulatedbytheCentralBankofIreland.
+Personal Bank Account
+Statement of Account with Allied Irish Banks, p.l.c.
+Branch
+7/12 Dame Street,Dublin 2
+ 76321H101
+IANARA FERNANDES           
+94 MILLPARK
+OLD NANGOR ROAD                                         
+CLONDALKIN
+DUBLIN 22
+National Sort Code
+93-33-84
+Telephone
+01-6793211   
+Page Number
+280
+This is an eligible deposit under the Deposit Guarantee Scheme. For more information, please see the
+'Deposit Guarantee Scheme- Depositor Information Sheet' which is available from your branch or on
+our website- www.aib.ie
+IBAN:  IE13 AIBK 9333 8491 6570 62 (BIC: AIBKIE2D)
+Authorised Limit At Date Of Statement: Nil
+Date
+Details
+27 Jan 2025 BALANCE FORWARD
+Interest Rate
+Lending @ 11.850%
+VDC-GLENDALOUGH RE
+28 Jan 2025 D/D Electric Irela
+IE25012303056188
+VDC-CADDEN'S PHARM
+STAMP DUTY 8687
+29 Jan 2025 VDC-BOOKSTATION TH
+VDC-EUROGIANT CLON
+VDC-MCCABES PHARMA
+30 Jan 2025 V165179435300125NA
+IE25013010943820
+VDC-DUBLIN AIRPORT
+Debit €
+194.94
+Credit € Balance €
+8.30
+12.50
+0.12
+5.00
+3.00
+9.75
+3.00
+327.00
+356.67
+348.37
+140.81
+123.06
+447.06

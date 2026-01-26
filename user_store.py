@@ -17,12 +17,20 @@ def init_db():
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            paid INTEGER DEFAULT 0
+            paid INTEGER DEFAULT 0,
+            is_admin INTEGER DEFAULT 0
         )
     ''')
     # Backfill: add 'paid' column if DB exists without it
     try:
         cursor.execute('ALTER TABLE users ADD COLUMN paid INTEGER DEFAULT 0')
+        conn.commit()
+    except sqlite3.OperationalError:
+        # Column already exists
+        pass
+    # Backfill: add 'is_admin' column if DB exists without it
+    try:
+        cursor.execute('ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0')
         conn.commit()
     except sqlite3.OperationalError:
         # Column already exists
@@ -86,6 +94,22 @@ def create_user(email, password):
         return None  # User already exists
 
 
+def create_admin(email, password):
+    """Create or update an admin user. Marks paid and admin flags."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    existing = get_user_by_email(email)
+    if existing:
+        cursor.execute('UPDATE users SET password_hash = ?, paid = 1, is_admin = 1 WHERE email = ?',
+                       (generate_password_hash(password), email))
+    else:
+        cursor.execute('INSERT INTO users (email, password_hash, paid, is_admin) VALUES (?, ?, 1, 1)',
+                       (email, generate_password_hash(password)))
+    conn.commit()
+    conn.close()
+    return get_user_by_email(email)
+
+
 def mark_paid(email):
     """Mark a user's account as paid (beta access granted)."""
     conn = sqlite3.connect(DB_PATH)
@@ -99,6 +123,12 @@ def has_paid(email):
     """Return True if the user has paid (or record exists and paid=1)."""
     user = get_user_by_email(email)
     return bool(user and user.get('paid', 0))
+
+
+def is_admin(email):
+    """Return True if the user is an admin."""
+    user = get_user_by_email(email)
+    return bool(user and user.get('is_admin', 0))
 
 
 def create_reset_token(email):
@@ -181,3 +211,14 @@ def delete_user_account(email):
     conn.commit()
     conn.close()
     return True
+
+
+def list_users():
+    """List all users for admin view."""
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, email, created_at, paid, is_admin FROM users ORDER BY created_at DESC')
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(r) for r in rows]

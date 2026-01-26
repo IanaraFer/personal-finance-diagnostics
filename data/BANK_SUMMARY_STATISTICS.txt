@@ -1,0 +1,112 @@
+====================================================================================================
+COMPREHENSIVE BANK ANALYSIS REPORT
+REVOLUT vs AIB COMPARISON - Summary Statistics
+====================================================================================================
+
+AIB ACCOUNT SUMMARY
+----------------------------------------------------------------------------------------------------
+Total Transactions: 86
+Total Amount: EUR 17,748.55
+Average Transaction: EUR 206.38
+Largest Transaction: EUR 8246.89
+Period: February 1 - April 10, 2025
+Bank: Allied Irish Bank (AIB)
+
+TOP 10 AIB TRANSACTIONS:
+----------------------------------------------------------------------------------------------------
+10/04/2025 | WITHDRAWAL                               | EUR 8246.89
+06/02/2025 | V165179435060225NA                       | EUR 327.00
+13/02/2025 | V165179435130225NA                       | EUR 327.00
+20/02/2025 | V165179435200225NA                       | EUR 327.00
+27/02/2025 | V165179435270225NA                       | EUR 327.00
+03/03/2025 | CLUBWISE SOFTW                           | EUR 327.00
+06/03/2025 | V165179435060325NA                       | EUR 327.00
+13/03/2025 | V165179435130325NA                       | EUR 327.00
+20/03/2025 | V165179435200325NA                       | EUR 327.00
+27/03/2025 | V165179435270325NA                       | EUR 327.00
+
+REVOLUT ACCOUNT SUMMARY
+----------------------------------------------------------------------------------------------------
+Total Transactions: 3,575 (income + expenses combined)
+Total Expenses: EUR 65,130.62
+Total Income: EUR 54,505.99
+Net Balance: -EUR 10,624.63
+Average Transaction: EUR 29.77
+Period: January 1 - November 27, 2025
+Bank: Revolut (Online Bank)
+
+TOP 10 REVOLUT RECURRING TRANSACTIONS:
+----------------------------------------------------------------------------------------------------
+To Theo new house                             Total: EUR 18,573.40    Count: 710   Avg: EUR 26.16
+Pocket Withdrawal                             Total: EUR 7,850.80     Count: 144   Avg: EUR 54.52
+To Holiday                                    Total: EUR 7,068.00     Count: 346   Avg: EUR 20.43
+Saving vault topup                            Total: EUR 4,148.00     Count: 277   Avg: EUR 14.97
+Circle K Gas Station                          Total: EUR 1,458.43     Count: 53    Avg: EUR 27.52
+Savings Vault topup                           Total: EUR 1,228.00     Count: 208   Avg: EUR 5.90
+Temu                                          Total: EUR 994.58       Count: 30    Avg: EUR 33.15
+To Instant Access Savings                     Total: EUR 920.00       Count: 76    Avg: EUR 12.11
+Dunnes Stores                                 Total: EUR 886.20       Count: 22    Avg: EUR 40.28
+Amazon                                        Total: EUR 577.58       Count: 19    Avg: EUR 30.40
+
+====================================================================================================
+COMBINED ANALYSIS
+====================================================================================================
+
+TOTAL SPENDING BREAKDOWN:
+----------------------------------------------------------------------------------------------------
+AIB Total:       EUR    17,748.55  ( 21.41% of combined)
+Revolut Total:   EUR    65,130.62  ( 78.59% of combined)
+COMBINED TOTAL:  EUR    82,879.17
+
+TRANSACTION COUNT:
+----------------------------------------------------------------------------------------------------
+AIB Transactions:      86
+Revolut Transactions:  2,188 (expenses only)
+Total Transactions:    2,274
+
+====================================================================================================
+KEY INSIGHTS
+====================================================================================================
+
+1. ACCOUNT USAGE PATTERN:
+   - AIB: Domestic, recurring expenses (21.4% of total spending)
+   - Revolut: International transfers, online shopping, cash (78.6% of total spending)
+
+2. LARGEST TRANSACTIONS:
+   - AIB: EUR 8,246.89 (Withdrawal)
+   - Revolut: EUR 4,600.00 (To Theo new house - appears twice)
+
+3. MOST FREQUENT TRANSACTIONS:
+   - AIB: HAP (Housing) - 10 times
+   - Revolut: To Theo new house - 710 times (EUR 18,573.40 total)
+
+4. MONTHLY EXPENSE BREAKDOWN:
+   AIB Regular Costs:
+   - Utilities (Virgin Media + Electric): EUR 135-260/month
+   - Housing (HAP): EUR 29.20-397.63 per occurrence
+   - Loan (NAPS): EUR 203.41/month
+   - Mobile/Card: EUR 62-150/month
+
+5. UNCATEGORIZED SPENDING:
+   - Revolut Uncategorized: EUR 12,709.94 (19.5% of expenses)
+   - Recommendation: Review and categorize for better financial tracking
+
+6. SPENDING PATTERNS:
+   - Peak spending month (Revolut): October (EUR -783.65 net)
+   - Revolut deficit: EUR 10,624.63 (spending > income)
+   - Main transfer: EUR 18,573.40 to Theo new house
+
+====================================================================================================
+RECOMMENDATIONS
+====================================================================================================
+
+1. Monitor Revolut uncategorized expenses (EUR 12,709.94) - 19.5% of spending
+2. Consolidate utility payments on AIB for better tracking
+3. Verify "To Theo new house" transfers (EUR 18,573.40 total) for proper categorization
+4. Review monthly withdrawal pattern (EUR 7,850.80 across 144 withdrawals)
+5. Consider setting up direct debits for recurring payments
+6. Set spending alerts for transactions over EUR 300
+7. Track income sources in Revolut (EUR 54,505.99 total)
+8. Analyze reason for spending deficit (EUR -10,624.63 on Revolut)
+9. Create separate budget for savings accounts (EUR 6,296 total)
+

@@ -1,10 +1,11 @@
 """
-File parsers for CSV, Excel, and PDF bank statements.
+File parsers for CSV, Excel, PDF, JSON, and TXT bank statements.
 Converts various file formats into standardized DataFrames.
 """
 import pandas as pd
 import pdfplumber
 from io import BytesIO
+import json
 
 
 def parse_csv(file_content):
@@ -22,6 +23,45 @@ def parse_csv(file_content):
 def parse_excel(file_content):
     """Parse Excel file content into DataFrame."""
     return pd.read_excel(BytesIO(file_content))
+
+
+def parse_json(file_content):
+    """Parse JSON file content into DataFrame."""
+    try:
+        data = json.loads(file_content.decode('utf-8'))
+        if isinstance(data, list):
+            return pd.DataFrame(data)
+        elif isinstance(data, dict):
+            # Check for common data structures
+            if 'transactions' in data and isinstance(data['transactions'], list):
+                return pd.DataFrame(data['transactions'])
+            elif 'data' in data and isinstance(data['data'], list):
+                return pd.DataFrame(data['data'])
+            else:
+                return pd.DataFrame([data])
+        else:
+            raise ValueError("JSON must contain list or dict with transaction data")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON format: {str(e)}")
+
+
+def parse_txt(file_content):
+    """Parse TXT file content into DataFrame."""
+    # Try to parse as tab or pipe-separated values
+    try:
+        content = file_content.decode('utf-8')
+        # Try different separators
+        for separator in ['\t', '|', ',', ' ']:
+            try:
+                df = pd.read_csv(BytesIO(content.encode()), sep=separator)
+                if len(df.columns) > 1:  # Ensure we got multiple columns
+                    return df
+            except:
+                continue
+        # If no separator worked, try as CSV with flexible parsing
+        return pd.read_csv(BytesIO(file_content))
+    except Exception as e:
+        raise ValueError(f"Could not parse TXT file: {str(e)}")
 
 
 def parse_pdf_transactions(file_content):
@@ -151,17 +191,14 @@ def parse_pdf_accounts(file_content):
 def parse_file(file_content, filename, file_type='transactions'):
     """
     Parse file based on extension.
-    
     Args:
         file_content: Raw file bytes
         filename: Original filename to detect extension
         file_type: 'transactions' or 'accounts'
-    
     Returns:
         pandas DataFrame with parsed data
     """
     filename_lower = filename.lower()
-    
     try:
         if filename_lower.endswith('.csv'):
             return parse_csv(file_content)
@@ -172,6 +209,10 @@ def parse_file(file_content, filename, file_type='transactions'):
                 return parse_pdf_transactions(file_content)
             else:
                 return parse_pdf_accounts(file_content)
+        elif filename_lower.endswith('.json'):
+            return parse_json(file_content)
+        elif filename_lower.endswith('.txt'):
+            return parse_txt(file_content)
         else:
             raise ValueError(f"Unsupported file format: {filename}")
     except Exception as e:

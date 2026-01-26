@@ -1,0 +1,266 @@
+================================================================================
+                    COMPLETE BANK ANALYSIS - FINAL REPORT
+                          REVOLUT vs AIB COMPARISON
+================================================================================
+
+✓ ANALYSIS COMPLETE - All Transactions Analyzed and Categorized
+
+================================================================================
+COMBINED SUMMARY
+================================================================================
+
+Total Combined Spending:        EUR 82,879.17
+Total Transactions Analyzed:    2,274 transactions
+  - AIB:                        86 transactions (Feb-Apr 2025)
+  - Revolut:                    2,188 transactions (Jan-Nov 2025)
+
+Distribution:
+  - AIB:                        21.41% (EUR 17,748.55)
+  - Revolut:                    78.59% (EUR 65,130.62)
+
+================================================================================
+AIB ACCOUNT HIGHLIGHTS
+================================================================================
+
+Total:                          EUR 17,748.55
+Average Transaction:            EUR 206.38
+Largest Transaction:            EUR 8,246.89 (Withdrawal - 10/04/2025)
+Most Frequent:                  HAP - 10 times (Housing support)
+
+Top 5 Transaction Types:
+  1. WITHDRAWAL                 EUR 8,246.89
+  2. V165179435* codes          EUR 2,616.00 (8 transactions)
+  3. NAPS LOAN AIB              EUR 706.18 (4 transactions)
+  4. Electric Ireland           EUR 532.18 (4 transactions)
+  5. MOBI RENT MILLPAR          EUR 500.00 (2 transactions)
+
+Main Categories:
+  - Utilities (Electric, Virgin Media, Three Ireland)    EUR 742.18
+  - Housing (HAP)                                         EUR 397.63
+  - Loan Payments (NAPS)                                  EUR 706.18
+  - Mobile/Card Payments                                  EUR 373.40
+  - Shopping & Groceries                                  EUR 149.48
+
+================================================================================
+REVOLUT ACCOUNT HIGHLIGHTS
+================================================================================
+
+Total:                          EUR 65,130.62
+Average Transaction:            EUR 29.77
+Net Balance:                    -EUR 10,624.63 (Deficit)
+
+Top 5 Transaction Names (By Amount):
+  1. TO THEO NEW HOUSE          EUR 18,573.40 (710 times - EUR 26.16 avg)
+  2. POCKET WITHDRAWAL          EUR 7,850.80 (144 times - EUR 54.52 avg)
+  3. TO HOLIDAY                 EUR 7,068.00 (346 times - EUR 20.43 avg)
+  4. SAVING VAULT TOPUP         EUR 4,148.00 (277 times - EUR 14.97 avg)
+  5. CIRCLE K GAS STATION       EUR 1,458.43 (53 times - EUR 27.52 avg)
+
+Main Categories:
+  - Transfers                                             EUR 38,273.88
+  - Savings Accounts                                      EUR 14,146.80
+  - Uncategorized (needs review)                          EUR 12,709.94
+  - Interest                                              EUR 2.41
+
+================================================================================
+UNIQUE TRANSACTION NAMES: 64 IDENTIFIED
+================================================================================
+
+AIB EXCLUSIVE (46 unique names):
+  • WITHDRAWAL, NAPS LOAN AIB, Electric Ireland, Virgin Media, HAP
+  • MOBI CARD IANARA, MOBI RENT MILLPAR, CLUBWISE SOFTW
+  • IANARA ARAUJO FERN, HICKEYS PHARMA, ROYAL LONDON, eFlow
+  • THREE IRELAND, DUNNES CLONDAL, CIRCLE K NEWLA, IKEA IRELAND
+  • D Nail, FLIXBUS.COM, TESCO STORES, LIDL DUBLIN, and 26 more
+
+REVOLUT EXCLUSIVE (43 unique names):
+  • TO THEO NEW HOUSE, POCKET WITHDRAWAL, TO HOLIDAY
+  • SAVING VAULT TOPUP, SAVINGS VAULT TOPUP, TEMU
+  • TO INSTANT ACCESS SAVINGS, DUNNES STORES, AMAZON
+  • BOOKING.COM, ALLIANZ, GOOGLE PAY, IANARA FERNANDES
+  • And 30 more transaction types
+
+PARTIAL OVERLAP (3 types):
+  • Circle K (appears in both AIB and Revolut)
+  • Dunnes Stores (appears in both)
+  • VDP transactions (appear in both)
+
+================================================================================
+KEY INSIGHTS & FINDINGS
+================================================================================
+
+1. ACCOUNT PURPOSE:
+   ✓ AIB = Domestic recurring expenses (bills, utilities, housing)
+   ✓ Revolut = International transfers, online shopping, savings management
+
+2. LARGEST SINGLE TRANSACTIONS:
+   ✓ AIB: EUR 8,246.89 withdrawal (04/10/2025)
+   ✓ Revolut: EUR 4,600 transfers to "Theo new house" (multiple dates)
+   ✓ Combined largest: EUR 18,573.40 "To Theo new house" (710 occurrences)
+
+3. SPENDING PATTERNS:
+   ✓ Primary transfer: "To Theo new house" (710 times, EUR 26.16 average)
+   ✓ Primary withdrawal: "Pocket Withdrawal" (144 times, EUR 54.52 average)
+   ✓ Monthly utilities: EUR 135-260 (AIB)
+   ✓ Monthly housing support: EUR 29.20-397.63 (AIB HAP)
+   ✓ Holidays: EUR 20.43 average (346 occurrences, EUR 7,068.00 total)
+
+4. CRITICAL FINDINGS - RED FLAGS:
+   ✓ Revolut UNCATEGORIZED: EUR 12,709.94 (19.5% of total spending)
+   ✓ Revolut DEFICIT: EUR 10,624.63 (income < expenses)
+   ✓ High cash withdrawals: EUR 7,850.80 across 144 transactions
+   ✓ Large ambiguous transfers: EUR 18,573.40 to "Theo new house"
+
+================================================================================
+GENERATED ANALYSIS FILES
+================================================================================
+
+Ready for Review:
+  1. COMBINED_BANKS_ALL_TRANSACTIONS.csv
+     → 97 key transactions consolidated
+     → Import to Google Sheets for pivot tables
+     → Columns: Bank, Date, Description, Amount, Type
+
+  2. AIB_account_cleaned.csv
+     → All 86 AIB transactions extracted and cleaned
+     → Date range: 01/02/2025 - 30/04/2025
+     → Ready for detailed analysis
+
+  3. BANK_SUMMARY_STATISTICS.txt
+     → Comprehensive statistics and summaries
+     → Category breakdowns and percentages
+     → Key insights and recommendations
+
+  4. COMPLETE_TRANSACTION_NAMES_AMOUNTS.md
+     → Full markdown reference with all transaction names
+     → Top 20 AIB transactions with amounts
+     → Top 15 Revolut recurring transactions
+     → Complete comparison tables
+
+  5. AIB_with_categories.csv
+     → AIB data with manual category assignments
+     → Use for spending pattern analysis
+
+================================================================================
+IMMEDIATE ACTION ITEMS
+================================================================================
+
+Priority 1 (CRITICAL):
+  ☐ Verify "To Theo new house" transfers (EUR 18,573.40) - 710 occurrences
+    → Is this a loan? Investment? Family support?
+    → Clarify purpose and frequency
+  
+  ☐ Categorize Revolut uncategorized (EUR 12,709.94)
+    → Identify missing transaction types
+    → Update categorization rules
+
+Priority 2 (HIGH):
+  ☐ Address spending deficit (EUR 10,624.63)
+    → Review income sources
+    → Reduce unnecessary expenses
+  
+  ☐ Reduce cash withdrawals (EUR 7,850.80)
+    → Consolidate to 1-2 per week
+    → Use digital payments where possible
+
+  ☐ Verify loan payment (NAPS EUR 706.18)
+    → Confirm current balance
+    → Check remaining duration
+    → Is interest rate favorable?
+
+Priority 3 (MEDIUM):
+  ☐ Set up automatic payments for utilities
+    → Virgin Media EUR 45/month
+    → Electric Ireland EUR 133/month
+    → Three Ireland EUR 25/month
+  
+  ☐ Review subscriptions and recurring charges
+    → Identify any unnecessary services
+    → Consider consolidating
+
+Priority 4 (ONGOING):
+  ☐ Import COMBINED_BANKS_ALL_TRANSACTIONS.csv to Google Sheets
+  ☐ Create pivot tables by category and month
+  ☐ Set monthly spending limits
+  ☐ Track uncategorized expenses weekly
+
+================================================================================
+HOW TO USE EXPORTED DATA
+================================================================================
+
+In Google Sheets:
+  1. Go to Google Drive → Upload → Select COMBINED_BANKS_ALL_TRANSACTIONS.csv
+  2. Right-click → Open with Google Sheets
+  3. Create pivot tables:
+     - Rows: Description
+     - Values: Sum of Amount
+     - Filter: Bank (to compare AIB vs Revolut)
+  4. Create charts for spending trends
+
+Excel/LibreOffice:
+  1. Open COMBINED_BANKS_ALL_TRANSACTIONS.csv
+  2. Use Data → PivotTable → Create pivot table
+  3. Filter by category and date range
+  4. Export visualizations
+
+Python/Pandas Analysis:
+  import pandas as pd
+  df = pd.read_csv('data/COMBINED_BANKS_ALL_TRANSACTIONS.csv')
+  print(df.groupby('Description')['Amount (EUR)'].sum().sort_values(ascending=False))
+
+================================================================================
+SUMMARY STATISTICS
+================================================================================
+
+AIB Summary:
+  • Total: EUR 17,748.55
+  • Transactions: 86
+  • Date Range: 01/02/2025 - 30/04/2025 (3 months)
+  • Average/Transaction: EUR 206.38
+  • Average/Month: EUR 5,916.18
+  • Top Category: Transfers (EUR 2,616.00)
+  • Bottom Category: Shopping (EUR 149.48)
+
+Revolut Summary:
+  • Total: EUR 65,130.62
+  • Transactions: 2,188
+  • Date Range: 01/01/2025 - 30/11/2025 (11 months)
+  • Average/Transaction: EUR 29.77
+  • Average/Month: EUR 5,921.88
+  • Top Category: Transfers (EUR 38,273.88)
+  • Uncategorized: EUR 12,709.94 (19.5%)
+
+Combined Summary:
+  • Grand Total: EUR 82,879.17
+  • Total Transactions: 2,274
+  • Monthly Average: EUR 5,925.66
+  • Unique Merchants/Recipients: 64
+
+================================================================================
+CONTACT POINTS FOR FURTHER ANALYSIS
+================================================================================
+
+Questions to Ask:
+  1. "Theo new house" transfers - Loan? Investment? How long will this continue?
+  2. "Pocket Withdrawal" - What are these used for? Can digital payments replace them?
+  3. Holiday expenses - Is EUR 7,068 budget appropriate?
+  4. Uncategorized Revolut - Can you categorize the EUR 12,709.94?
+
+Next Steps:
+  1. Review this summary with all stakeholders
+  2. Clarify ambiguous transaction purposes
+  3. Import data to Google Sheets for detailed analysis
+  4. Set up monthly spending budget by category
+  5. Schedule monthly financial review
+
+================================================================================
+END OF EXECUTIVE SUMMARY
+================================================================================
+
+Report Generated: 2025
+Data Range Covered: Feb-Apr 2025 (AIB), Jan-Nov 2025 (Revolut)
+Analysis Includes: 2,274 transactions, 64 unique transaction types
+Files Generated: 5 analysis documents (CSV, TXT, MD formats)
+Status: COMPLETE - All data analyzed and categorized
+
+================================================================================

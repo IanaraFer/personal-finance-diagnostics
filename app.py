@@ -12,7 +12,11 @@ import user_store
 import json
 from datetime import datetime
 import io
-import stripe
+try:
+    import stripe
+    STRIPE_AVAILABLE = True
+except Exception:
+    STRIPE_AVAILABLE = False
 try:
     from azure.identity import DefaultAzureCredential
     from azure.keyvault.secrets import SecretClient
@@ -63,7 +67,8 @@ STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')  # e.g., 'price_1SmcTcEPS0ev8tkiLDa2mJqM'
 STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET')
-if STRIPE_SECRET_KEY:
+STRIPE_CHECKOUT_URL = getenv('STRIPE_CHECKOUT_URL') or 'https://buy.stripe.com/cNi9ATgk4cZRfYW9UE5c401'
+if STRIPE_AVAILABLE and STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
 
 
@@ -262,9 +267,19 @@ def logout():
 
 
 # --- Payments: Stripe Checkout ---
-@app.route('/checkout', methods=['GET'])
+@app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
-    """Create a Stripe Checkout Session and redirect to payment."""
+    """Return or redirect to Stripe checkout."""
+    # Prefer explicit hosted link when provided
+    if STRIPE_CHECKOUT_URL:
+        if request.method == 'POST':
+            return jsonify({'checkout_url': STRIPE_CHECKOUT_URL})
+        return redirect(STRIPE_CHECKOUT_URL, code=303)
+
+    # Fallback to creating a session dynamically
+    if not STRIPE_AVAILABLE:
+        return ("Stripe not available. Payment system temporarily unavailable.", 503)
+    
     if not STRIPE_SECRET_KEY or not STRIPE_PRICE_ID:
         return ("Stripe not configured. Set STRIPE_SECRET_KEY and STRIPE_PRICE_ID.", 500)
 
@@ -277,7 +292,7 @@ def checkout():
             success_url=success_url,
             cancel_url=cancel_url,
         )
-        return redirect(session_obj.url, code=303)
+        return jsonify({'checkout_url': session_obj.url}) if request.method == 'POST' else redirect(session_obj.url, code=303)
     except Exception as e:
         return (f"Failed to create checkout session: {str(e)}", 500)
 
@@ -451,8 +466,8 @@ def stripe_webhook():
     payload = request.get_data(as_text=False)
     sig_header = request.headers.get('Stripe-Signature')
 
-    # If no webhook secret configured, accept silently (useful in non-production)
-    if not STRIPE_WEBHOOK_SECRET:
+    # If Stripe not available or no webhook secret configured, accept silently
+    if not STRIPE_AVAILABLE or not STRIPE_WEBHOOK_SECRET:
         return ('', 200)
 
     try:
@@ -485,7 +500,7 @@ def stripe_webhook():
 def paywall():
     return (
         '<h2>Beta Access Required</h2>'
-        '<p>This beta requires a one-time €1.99 payment.</p>'
+        '<p>This beta requires a one-time €9.99 payment.</p>'
         '<p><a href="/checkout">Buy access</a> to continue.</p>'
         '<p><a href="/login">Back to login</a></p>'
     )
@@ -499,16 +514,8 @@ def health():
 
 @app.route('/demo')
 def demo():
-    """Demo route with Revolut data - no authentication required."""
-    try:
-        tx_df = pd.read_csv('data/transactions_from_pdf.csv')
-        acct_df = pd.read_csv('data/accounts_from_pdf.csv')
-        results = analyze_finances(tx_df, acct_df)
-        return render_template('dashboard_enhanced.html', results=results)
-    except Exception as e:
-        import traceback
-        error_details = traceback.format_exc()
-        return f"<pre>Error loading demo data:\n\n{error_details}</pre>", 500
+    """Demo route - interactive file upload for analysis, no authentication required."""
+    return render_template('demo.html')
 
 
 @app.route('/questionnaire', methods=['GET', 'POST'])
@@ -554,4 +561,4 @@ def questionnaire():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5001, use_reloader=False)

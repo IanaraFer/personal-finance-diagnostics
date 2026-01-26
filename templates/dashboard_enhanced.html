@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Dashboard - Money Diagnostics</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+    
+    .card {
+      @apply bg-white rounded-lg shadow-md p-6 mb-6;
+    }
+    
+    .stat-card {
+      @apply bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-lg p-6 shadow-lg;
+    }
+    
+    body.dark-mode {
+      @apply bg-gray-900 text-gray-100;
+    }
+    
+    body.dark-mode .card {
+      @apply bg-gray-800 text-gray-100;
+    }
+    
+    .alert-info {
+      @apply bg-blue-50 border-l-4 border-blue-500 p-4 mb-4;
+    }
+    
+    .alert-warning {
+      @apply bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-4;
+    }
+    
+    .alert-danger {
+      @apply bg-red-50 border-l-4 border-red-500 p-4 mb-4;
+    }
+    
+    .badge {
+      @apply inline-block px-3 py-1 text-sm font-semibold rounded-full;
+    }
+    
+    .badge-success {
+      @apply bg-green-100 text-green-800;
+    }
+    
+    .badge-warning {
+      @apply bg-yellow-100 text-yellow-800;
+    }
+    
+    .badge-danger {
+      @apply bg-red-100 text-red-800;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <nav class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-blue-600">💰 Money Diagnostics</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button id="darkModeToggle" class="p-2 rounded-lg hover:bg-gray-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="width" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          </button>
+          <a href="/upload" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Upload Data</a>
+          <a href="/logout" class="px-4 py-2 text-gray-700 hover:text-gray-900">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="stat-card">
+        <p class="text-blue-100 text-sm font-medium">Total Income</p>
+        <p class="text-3xl font-bold mt-2">€{{ "%.2f"|format(results.income) }}</p>
+        {% if results.monthly_trends.mom_income_change %}
+        <p class="text-sm mt-2">
+          <span class="{% if results.monthly_trends.mom_income_change > 0 %}text-green-300{% else %}text-red-300{% endif %}">
+            {{ "%+.1f"|format(results.monthly_trends.mom_income_change) }}% vs last month
+          </span>
+        </p>
+        {% endif %}
+      </div>
+      
+      <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-lg p-6 shadow-lg">
+        <p class="text-purple-100 text-sm font-medium">Total Expenses</p>
+        <p class="text-3xl font-bold mt-2">€{{ "%.2f"|format(results.expenses) }}</p>
+        {% if results.monthly_trends.mom_expense_change %}
+        <p class="text-sm mt-2">
+          <span class="{% if results.monthly_trends.mom_expense_change < 0 %}text-green-300{% else %}text-red-300{% endif %}">
+            {{ "%+.1f"|format(results.monthly_trends.mom_expense_change) }}% vs last month
+          </span>
+        </p>
+        {% endif %}
+      </div>
+      
+      <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-lg p-6 shadow-lg">
+        <p class="text-green-100 text-sm font-medium">Savings Rate</p>
+        <p class="text-3xl font-bold mt-2">{{ "%.1f"|format(results.savings_rate * 100) }}%</p>
+        <p class="text-sm mt-2">Target: {{ results.benchmarks.age_group_average }}%</p>
+      </div>
+      
+      <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg p-6 shadow-lg">
+        <p class="text-orange-100 text-sm font-medium">Next Month Forecast</p>
+        <p class="text-3xl font-bold mt-2">€{{ "%.0f"|format(results.prediction.predicted_expenses) }}</p>
+        <p class="text-sm mt-2">
+          <span class="badge {% if results.prediction.trend == 'Decreasing' %}badge-success{% else %}badge-warning{% endif %} bg-orange-700">
+            {{ results.prediction.trend }} ({{ results.prediction.confidence }})
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Financial Health Diagnostic Report -->
+    {% if results.diagnostic_report %}
+    <div class="card mb-8">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-2xl font-bold flex items-center">
+          <svg class="w-8 h-8 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Financial Health Score
+        </h2>
+        {% if results.diagnostic_report.questionnaire and results.diagnostic_report.questionnaire|length > 0 %}
+        <a href="/questionnaire" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">
+          Complete Profile
+        </a>
+        {% endif %}
+      </div>
+      
+      <!-- Overall Score -->
+      <div class="flex items-center justify-center mb-8">
+        <div class="text-center">
+          <div class="relative inline-flex items-center justify-center w-48 h-48">
+            <svg class="w-full h-full transform -rotate-90">
+              <circle cx="96" cy="96" r="88" fill="none" stroke="#e5e7eb" stroke-width="12"></circle>
+              <circle cx="96" cy="96" r="88" fill="none" 
+                      stroke="{% if results.diagnostic_report.overall_score >= 80 %}#10b981{% elif results.diagnostic_report.overall_score >= 60 %}#3b82f6{% elif results.diagnostic_report.overall_score >= 40 %}#f59e0b{% else %}#ef4444{% endif %}" 
+                      stroke-width="12"
+                      stroke-dasharray="{{ (results.diagnostic_report.overall_score / 100 * 553) }} 553"
+                      stroke-linecap="round">
+              </circle>
+            </svg>
+            <div class="absolute">
+              <div class="text-5xl font-bold text-gray-900">{{ results.diagnostic_report.overall_score }}</div>
+              <div class="text-3xl font-bold {% if results.diagnostic_report.overall_score >= 80 %}text-green-600{% elif results.diagnostic_report.overall_score >= 60 %}text-blue-600{% elif results.diagnostic_report.overall_score >= 40 %}text-yellow-600{% else %}text-red-600{% endif %}">
+                {{ results.diagnostic_report.grade }}
+              </div>
+            </div>
+          </div>
+          <p class="mt-4 text-lg font-medium text-gray-600">
+            {% if results.diagnostic_report.overall_score >= 80 %}
+            Excellent Financial Health
+            {% elif results.diagnostic_report.overall_score >= 60 %}
+            Good Financial Health
+            {% elif results.diagnostic_report.overall_score >= 40 %}
+            Fair Financial Health - Room for Improvement
+            {% else %}
+            Needs Attention - Take Action
+            {% endif %}
+          </p>
+        </div>
+      </div>
+      
+      <!-- Category Scores Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        {% for category, data in results.diagnostic_report.diagnostics.items() %}
+        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-semibold text-gray-500 uppercase">{{ category.replace('_', ' ') }}</span>
+            {% if data.status == 'excellent' %}
+            <span class="text-green-500">✓</span>
+            {% elif data.status == 'good' or data.status == 'fair' %}
+            <span class="text-yellow-500">⚠</span>
+            {% else %}
+            <span class="text-red-500">✗</span>
+            {% endif %}
+          </div>
+          <div class="text-2xl font-bold text-gray-900">{{ data.score }}</div>
+          <div class="mt-1">
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="h-2 rounded-full {% if data.score >= 80 %}bg-green-500{% elif data.score >= 60 %}bg-blue-500{% elif data.score >= 40 %}bg-yellow-500{% else %}bg-red-500{% endif %}"
+                   style="width: {{ data.score }}%">
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 text-xs text-gray-600 capitalize">{{ data.status }}</div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Risks & Gaps -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {% if results.diagnostic_report.risks and results.diagnostic_report.risks|length > 0 %}
+        <div>
+          <h3 class="text-lg font-semibold mb-3 flex items-center text-red-600">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            Identified Risks
+          </h3>
+          <div class="space-y-2">
+            {% for risk in results.diagnostic_report.risks[:5] %}
+            <div class="bg-red-50 border-l-4 border-red-500 p-3 text-sm text-red-800">
+              {{ risk }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        
+        {% if results.diagnostic_report.gaps and results.diagnostic_report.gaps|length > 0 %}
+        <div>
+          <h3 class="text-lg font-semibold mb-3 flex items-center text-yellow-600">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+            Data Gaps
+          </h3>
+          <div class="space-y-2">
+            {% for gap in results.diagnostic_report.gaps[:5] %}
+            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 text-sm text-yellow-800">
+              {{ gap }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      
+      <!-- Top Recommendations from Diagnostic -->
+      {% if results.diagnostic_report.recommendations and results.diagnostic_report.recommendations|length > 0 %}
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6">
+        <h3 class="text-lg font-semibold mb-4 flex items-center">
+          <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+          Diagnostic Recommendations
+        </h3>
+        <div class="space-y-3">
+          {% for rec in results.diagnostic_report.recommendations[:5] %}
+          <div class="bg-white rounded-lg p-4 border-l-4 {% if rec.priority == 'critical' %}border-red-500{% elif rec.priority == 'high' %}border-orange-500{% else %}border-blue-500{% endif %}">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center mb-2">
+                  <span class="px-2 py-1 text-xs font-semibold rounded {% if rec.priority == 'critical' %}bg-red-100 text-red-800{% elif rec.priority == 'high' %}bg-orange-100 text-orange-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+                    {{ rec.priority|upper }}
+                  </span>
+                  <span class="ml-2 font-semibold text-gray-900">{{ rec.category }}</span>
+                </div>
+                <p class="text-sm text-gray-700 mb-1">{{ rec.action }}</p>
+                <p class="text-xs text-gray-500">💡 {{ rec.impact }}</p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Alerts -->
+    {% if results.alerts %}
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        Alerts
+      </h2>
+      {% for alert in results.alerts %}
+      <div class="alert-{% if 'urgently' in alert %}danger{% else %}warning{% endif %}">
+        <p class="text-sm font-medium">{{ alert }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Monthly Trends Chart -->
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4">Monthly Trends</h2>
+      <div id="monthlyTrends" style="height: 400px;"></div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div class="card">
+        <h2 class="text-xl font-bold mb-4">Income vs Expenses</h2>
+        <div id="incomeExpenses" style="height: 300px;"></div>
+      </div>
+      
+      <div class="card">
+        <h2 class="text-xl font-bold mb-4">Spending by Category</h2>
+        <div id="categoryBreakdown" style="height: 300px;"></div>
+      </div>
+    </div>
+
+    <!-- Recurring Transactions -->
+    {% if results.recurring_transactions %}
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        Recurring Bills & Subscriptions
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Frequency</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Next Due</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            {% for txn in results.recurring_transactions[:10] %}
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">{{ txn.description }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">€{{ "%.2f"|format(txn.amount) }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">{{ txn.frequency }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                <span class="{% if txn.next_due == 'Overdue' %}text-red-600 font-semibold{% else %}text-gray-900{% endif %}">
+                  {{ txn.next_due }}
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Unusual Transactions -->
+    {% if results.unusual_transactions %}
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Unusual Spending Detected
+      </h2>
+      <div class="space-y-3">
+        {% for txn in results.unusual_transactions[:5] %}
+        <div class="border-l-4 border-yellow-400 bg-yellow-50 p-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="font-medium text-gray-900">{{ txn.description }}</p>
+              <p class="text-sm text-gray-600">{{ txn.category }} • {{ txn.date }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-lg font-bold text-gray-900">€{{ "%.2f"|format(txn.amount) }}</p>
+              <p class="text-xs text-gray-500">Typical: €{{ "%.2f"|format(txn.typical_amount) }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Spending Optimization & Savings Opportunities -->
+    {% if results.optimization %}
+    <div class="card">
+      <h2 class="text-xl font-bold mb-6 flex items-center">
+        <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+        💰 How to Increase Your Savings
+      </h2>
+
+      <!-- Summary Card -->
+      <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-lg mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <p class="text-sm text-gray-600">Current Savings Rate</p>
+            <p class="text-2xl font-bold text-gray-900">{{ "%.1f"|format(results.optimization.summary.current_savings_rate) }}%</p>
+            <p class="text-xs text-gray-500">€{{ "%.2f"|format(results.optimization.summary.avg_monthly_savings) }}/month</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Potential Savings Rate</p>
+            <p class="text-2xl font-bold text-green-600">{{ "%.1f"|format(results.optimization.summary.optimized_savings_rate) }}%</p>
+            <p class="text-xs text-green-600">€{{ "%.2f"|format(results.optimization.summary.optimized_monthly_savings) }}/month</p>
+          </div>
+          <div>
+            <p class="text-sm text-gray-600">Monthly Improvement</p>
+            <p class="text-2xl font-bold text-emerald-600">+€{{ "%.2f"|format(results.optimization.summary.total_potential_monthly_savings) }}</p>
+            <p class="text-xs text-emerald-600">+{{ "%.1f"|format(results.optimization.summary.improvement_percent) }}%</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Month-by-Month Comparison Table -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">📊 Month-by-Month Comparison</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Month</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Income</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Expenses</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Savings</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Rate</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {% for month in results.optimization.monthly_comparison %}
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ month.month }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">€{{ "%.2f"|format(month.income) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 text-right">€{{ "%.2f"|format(month.expenses) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right {% if month.savings >= 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                  €{{ "%.2f"|format(month.savings) }}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right {% if month.savings_rate >= 20 %}text-green-600{% elif month.savings_rate >= 10 %}text-yellow-600{% else %}text-red-600{% endif %}">
+                  {{ "%.1f"|format(month.savings_rate) }}%
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Priority Recommendations -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">🎯 Top Opportunities to Cut Costs</h3>
+        <div class="space-y-3">
+          {% for rec in results.optimization.recommendations %}
+          <div class="border-l-4 {% if rec.priority == 'high' %}border-red-500 bg-red-50{% elif rec.priority == 'medium' %}border-yellow-500 bg-yellow-50{% else %}border-blue-500 bg-blue-50{% endif %} p-4">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <div class="flex items-center mb-1">
+                  <span class="px-2 py-1 text-xs font-semibold rounded {% if rec.priority == 'high' %}bg-red-200 text-red-800{% elif rec.priority == 'medium' %}bg-yellow-200 text-yellow-800{% else %}bg-blue-200 text-blue-800{% endif %}">
+                    {{ rec.priority|upper }} PRIORITY
+                  </span>
+                  <span class="ml-2 text-sm font-medium text-gray-900">{{ rec.category }}</span>
+                </div>
+                <p class="text-sm text-gray-700 mt-2">{{ rec.message }}</p>
+              </div>
+              {% if rec.potential_savings > 0 %}
+              <div class="ml-4 text-right">
+                <p class="text-lg font-bold text-green-600">+€{{ "%.2f"|format(rec.potential_savings) }}</p>
+                <p class="text-xs text-gray-500">per month</p>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Category Analysis -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3">📋 Category Spending Analysis</h3>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Min</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Average</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Max</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Variability</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {% for cat in results.optimization.category_analysis[:8] %}
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ cat.category }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">€{{ "%.2f"|format(cat.min_monthly) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-right">€{{ "%.2f"|format(cat.avg_monthly) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-right">€{{ "%.2f"|format(cat.max_monthly) }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-right {% if cat.variability_percent > 50 %}text-red-600{% elif cat.variability_percent > 30 %}text-yellow-600{% else %}text-green-600{% endif %}">
+                  {{ "%.0f"|format(cat.variability_percent) }}%
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                  {% if cat.is_optimizable %}
+                  <span class="px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">
+                    Can Optimize
+                  </span>
+                  {% else %}
+                  <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                    On Track
+                  </span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Trends -->
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <p class="text-sm text-gray-600">Expense Trend</p>
+          <p class="text-lg font-bold capitalize {% if results.optimization.summary.expense_trend == 'increasing' %}text-red-600{% elif results.optimization.summary.expense_trend == 'decreasing' %}text-green-600{% else %}text-gray-600{% endif %}">
+            {{ results.optimization.summary.expense_trend }}
+          </p>
+        </div>
+        <div class="bg-green-50 p-4 rounded-lg">
+          <p class="text-sm text-gray-600">Savings Trend</p>
+          <p class="text-lg font-bold capitalize {% if results.optimization.summary.savings_trend == 'improving' %}text-green-600{% elif results.optimization.summary.savings_trend == 'declining' %}text-red-600{% else %}text-gray-600{% endif %}">
+            {{ results.optimization.summary.savings_trend }}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Recommendations -->
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4">💡 Recommendations</h2>
+      <ul class="space-y-3">
+        {% for rec in results.recommendations %}
+        <li class="flex items-start">
+          <svg class="w-5 h-5 text-green-500 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          <span>{{ rec }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Export Options -->
+    <div class="card">
+      <h2 class="text-xl font-bold mb-4">Export & Privacy</h2>
+      <div class="flex space-x-4">
+        <a href="/api/export/pdf" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+          📄 Export PDF Report
+        </a>
+        <a href="/api/export/data" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          📊 Export My Data
+        </a>
+        <form action="/delete-account" method="POST" onsubmit="return confirm('Are you sure? This cannot be undone.');" style="display:inline;">
+          <button type="submit" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
+            🗑️ Delete Account
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    
+    darkModeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    });
+    
+    // Load dark mode preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      body.classList.add('dark-mode');
+    }
+
+    // Monthly Trends Chart
+    const monthlyTrends = {
+      x: {{ results.charts.monthly_trends.months | tojson }},
+      income: {{ results.charts.monthly_trends.income | tojson }},
+      expenses: {{ results.charts.monthly_trends.expenses | tojson }},
+      savings: {{ results.charts.monthly_trends.savings | tojson }}
+    };
+    
+    Plotly.newPlot('monthlyTrends', [
+      {
+        x: monthlyTrends.x,
+        y: monthlyTrends.income,
+        name: 'Income',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#10b981', width: 3 },
+        marker: { size: 8 }
+      },
+      {
+        x: monthlyTrends.x,
+        y: monthlyTrends.expenses,
+        name: 'Expenses',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#ef4444', width: 3 },
+        marker: { size: 8 }
+      },
+      {
+        x: monthlyTrends.x,
+        y: monthlyTrends.savings,
+        name: 'Net Savings',
+        type: 'scatter',
+        mode: 'lines+markers',
+        line: { color: '#3b82f6', width: 3 },
+        marker: { size: 8 }
+      }
+    ], {
+      title: 'Financial Trends Over Time',
+      xaxis: { title: 'Month' },
+      yaxis: { title: 'Amount (€)' },
+      showlegend: true,
+      margin: { t: 40, b: 40, l: 60, r: 20 }
+    });
+
+    // Income vs Expenses
+    const incomeVsExpenses = {
+      labels: {{ results.charts.income_vs_expenses.labels | tojson }},
+      values: {{ results.charts.income_vs_expenses.data | tojson }}
+    };
+    
+    Plotly.newPlot('incomeExpenses', [{
+      type: 'bar',
+      x: incomeVsExpenses.labels,
+      y: incomeVsExpenses.values,
+      marker: { color: ['#10b981', '#ef4444'] },
+      text: incomeVsExpenses.values.map(v => '€' + v.toFixed(2)),
+      textposition: 'auto'
+    }], {
+      margin: { t: 20, b: 40, l: 60, r: 20 },
+      yaxis: { title: 'Amount (€)' }
+    });
+
+    // Category Breakdown
+    const categoryBreakdown = {
+      labels: {{ results.charts.category_breakdown.labels | tojson }},
+      values: {{ results.charts.category_breakdown.data | tojson }}
+    };
+    
+    Plotly.newPlot('categoryBreakdown', [{
+      type: 'pie',
+      labels: categoryBreakdown.labels,
+      values: categoryBreakdown.values,
+      marker: {
+        colors: ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4']
+      },
+      textinfo: 'label+percent',
+      hoverinfo: 'label+value'
+    }], {
+      margin: { t: 20, b: 20, l: 20, r: 20 },
+      showlegend: false
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+Large Transactions (Top 10%)
+Date,Name/Description,Amount (EUR)
+07 Oct 2025,To Theo new house,4600.0
+07 Oct 2025,To Theo new house,4600.0
+09 Oct 2025,To Ianara Fernandes,2900.0
+24 Jul 2025,Booking.com,1059.68
+12 Oct 2025,IKEA,761.0
+20 Jan 2025,Pocket Withdrawal,613.0
+31 Oct 2025,Google Pay top-up by *8687,600.0
+21 Jul 2025,To Holiday,445.0
+21 Jan 2025,Allianz,612.71
+
+Recurring Expenses (High Frequency)
+Type,Name/Description,Total Amount (EUR),Frequency (Count),Average per Transaction (EUR)
+Recurring,To Theo new house,18573.4,710,26.16
+Recurring,To Holiday,7068.0,346,20.43
+Recurring,Pocket Withdrawal,7850.8,144,54.52
+Recurring,Saving vault topup prefunding wallet,4148.0,277,14.97
+Recurring,Circle K Gas Station,1458.43,53,27.52
+Recurring,Savings Vault topup,1228.0,208,5.9
+Recurring,Temu,994.58,30,33.15
+Recurring,To Instant Access Savings,920.0,76,12.11
+Recurring,Dunnes Stores,886.2,22,40.28
+Recurring,Amazon,577.58,19,30.4
+
+Category Breakdown
+Category,Description,Total Amount (EUR)
+Transfer,Total Transfer,38273.88
+Savings,Total Savings,14146.8
+Uncategorized,Total Uncategorized,12709.94
+Interest,Total Interest,2.41
+
