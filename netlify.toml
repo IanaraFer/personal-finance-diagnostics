@@ -3,6 +3,10 @@
   publish = "."
   command = ""
 
+[build.environment]
+  MISE_SKIP = "1"
+  MISE_SKIP_TOOLS = "python"
+
 ## No Python runtime pin here; Netlify serves static files only
 
 # Serve the marketing landing page from Netlify
