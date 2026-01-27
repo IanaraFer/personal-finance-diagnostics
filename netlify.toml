@@ -3,7 +3,7 @@
   publish = "."
 
 [build.environment]
-  PYTHON_VERSION = "3.12.0"
+  PYTHON_VERSION = "3.11.6"
 
 # Serve the marketing landing page from Netlify
 [[redirects]]
