@@ -330,13 +330,13 @@
         <div class="divider"></div>
 
         <div class="form-group">
-          <label>🏦 Accounts File *</label>
+          <label>🏦 Accounts File (optional)</label>
           <p class="description">Your account summary (CSV, Excel, PDF, JSON, or TXT)</p>
           <div class="upload-area" id="uploadAreaAcc">
             <div class="upload-icon">📥</div>
             <p><strong>Click to upload or drag and drop</strong></p>
             <p class="small">Supported: CSV, XLSX, XLS, PDF, JSON, TXT</p>
-            <input type="file" id="fileInputAcc" name="accounts" accept=".csv,.xlsx,.xls,.pdf,.json,.txt" required />
+            <input type="file" id="fileInputAcc" name="accounts" accept=".csv,.xlsx,.xls,.pdf,.json,.txt" />
           </div>
           <div class="file-info" id="fileInfoAcc"></div>
         </div>
@@ -473,9 +473,9 @@
       const txInput = document.getElementById('fileInputTx');
       const accInput = document.getElementById('fileInputAcc');
 
-      if (!txInput.files.length || !accInput.files.length) {
+      if (!txInput.files.length) {
         e.preventDefault();
-        alert('Please select both files before uploading.');
+        alert('Please select a transactions file before uploading.');
         return;
       }
 

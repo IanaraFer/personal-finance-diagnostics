@@ -7,6 +7,8 @@ from analytics import analyze_finances, load_sample_data
 from file_parsers import parse_file
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from functools import wraps
+from flask import abort
 from os import getenv
 import user_store
 import json
@@ -62,6 +64,16 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Initialize database
 user_store.init_db()
 
+# Optional: seed admin from environment variables
+ADMIN_EMAIL = getenv('ADMIN_EMAIL')
+ADMIN_PASSWORD = getenv('ADMIN_PASSWORD')
+if ADMIN_EMAIL and ADMIN_PASSWORD:
+    try:
+        user_store.create_admin(ADMIN_EMAIL.strip().lower(), ADMIN_PASSWORD)
+    except Exception:
+        # Seeding admin is best-effort; continue if it fails
+        pass
+
 # Stripe configuration (optional; only used if keys are provided)
 STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
@@ -73,16 +85,17 @@ if STRIPE_AVAILABLE and STRIPE_SECRET_KEY:
 
 
 class User(UserMixin):
-    def __init__(self, id, email):
+    def __init__(self, id, email, is_admin=False):
         self.id = id
         self.email = email
+        self.is_admin = bool(is_admin)
 
 
 @login_manager.user_loader
 def load_user(user_id):
     user = user_store.get_user_by_email(user_id)
     if user:
-        return User(id=user['email'], email=user['email'])
+        return User(id=user['email'], email=user['email'], is_admin=user.get('is_admin', 0))
     return None
 
 
@@ -104,7 +117,7 @@ def service_worker_file():
 @login_required
 def index():
     # Gate access if user hasn't paid
-    if not user_store.has_paid(current_user.email):
+    if (not getattr(current_user, 'is_admin', False)) and (not user_store.has_paid(current_user.email)):
         return redirect(url_for('paywall'))
     # Load sample data for the landing demo
     tx_df, acct_df = load_sample_data()
@@ -118,34 +131,100 @@ def upload():
     if request.method == 'POST':
         tx_file = request.files.get('transactions')
         acct_file = request.files.get('accounts')
-        if not tx_file or not acct_file:
-            return render_template('upload.html', error='Please provide both files.')
+        if not tx_file:
+            return render_template('upload.html', error='Please provide a transactions file.')
 
         try:
             # Read file contents
             tx_content = tx_file.read()
-            acct_content = acct_file.read()
-            
-            # Parse files based on their format
+            acct_content = acct_file.read() if acct_file else None
+
+            # Parse transactions
             tx_df = parse_file(tx_content, tx_file.filename, file_type='transactions')
-            acct_df = parse_file(acct_content, acct_file.filename, file_type='accounts')
-            
-            # Validate required columns
+            # Normalize transaction columns: lowercase, strip, simple slug
+            def _norm(name):
+                return ''.join(ch if ch.isalnum() else '_' for ch in str(name).strip().lower())
+            tx_df.columns = [_norm(c) for c in tx_df.columns]
+
+            # Derive/normalize required columns
+            # date
+            if 'date' not in tx_df.columns:
+                for alt in ['transaction_date', 'transactiondate', 'posted_date', 'post_date', 'postingdate', 'valuedate', 'value_date', 'date_time', 'datetime']:
+                    if alt in tx_df.columns:
+                        tx_df['date'] = tx_df[alt]
+                        break
+            # amount
+            if 'amount' not in tx_df.columns:
+                cols = set(tx_df.columns)
+                # Common alternates: debit/credit or money_in/out or deposit/withdrawal
+                if {'debit', 'credit'}.issubset(cols):
+                    tx_df['amount'] = pd.to_numeric(tx_df['credit'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['debit'], errors='coerce').fillna(0)
+                elif {'money_in', 'money_out'}.issubset(cols):
+                    tx_df['amount'] = pd.to_numeric(tx_df['money_in'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['money_out'], errors='coerce').fillna(0)
+                elif {'deposit', 'withdrawal'}.issubset(cols):
+                    tx_df['amount'] = pd.to_numeric(tx_df['deposit'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['withdrawal'], errors='coerce').fillna(0)
+                elif 'value' in cols:
+                    tx_df['amount'] = pd.to_numeric(tx_df['value'], errors='coerce')
+                elif 'transaction_amount' in cols:
+                    tx_df['amount'] = pd.to_numeric(tx_df['transaction_amount'], errors='coerce')
+            # type
+            if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
+            if 'type' not in tx_df.columns:
+                if 'dc' in tx_df.columns:  # debit/credit marker (e.g., 'D'/'C')
+                    tx_df['type'] = tx_df['dc'].astype(str).str.upper().map({'C': 'income', 'CR': 'income', 'D': 'expense', 'DR': 'expense'})
+                elif 'dr_cr' in tx_df.columns:
+                    tx_df['type'] = tx_df['dr_cr'].astype(str).str.upper().map({'CR': 'income', 'DR': 'expense'})
+                elif 'amount' in tx_df.columns:
+                    tx_df['type'] = pd.to_numeric(tx_df['amount'], errors='coerce').fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+            else:
+                tx_df['type'] = tx_df['type'].astype(str).str.lower()
+            if 'description' not in tx_df.columns:
+                tx_df['description'] = 'Unknown'
+            if 'description' not in tx_df.columns:
+                for alt in ['details', 'narrative', 'memo', 'reference', 'description1', 'transaction_description']:
+                    if alt in tx_df.columns:
+                        tx_df['description'] = tx_df[alt]
+                        break
+                if 'description' not in tx_df.columns:
+                    tx_df['description'] = 'Unknown'
+                tx_df['category'] = 'Uncategorized'
+
+            # Parse accounts or load fallback
+            if acct_content:
+                acct_df = parse_file(acct_content, acct_file.filename, file_type='accounts')
+                acct_df.columns = [str(c).strip().lower() for c in acct_df.columns]
+            else:
+                # Use sample accounts as fallback
+                _, acct_df = load_sample_data()
+
+            # Ensure account columns exist
+            if 'balance' not in acct_df.columns:
+                acct_df['balance'] = acct_df.get('amount', 0)
+            if 'type' not in acct_df.columns:
+                acct_df['type'] = acct_df.get('account_type', 'checking')
+
+            # Final validation minimal
             required_tx_cols = ['date', 'amount', 'type']
-            required_acct_cols = ['balance', 'type']
-            
-            if not all(col in tx_df.columns for col in required_tx_cols):
+            missing = [c for c in required_tx_cols if c not in tx_df.columns]
+            if missing:
+                detected = ', '.join(list(tx_df.columns))
                 return render_template('upload.html', 
-                    error=f'Transactions file must contain columns: {", ".join(required_tx_cols)}')
-            
-            if not all(col in acct_df.columns for col in required_acct_cols):
-                return render_template('upload.html', 
-                    error=f'Accounts file must contain columns: {", ".join(required_acct_cols)}')
-            
+                    error=f'Could not detect required columns: {", ".join(missing)}. Detected columns: {detected}. If your bank uses different names, share the header row and I will map them.')
+
+            # Persist transactions to allow export endpoints to work
+            try:
+                ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+                save_path = os.path.join(UPLOAD_FOLDER, f"transactions_{ts}.csv")
+                tx_df.to_csv(save_path, index=False)
+                session['data_file'] = save_path
+            except Exception:
+                # Non-fatal; continue without persistence
+                pass
+
             # Run analysis
             results = analyze_finances(tx_df, acct_df)
             return render_template('dashboard_enhanced.html', results=results)
-            
+
         except ValueError as e:
             return render_template('upload.html', error=str(e))
         except Exception as e:
@@ -162,12 +241,54 @@ def login():
         password = request.form.get('password', '')
         user_data = user_store.verify_user(email, password)
         if user_data:
-            user = User(id=user_data['email'], email=user_data['email'])
+            user = User(id=user_data['email'], email=user_data['email'], is_admin=user_data.get('is_admin', 0))
             login_user(user)
             # Redirect to dashboard instead of index (which is now the landing page)
+            if getattr(user, 'is_admin', False):
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('paywall') if not user_store.has_paid(email) else url_for('index'))
         return render_template('login.html', error='Invalid credentials.')
     return render_template('login.html')
+
+
+# --- Admin utilities ---
+def admin_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        if not getattr(current_user, 'is_admin', False):
+            abort(403)
+        return f(*args, **kwargs)
+    return wrapper
+
+
+@app.route('/admin')
+@login_required
+@admin_required
+def admin_dashboard():
+    """Simple admin dashboard: list users and flags."""
+    try:
+        users = user_store.list_users()
+        rows = ''.join([
+            f"<tr><td>{u['email']}</td><td>{u['created_at']}</td><td>{'yes' if u.get('paid') else 'no'}</td><td>{'yes' if u.get('is_admin') else 'no'}</td></tr>"
+            for u in users
+        ])
+        html = (
+            "<h2>Admin Dashboard</h2>"
+            "<p>Quick links: "
+            "<a href='/dashboard'>Open Dashboard</a> | "
+            "<a href='/upload'>Upload Files</a> | "
+            "<a href='/'>Landing Page</a> | "
+            "<a href='/pay'>Paywall</a>"
+            "</p>"
+            "<table border='1' cellpadding='6'><thead><tr><th>Email</th><th>Created</th><th>Paid</th><th>Admin</th></tr></thead>"
+            f"<tbody>{rows}</tbody></table>"
+            "<p><a href='/'>&larr; Home</a></p>"
+        )
+        return html
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/register', methods=['GET', 'POST'])

@@ -1,0 +1,54 @@
+Param(
+    [string]$Email = "information@analyticacoreai.ie",
+    [string]$Password = "Maiaemolly22",
+    [int]$Port = 5003,
+    [switch]$OpenBrowser = $true
+)
+
+$ErrorActionPreference = "Stop"
+$root = $PSScriptRoot
+Set-Location $root
+
+$venvPath = Join-Path $root ".venv"
+$venvPython = Join-Path $venvPath "Scripts\python.exe"
+$venvPip = Join-Path $venvPath "Scripts\pip.exe"
+$waitressExe = Join-Path $venvPath "Scripts\waitress-serve.exe"
+
+if (-not (Test-Path $venvPython)) {
+    Write-Host "Creating virtual environment at $venvPath..."
+    python -m venv $venvPath
+}
+
+Write-Host "Ensuring dependencies from requirements.txt..."
+& $venvPip install -r (Join-Path $root "requirements.txt")
+
+$env:ADMIN_EMAIL = $Email
+$env:ADMIN_PASSWORD = $Password
+
+Write-Host "Starting server on http://127.0.0.1:$Port as admin $Email"
+# Start waitress in background so we can open the browser
+Start-Process -FilePath $waitressExe -ArgumentList "--host=127.0.0.1 --port=$Port app:app" -WorkingDirectory $root
+
+# Wait for health endpoint to respond
+$healthUrl = "http://127.0.0.1:$Port/health"
+Write-Host "Waiting for server health at $healthUrl ..."
+$maxAttempts = 20
+for ($i = 1; $i -le $maxAttempts; $i++) {
+    try {
+        $resp = Invoke-WebRequest -Uri $healthUrl -UseBasicParsing -TimeoutSec 3
+        if ($resp.StatusCode -eq 200) {
+            Write-Host "Server is healthy (HTTP 200)."
+            break
+        }
+    } catch {
+        Start-Sleep -Seconds 1
+    }
+}
+
+if ($OpenBrowser) {
+    Start-Process "http://127.0.0.1:$Port/"
+    Start-Process "http://127.0.0.1:$Port/admin"
+    Write-Host "Opened http://127.0.0.1:$Port/ and /admin in your default browser."
+} else {
+    Write-Host "Server should be up at http://127.0.0.1:$Port/"
+}
