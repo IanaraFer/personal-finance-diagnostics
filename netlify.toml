@@ -1,6 +1,7 @@
 # Netlify configuration for static front-end + proxied Flask backend
 [build]
   publish = "."
+  command = ""
 
 ## No Python runtime pin here; Netlify serves static files only
 

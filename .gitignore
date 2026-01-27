@@ -26,6 +26,11 @@ data/uploads/
 data/*.sqlite
 *.sqlite3
 
+# Prevent Netlify from triggering Python installs
+.python-version
+.tool-versions
+runtime.txt
+
 # Build/Dist
 build/
 dist/
