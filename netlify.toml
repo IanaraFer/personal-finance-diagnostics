@@ -1,0 +1,39 @@
+# Netlify configuration for static front-end + proxied Flask backend
+[build]
+  publish = "."
+
+# Serve the marketing landing page from Netlify
+[[redirects]]
+  from = "/"
+  to = "/landing.html"
+  status = 200
+
+# Convenience redirect
+[[redirects]]
+  from = "/landing"
+  to = "/landing.html"
+  status = 301
+
+# Keep static assets on Netlify
+[[redirects]]
+  from = "/static/*"
+  to = "/static/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/service-worker.js"
+  to = "/service-worker.js"
+  status = 200
+
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/favicon.ico"
+  status = 200
+
+# Proxy all other routes (dynamic app) to your backend
+# IMPORTANT: Replace YOUR-BACKEND-URL with your deployed Flask base URL (no trailing slash)
+[[redirects]]
+  from = "/*"
+  to = "https://YOUR-BACKEND-URL/:splat"
+  status = 200
+  force = true
