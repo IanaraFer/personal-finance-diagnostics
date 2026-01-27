@@ -1,1 +1,1 @@
-python-3.10.13
+# Not used by Netlify; backend runs elsewhere
