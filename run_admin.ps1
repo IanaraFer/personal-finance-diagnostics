@@ -19,8 +19,8 @@ if (-not (Test-Path $venvPython)) {
     python -m venv $venvPath
 }
 
-Write-Host "Ensuring dependencies from requirements.txt..."
-& $venvPip install -r (Join-Path $root "requirements.txt")
+Write-Host "Ensuring backend dependencies..."
+& $venvPip install -r (Join-Path $root "backend-requirements.txt")
 
 $env:ADMIN_EMAIL = $Email
 $env:ADMIN_PASSWORD = $Password
