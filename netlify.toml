@@ -2,8 +2,7 @@
 [build]
   publish = "."
 
-[build.environment]
-  PYTHON_VERSION = "3.11.6"
+## No Python runtime pin here; Netlify serves static files only
 
 # Serve the marketing landing page from Netlify
 [[redirects]]
