@@ -168,7 +168,6 @@ def upload():
                 elif 'transaction_amount' in cols:
                     tx_df['amount'] = pd.to_numeric(tx_df['transaction_amount'], errors='coerce')
             # type
-            if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
             if 'type' not in tx_df.columns:
                 if 'dc' in tx_df.columns:  # debit/credit marker (e.g., 'D'/'C')
                     tx_df['type'] = tx_df['dc'].astype(str).str.upper().map({'C': 'income', 'CR': 'income', 'D': 'expense', 'DR': 'expense'})
@@ -178,15 +177,21 @@ def upload():
                     tx_df['type'] = pd.to_numeric(tx_df['amount'], errors='coerce').fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
             else:
                 tx_df['type'] = tx_df['type'].astype(str).str.lower()
+
+            # description
             if 'description' not in tx_df.columns:
-                tx_df['description'] = 'Unknown'
-            if 'description' not in tx_df.columns:
+                found = False
                 for alt in ['details', 'narrative', 'memo', 'reference', 'description1', 'transaction_description']:
                     if alt in tx_df.columns:
                         tx_df['description'] = tx_df[alt]
+                        found = True
                         break
-                if 'description' not in tx_df.columns:
+                if not found:
+                    # Fallback default
                     tx_df['description'] = 'Unknown'
+
+            # category
+            if 'category' not in tx_df.columns:
                 tx_df['category'] = 'Uncategorized'
 
             # Parse accounts or load fallback

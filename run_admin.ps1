@@ -26,8 +26,12 @@ $env:ADMIN_EMAIL = $Email
 $env:ADMIN_PASSWORD = $Password
 
 Write-Host "Starting server on http://127.0.0.1:$Port as admin $Email"
-# Start waitress in background so we can open the browser
-Start-Process -FilePath $waitressExe -ArgumentList "--host=127.0.0.1 --port=$Port app:app" -WorkingDirectory $root
+# Start waitress and capture logs to help diagnose startup issues
+$logOutPath = Join-Path $root "server.out.log"
+$logErrPath = Join-Path $root "server.err.log"
+if (Test-Path $logOutPath) { Remove-Item $logOutPath -Force }
+if (Test-Path $logErrPath) { Remove-Item $logErrPath -Force }
+$proc = Start-Process -FilePath $waitressExe -ArgumentList "--host=127.0.0.1 --port=$Port app:app" -WorkingDirectory $root -NoNewWindow -PassThru -RedirectStandardOutput $logOutPath -RedirectStandardError $logErrPath
 
 # Wait for health endpoint to respond
 $healthUrl = "http://127.0.0.1:$Port/health"
@@ -43,6 +47,24 @@ for ($i = 1; $i -le $maxAttempts; $i++) {
     } catch {
         Start-Sleep -Seconds 1
     }
+}
+
+# If not healthy yet, check port and show recent logs
+try {
+    $resp = Invoke-WebRequest -Uri $healthUrl -UseBasicParsing -TimeoutSec 3
+} catch {
+    Write-Host "Health check failed after $maxAttempts attempts. Checking port and logs..." -ForegroundColor Yellow
+    $net = Test-NetConnection -ComputerName 127.0.0.1 -Port $Port
+    Write-Host ("Port {0} Listening: {1}" -f $Port, $net.TcpTestSucceeded)
+    if (Test-Path $logOutPath) {
+        Write-Host "--- server.out.log (last 50 lines) ---" -ForegroundColor Cyan
+        Get-Content $logOutPath -Tail 50 | ForEach-Object { Write-Host $_ }
+    }
+    if (Test-Path $logErrPath) {
+        Write-Host "--- server.err.log (last 50 lines) ---" -ForegroundColor Cyan
+        Get-Content $logErrPath -Tail 50 | ForEach-Object { Write-Host $_ }
+    }
+    Write-Host "--- end logs ---" -ForegroundColor Cyan
 }
 
 if ($OpenBrowser) {
