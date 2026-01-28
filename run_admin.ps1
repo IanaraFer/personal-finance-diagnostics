@@ -27,10 +27,9 @@ $env:ADMIN_PASSWORD = $Password
 
 Write-Host "Starting server on http://127.0.0.1:$Port as admin $Email"
 # Start waitress and capture logs to help diagnose startup issues
-$logOutPath = Join-Path $root "server.out.log"
-$logErrPath = Join-Path $root "server.err.log"
-if (Test-Path $logOutPath) { Remove-Item $logOutPath -Force }
-if (Test-Path $logErrPath) { Remove-Item $logErrPath -Force }
+$ts = Get-Date -Format 'yyyyMMdd_HHmmss'
+$logOutPath = Join-Path $root ("server_{0}_{1}.out.log" -f $Port, $ts)
+$logErrPath = Join-Path $root ("server_{0}_{1}.err.log" -f $Port, $ts)
 $proc = Start-Process -FilePath $waitressExe -ArgumentList "--host=127.0.0.1 --port=$Port app:app" -WorkingDirectory $root -NoNewWindow -PassThru -RedirectStandardOutput $logOutPath -RedirectStandardError $logErrPath
 
 # Wait for health endpoint to respond

@@ -45,8 +45,66 @@ def parse_csv(file_content):
 
 
 def parse_excel(file_content):
-    """Parse Excel file content into DataFrame."""
-    return pd.read_excel(BytesIO(file_content))
+    """Parse Excel file content into DataFrame with sheet and header detection."""
+    bio = BytesIO(file_content)
+    # Try reading all sheets first
+    try:
+        sheets = pd.read_excel(bio, sheet_name=None, engine='openpyxl', header=None)
+    except Exception:
+        # Fallback without specifying engine
+        bio.seek(0)
+        sheets = pd.read_excel(bio, sheet_name=None, header=None)
+
+    # Pick the sheet that looks most like transactions (most columns/rows)
+    candidate_df = None
+    max_score = -1
+    for name, df in sheets.items():
+        # Score: rows * cols
+        score = (len(df.index)) * (len(df.columns))
+        if score > max_score:
+            max_score = score
+            candidate_df = df
+
+    if candidate_df is None:
+        # As a last resort, read the first sheet normally
+        bio.seek(0)
+        return pd.read_excel(bio)
+
+    # Detect header row by scanning first 15 rows for likely column names
+    def _norm(s):
+        return ''.join(ch if ch.isalnum() else '_' for ch in str(s).strip().lower())
+
+    likely_cols = {
+        'date','transaction_date','transactiondate','posted_date','post_date','postingdate',
+        'valuedate','value_date','datetime','date_time','description','details','narrative',
+        'memo','reference','amount','debit','credit','money_in','money_out','deposit','withdrawal',
+        'value','transaction_amount','dr_cr','dc'
+    }
+
+    header_row_idx = None
+    scan_limit = min(15, len(candidate_df.index))
+    for i in range(scan_limit):
+        row_vals = candidate_df.iloc[i].tolist()
+        normalized = [_norm(v) for v in row_vals]
+        if any(col in likely_cols for col in normalized):
+            header_row_idx = i
+            break
+
+    if header_row_idx is not None:
+        # Use detected header row
+        candidate_df.columns = [_norm(v) for v in candidate_df.iloc[header_row_idx].tolist()]
+        candidate_df = candidate_df.iloc[header_row_idx+1:].reset_index(drop=True)
+    else:
+        # Fallback: use first row as header
+        candidate_df.columns = [_norm(v) for v in candidate_df.iloc[0].tolist()]
+        candidate_df = candidate_df.iloc[1:].reset_index(drop=True)
+
+    # Drop completely empty columns
+    candidate_df = candidate_df.dropna(axis=1, how='all')
+    # Remove columns named like 'unnamed' (typical Excel artifacts)
+    candidate_df = candidate_df[[c for c in candidate_df.columns if not str(c).startswith('unnamed')]]
+
+    return candidate_df
 
 
 def parse_json(file_content):

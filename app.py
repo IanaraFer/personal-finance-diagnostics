@@ -146,6 +146,22 @@ def upload():
                 return ''.join(ch if ch.isalnum() else '_' for ch in str(name).strip().lower())
             tx_df.columns = [_norm(c) for c in tx_df.columns]
 
+            # Helper to robustly parse amounts (handles decimal comma and currency symbols)
+            def _to_num_series(s):
+                s = s.astype(str).str.replace('\u00a0', '', regex=False).str.replace(' ', '', regex=False)
+                s = s.str.replace('€', '', regex=False).str.replace('$', '', regex=False)
+                # If string has commas and no dots, treat comma as decimal separator
+                def _fix(val):
+                    v = str(val)
+                    if v.count(',') == 1 and v.count('.') == 0:
+                        v = v.replace(',', '.')
+                    else:
+                        # remove thousand separators
+                        v = v.replace(',', '')
+                    return v
+                s = s.apply(_fix)
+                return pd.to_numeric(s, errors='coerce')
+
             # Derive/normalize required columns
             # date
             if 'date' not in tx_df.columns:
@@ -158,15 +174,15 @@ def upload():
                 cols = set(tx_df.columns)
                 # Common alternates: debit/credit or money_in/out or deposit/withdrawal
                 if {'debit', 'credit'}.issubset(cols):
-                    tx_df['amount'] = pd.to_numeric(tx_df['credit'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['debit'], errors='coerce').fillna(0)
+                    tx_df['amount'] = _to_num_series(tx_df['credit']).fillna(0) - _to_num_series(tx_df['debit']).fillna(0)
                 elif {'money_in', 'money_out'}.issubset(cols):
-                    tx_df['amount'] = pd.to_numeric(tx_df['money_in'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['money_out'], errors='coerce').fillna(0)
+                    tx_df['amount'] = _to_num_series(tx_df['money_in']).fillna(0) - _to_num_series(tx_df['money_out']).fillna(0)
                 elif {'deposit', 'withdrawal'}.issubset(cols):
-                    tx_df['amount'] = pd.to_numeric(tx_df['deposit'], errors='coerce').fillna(0) - pd.to_numeric(tx_df['withdrawal'], errors='coerce').fillna(0)
+                    tx_df['amount'] = _to_num_series(tx_df['deposit']).fillna(0) - _to_num_series(tx_df['withdrawal']).fillna(0)
                 elif 'value' in cols:
-                    tx_df['amount'] = pd.to_numeric(tx_df['value'], errors='coerce')
+                    tx_df['amount'] = _to_num_series(tx_df['value'])
                 elif 'transaction_amount' in cols:
-                    tx_df['amount'] = pd.to_numeric(tx_df['transaction_amount'], errors='coerce')
+                    tx_df['amount'] = _to_num_series(tx_df['transaction_amount'])
             # type
             if 'type' not in tx_df.columns:
                 if 'dc' in tx_df.columns:  # debit/credit marker (e.g., 'D'/'C')
@@ -174,7 +190,7 @@ def upload():
                 elif 'dr_cr' in tx_df.columns:
                     tx_df['type'] = tx_df['dr_cr'].astype(str).str.upper().map({'CR': 'income', 'DR': 'expense'})
                 elif 'amount' in tx_df.columns:
-                    tx_df['type'] = pd.to_numeric(tx_df['amount'], errors='coerce').fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+                    tx_df['type'] = _to_num_series(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
             else:
                 tx_df['type'] = tx_df['type'].astype(str).str.lower()
 
