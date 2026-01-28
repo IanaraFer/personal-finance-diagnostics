@@ -9,15 +9,39 @@ import json
 
 
 def parse_csv(file_content):
-    """Parse CSV file content into DataFrame."""
-    # Try different encodings
-    for encoding in ['utf-8', 'latin-1', 'iso-8859-1', 'cp1252']:
+    """Parse CSV file content into DataFrame with robust encoding/separator handling."""
+    last_error = None
+    # Try multiple encodings and let pandas infer the delimiter when possible
+    for encoding in ['utf-8', 'utf-8-sig', 'cp1252', 'latin-1', 'iso-8859-1']:
         try:
-            return pd.read_csv(BytesIO(file_content), encoding=encoding)
-        except UnicodeDecodeError:
+            # sep=None triggers automatic delimiter inference; engine='python' required for sep=None
+            return pd.read_csv(
+                BytesIO(file_content),
+                sep=None,
+                engine='python',
+                encoding=encoding,
+                encoding_errors='replace',
+                low_memory=False
+            )
+        except UnicodeDecodeError as e:
+            last_error = e
             continue
-    # If all encodings fail, try with error handling
-    return pd.read_csv(BytesIO(file_content), encoding='utf-8', errors='ignore')
+        except Exception as e:
+            # Keep trying other encodings; capture last error for context
+            last_error = e
+            continue
+    # Final fallback: try default comma with most lenient encoding
+    try:
+        return pd.read_csv(
+            BytesIO(file_content),
+            sep=',',
+            engine='python',
+            encoding='latin-1',
+            encoding_errors='replace',
+            low_memory=False
+        )
+    except Exception as e:
+        raise ValueError(f"CSV parsing failed: {str(last_error or e)}")
 
 
 def parse_excel(file_content):
@@ -59,7 +83,14 @@ def parse_txt(file_content):
             except:
                 continue
         # If no separator worked, try as CSV with flexible parsing
-        return pd.read_csv(BytesIO(file_content))
+        return pd.read_csv(
+            BytesIO(file_content),
+            sep=None,
+            engine='python',
+            encoding='utf-8',
+            encoding_errors='replace',
+            low_memory=False
+        )
     except Exception as e:
         raise ValueError(f"Could not parse TXT file: {str(e)}")
 
