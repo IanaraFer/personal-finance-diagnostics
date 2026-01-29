@@ -226,6 +226,33 @@ def upload():
                 except Exception:
                     pass
 
+            # Final fallback: compute amount from moneyin/moneyout if present (with or without underscore)
+            if 'amount' not in tx_df.columns:
+                cset = set(tx_df.columns)
+                has_in = 'money_in' in cset or 'moneyin' in cset
+                has_out = 'money_out' in cset or 'moneyout' in cset
+                if has_in or has_out:
+                    money_in_series = None
+                    money_out_series = None
+                    if 'money_in' in cset:
+                        money_in_series = _to_num_series(tx_df['money_in']).fillna(0)
+                    elif 'moneyin' in cset:
+                        money_in_series = _to_num_series(tx_df['moneyin']).fillna(0)
+                    else:
+                        money_in_series = pd.Series(0, index=tx_df.index)
+
+                    if 'money_out' in cset:
+                        money_out_series = _to_num_series(tx_df['money_out']).fillna(0)
+                    elif 'moneyout' in cset:
+                        money_out_series = _to_num_series(tx_df['moneyout']).fillna(0)
+                    else:
+                        money_out_series = pd.Series(0, index=tx_df.index)
+
+                    tx_df['amount'] = money_in_series - money_out_series
+
+            if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
+                tx_df['type'] = _to_num_series(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+
             # Parse accounts or load fallback
             if acct_content:
                 acct_df = parse_file(acct_content, acct_file.filename, file_type='accounts')
