@@ -6,6 +6,8 @@ import pandas as pd
 import pdfplumber
 from io import BytesIO
 import json
+import re
+import numpy as np
 
 
 def parse_csv(file_content):
@@ -306,3 +308,150 @@ def parse_file(file_content, filename, file_type='transactions'):
             raise ValueError(f"Unsupported file format: {filename}")
     except Exception as e:
         raise ValueError(f"Error parsing {filename}: {str(e)}")
+
+
+# --- Heuristic transaction column inference ---
+def _norm_col(name):
+    return ''.join(ch if ch.isalnum() else '_' for ch in str(name).strip().lower())
+
+def _clean_amount_str(v: str) -> str:
+    if v is None:
+        return ''
+    s = str(v).strip()
+    if not s or s.lower() in ('nan', 'none', 'null'):
+        return ''
+    neg = False
+    # Parentheses indicate negative
+    if re.match(r"^\(.*\)$", s):
+        neg = True
+        s = s[1:-1]
+    # Remove currency symbols and spaces/non-breaking spaces
+    s = s.replace('\u00a0', '').replace(' ', '')
+    s = re.sub(r"[€$£]", "", s)
+    # Handle decimal comma
+    if s.count(',') == 1 and s.count('.') == 0:
+        s = s.replace(',', '.')
+    else:
+        # Remove thousand separators
+        s = s.replace(',', '')
+    try:
+        val = float(s)
+        if neg:
+            val = -val
+        return str(val)
+    except Exception:
+        return ''
+
+def _to_numeric(series: pd.Series) -> pd.Series:
+    cleaned = series.astype(str).map(_clean_amount_str)
+    return pd.to_numeric(cleaned, errors='coerce')
+
+def infer_transaction_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Given a loosely parsed table (e.g., col1..colN), try to infer standard
+    transaction columns: date, description, amount, type, category.
+    Returns a new DataFrame with best-effort mappings added/renamed.
+    """
+    if df is None or df.empty:
+        return df
+    # Normalize column names
+    df = df.copy()
+    df.columns = [_norm_col(c) for c in df.columns]
+
+    cols = set(df.columns)
+
+    # Date detection
+    if 'date' not in cols:
+        best_col = None
+        best_hits = -1
+        for c in df.columns:
+            try:
+                # Try two parses: month/day-first and day-first
+                s = df[c].astype(str)
+                d1 = pd.to_datetime(s, errors='coerce', dayfirst=False, infer_datetime_format=True)
+                d2 = pd.to_datetime(s, errors='coerce', dayfirst=True, infer_datetime_format=True)
+                hits = max(d1.notna().sum(), d2.notna().sum())
+                if hits > best_hits and hits >= max(3, int(0.2*len(df))):
+                    best_hits = hits
+                    best_col = c
+            except Exception:
+                continue
+        if best_col:
+            s = df[best_col].astype(str)
+            d1 = pd.to_datetime(s, errors='coerce', dayfirst=False, infer_datetime_format=True)
+            d2 = pd.to_datetime(s, errors='coerce', dayfirst=True, infer_datetime_format=True)
+            date_series = d1
+            if d2.notna().sum() > d1.notna().sum():
+                date_series = d2
+            df['date'] = date_series
+            cols.add('date')
+
+    # Amount detection
+    if 'amount' not in cols:
+        # Handle paired debit/credit first
+        if {'debit', 'credit'}.issubset(cols):
+            df['amount'] = _to_numeric(df['credit']).fillna(0) - _to_numeric(df['debit']).fillna(0)
+        elif {'money_in', 'money_out'}.issubset(cols):
+            df['amount'] = _to_numeric(df['money_in']).fillna(0) - _to_numeric(df['money_out']).fillna(0)
+        elif {'deposit', 'withdrawal'}.issubset(cols):
+            df['amount'] = _to_numeric(df['deposit']).fillna(0) - _to_numeric(df['withdrawal']).fillna(0)
+        else:
+            # Scan for best numeric column candidate among generic cols
+            best_col = None
+            best_hits = -1
+            for c in df.columns:
+                if c in ('date', 'description', 'category', 'type'):
+                    continue
+                ser = _to_numeric(df[c])
+                hits = ser.notna().sum()
+                # Require some variation and at least a few numeric entries
+                if hits > best_hits and hits >= max(3, int(0.2*len(df))) and ser.var(skipna=True) not in (None, 0, np.nan):
+                    best_hits = hits
+                    best_col = c
+            if best_col:
+                df['amount'] = _to_numeric(df[best_col])
+        cols = set(df.columns)
+
+    # Description detection
+    if 'description' not in cols:
+        # Prefer common names
+        for alt in ['details', 'narrative', 'memo', 'reference', 'description1', 'transaction_description', 'text']:
+            if alt in df.columns:
+                df['description'] = df[alt]
+                break
+        if 'description' not in df.columns:
+            # Heuristic: pick the non-numeric column with longest average length
+            best_col = None
+            best_len = -1
+            for c in df.columns:
+                if c in ('date', 'amount', 'type', 'category'):
+                    continue
+                sample = df[c].astype(str).fillna('')
+                # Skip columns that are predominantly numeric
+                if _to_numeric(sample).notna().mean() > 0.7:
+                    continue
+                avg_len = sample.map(len).mean()
+                if avg_len > best_len:
+                    best_len = avg_len
+                    best_col = c
+            if best_col:
+                df['description'] = df[best_col]
+        if 'description' not in df.columns:
+            df['description'] = 'Unknown'
+        cols = set(df.columns)
+
+    # Type detection
+    if 'type' not in cols:
+        if 'dc' in df.columns:
+            df['type'] = df['dc'].astype(str).str.upper().map({'C': 'income', 'CR': 'income', 'D': 'expense', 'DR': 'expense'})
+        elif 'dr_cr' in df.columns:
+            df['type'] = df['dr_cr'].astype(str).str.upper().map({'CR': 'income', 'DR': 'expense'})
+        elif 'amount' in df.columns:
+            df['type'] = _to_numeric(df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+        cols = set(df.columns)
+
+    # Category default
+    if 'category' not in cols:
+        df['category'] = 'Uncategorized'
+
+    return df

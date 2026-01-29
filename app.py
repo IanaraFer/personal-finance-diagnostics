@@ -210,6 +210,16 @@ def upload():
             if 'category' not in tx_df.columns:
                 tx_df['category'] = 'Uncategorized'
 
+            # If still missing required columns, try heuristic inference from generic tables
+            required_tx_cols = ['date', 'amount', 'type']
+            missing_pre = [c for c in required_tx_cols if c not in tx_df.columns]
+            if missing_pre:
+                try:
+                    from file_parsers import infer_transaction_columns
+                    tx_df = infer_transaction_columns(tx_df)
+                except Exception:
+                    pass
+
             # Parse accounts or load fallback
             if acct_content:
                 acct_df = parse_file(acct_content, acct_file.filename, file_type='accounts')
