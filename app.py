@@ -177,6 +177,12 @@ def upload():
                     tx_df['amount'] = _to_num_series(tx_df['credit']).fillna(0) - _to_num_series(tx_df['debit']).fillna(0)
                 elif {'money_in', 'money_out'}.issubset(cols):
                     tx_df['amount'] = _to_num_series(tx_df['money_in']).fillna(0) - _to_num_series(tx_df['money_out']).fillna(0)
+                elif {'moneyin', 'moneyout'}.issubset(cols):
+                    tx_df['amount'] = _to_num_series(tx_df['moneyin']).fillna(0) - _to_num_series(tx_df['moneyout']).fillna(0)
+                elif {'credit_amount', 'debit_amount'}.issubset(cols):
+                    tx_df['amount'] = _to_num_series(tx_df['credit_amount']).fillna(0) - _to_num_series(tx_df['debit_amount']).fillna(0)
+                elif {'cr_amount', 'dr_amount'}.issubset(cols):
+                    tx_df['amount'] = _to_num_series(tx_df['cr_amount']).fillna(0) - _to_num_series(tx_df['dr_amount']).fillna(0)
                 elif {'deposit', 'withdrawal'}.issubset(cols):
                     tx_df['amount'] = _to_num_series(tx_df['deposit']).fillna(0) - _to_num_series(tx_df['withdrawal']).fillna(0)
                 elif 'value' in cols:

@@ -388,11 +388,17 @@ def infer_transaction_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     # Amount detection
     if 'amount' not in cols:
-        # Handle paired debit/credit first
+        # Handle paired debit/credit and money in/out with synonyms first
         if {'debit', 'credit'}.issubset(cols):
             df['amount'] = _to_numeric(df['credit']).fillna(0) - _to_numeric(df['debit']).fillna(0)
         elif {'money_in', 'money_out'}.issubset(cols):
             df['amount'] = _to_numeric(df['money_in']).fillna(0) - _to_numeric(df['money_out']).fillna(0)
+        elif {'moneyin', 'moneyout'}.issubset(cols):
+            df['amount'] = _to_numeric(df['moneyin']).fillna(0) - _to_numeric(df['moneyout']).fillna(0)
+        elif {'credit_amount', 'debit_amount'}.issubset(cols):
+            df['amount'] = _to_numeric(df['credit_amount']).fillna(0) - _to_numeric(df['debit_amount']).fillna(0)
+        elif {'cr_amount', 'dr_amount'}.issubset(cols):
+            df['amount'] = _to_numeric(df['cr_amount']).fillna(0) - _to_numeric(df['dr_amount']).fillna(0)
         elif {'deposit', 'withdrawal'}.issubset(cols):
             df['amount'] = _to_numeric(df['deposit']).fillna(0) - _to_numeric(df['withdrawal']).fillna(0)
         else:
