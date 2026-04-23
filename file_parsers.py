@@ -22,8 +22,7 @@ def parse_csv(file_content):
                 sep=None,
                 engine='python',
                 encoding=encoding,
-                encoding_errors='replace',
-                low_memory=False
+                encoding_errors='replace'
             )
         except UnicodeDecodeError as e:
             last_error = e
@@ -32,6 +31,27 @@ def parse_csv(file_content):
             # Keep trying other encodings; capture last error for context
             last_error = e
             continue
+
+    # Try common Excel CSV variants (semicolon separator, different encodings)
+    for sep in [';', '\t', '|']:
+        for encoding in ['utf-8', 'utf-8-sig', 'cp1252', 'latin-1', 'iso-8859-1']:
+            try:
+                return pd.read_csv(
+                    BytesIO(file_content),
+                    sep=sep,
+                    engine='python',
+                    encoding=encoding,
+                    encoding_errors='replace'
+                )
+            except Exception:
+                continue
+
+    # If all CSV attempts fail, try parsing as Excel (sometimes files are misnamed)
+    try:
+        return parse_excel(file_content)
+    except Exception:
+        pass
+
     # Final fallback: try default comma with most lenient encoding
     try:
         return pd.read_csv(
@@ -39,8 +59,7 @@ def parse_csv(file_content):
             sep=',',
             engine='python',
             encoding='latin-1',
-            encoding_errors='replace',
-            low_memory=False
+            encoding_errors='replace'
         )
     except Exception as e:
         raise ValueError(f"CSV parsing failed: {str(last_error or e)}")
@@ -148,8 +167,7 @@ def parse_txt(file_content):
             sep=None,
             engine='python',
             encoding='utf-8',
-            encoding_errors='replace',
-            low_memory=False
+            encoding_errors='replace'
         )
     except Exception as e:
         raise ValueError(f"Could not parse TXT file: {str(e)}")

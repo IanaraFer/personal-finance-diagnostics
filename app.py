@@ -132,7 +132,7 @@ def upload():
         tx_file = request.files.get('transactions')
         acct_file = request.files.get('accounts')
         if not tx_file:
-            return render_template('upload.html', error='Please provide a transactions file.')
+            return render_template('upload.html', error='Please provide a transactions file.', questionnaire_complete=bool(session.get('questionnaire_responses', {})))
 
         try:
             # Read file contents
@@ -273,7 +273,8 @@ def upload():
             if missing:
                 detected = ', '.join(list(tx_df.columns))
                 return render_template('upload.html', 
-                    error=f'Could not detect required columns: {", ".join(missing)}. Detected columns: {detected}. If your bank uses different names, share the header row and I will map them.')
+                    error=f'Could not detect required columns: {", ".join(missing)}. Detected columns: {detected}. If your bank uses different names, share the header row and I will map them.',
+                    questionnaire_complete=bool(session.get('questionnaire_responses', {})))
 
             # Persist transactions to allow export endpoints to work
             try:
@@ -287,15 +288,20 @@ def upload():
 
             # Run analysis
             results = analyze_finances(tx_df, acct_df)
+            results['questionnaire'] = session.get('questionnaire_responses', {})
             return render_template('dashboard_enhanced.html', results=results)
 
         except ValueError as e:
-            return render_template('upload.html', error=str(e))
+            return render_template('upload.html', error=str(e), questionnaire_complete=bool(session.get('questionnaire_responses', {})))
         except Exception as e:
             return render_template('upload.html', 
-                error=f'Error processing files: {str(e)}. Please check file format.')
+                error=f'Error processing files: {str(e)}. Please check file format.',
+                questionnaire_complete=bool(session.get('questionnaire_responses', {})))
 
-    return render_template('upload.html')
+    if request.method == 'GET':
+        session.pop('data_file', None)
+
+    return render_template('upload.html', questionnaire_complete=bool(session.get('questionnaire_responses', {})))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -529,7 +535,8 @@ def api_export_data():
                 'health_score': float(results.get('diagnostic_report', {}).get('overall_score', 0))
             },
             'transactions': transactions_df.to_dict('records'),
-            'diagnostic_report': results.get('diagnostic_report', {})
+            'diagnostic_report': results.get('diagnostic_report', {}),
+            'questionnaire_responses': session.get('questionnaire_responses', {})
         }
         
         # Create JSON file in memory
@@ -613,6 +620,16 @@ def api_export_pdf():
                 report_lines.append(f"{i}. [{rec.get('priority', 'medium').upper()}] {rec.get('action', '')}")
                 report_lines.append(f"   Impact: {rec.get('impact', '')}")
                 report_lines.append("")
+
+        # Add questionnaire information
+        questionnaire_responses = session.get('questionnaire_responses', {})
+        if questionnaire_responses:
+            report_lines.extend(["QUESTIONNAIRE RESPONSES:", "-" * 80])
+            for key, value in questionnaire_responses.items():
+                if isinstance(value, list):
+                    value = ', '.join(value)
+                report_lines.append(f"{key.replace('_', ' ').title()}: {value}")
+            report_lines.append("")
         
         # Create text file (can be enhanced to proper PDF later)
         report_text = "\n".join(report_lines)
@@ -697,10 +714,54 @@ def health():
     return {'status': 'healthy', 'service': 'finance-diagnostics'}, 200
 
 
-@app.route('/demo')
-def demo():
-    """Demo route - interactive file upload for analysis, no authentication required."""
-    return render_template('demo.html')
+@app.route('/admin/questionnaire-responses')
+@login_required
+@admin_required
+def admin_questionnaire_responses():
+    """Admin view for questionnaire responses (placeholder for future implementation)"""
+    # In a real implementation, you would load responses from a database
+    # For now, just show current session responses
+    responses = session.get('questionnaire_responses', {})
+    return render_template('admin_questionnaire.html', responses=responses)
+
+
+@app.route('/admin/export-responses')
+@login_required
+@admin_required
+def export_questionnaire_responses():
+    """Export questionnaire responses to CSV"""
+    from process_questionnaire_responses import export_responses_to_csv
+
+    responses = session.get('questionnaire_responses', {})
+    if not responses:
+        return jsonify({'error': 'No responses to export'}), 400
+
+    filename = export_responses_to_csv(responses)
+    return send_file(filename, as_attachment=True, download_name=filename)
+
+
+@app.route('/api/questionnaire', methods=['GET'])
+def get_questionnaire():
+    """API endpoint to get questionnaire data as JSON."""
+    try:
+        with open('questionnaire.json', 'r') as f:
+            questionnaire_data = json.load(f)
+        return jsonify(questionnaire_data)
+    except FileNotFoundError:
+        return jsonify({'error': 'Questionnaire not found'}), 404
+
+
+@app.route('/api/questionnaire/responses', methods=['POST'])
+@login_required
+def submit_questionnaire_responses():
+    """API endpoint to submit questionnaire responses."""
+    try:
+        responses = request.get_json()
+        # Store responses in session or database
+        session['questionnaire_responses'] = responses
+        return jsonify({'success': True, 'message': 'Responses saved successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 
 @app.route('/questionnaire', methods=['GET', 'POST'])
@@ -715,34 +776,44 @@ def questionnaire():
         session['questionnaire_responses'] = responses
         return redirect(url_for('index'))
     
-    # Get questionnaire from latest analysis
-    # For demo purposes, render empty questionnaire template
-    questions = [
-        {
-            'id': 'insurance_coverage',
-            'category': 'Insurance',
-            'question': 'What types of insurance coverage do you currently have?',
-            'type': 'multiple_choice',
-            'options': ['Health', 'Life', 'Disability', 'Home/Renters', 'Auto', 'None'],
-            'required': True
-        },
-        {
-            'id': 'financial_goals',
-            'category': 'Goals',
-            'question': 'What are your top 3 financial goals for the next 5 years?',
-            'type': 'text',
-            'required': True
-        },
-        {
-            'id': 'risk_tolerance',
-            'category': 'Investments',
-            'question': 'How comfortable are you with investment risk?',
-            'type': 'single_choice',
-            'options': ['Very Conservative', 'Conservative', 'Moderate', 'Aggressive', 'Very Aggressive'],
-            'required': True
+    # Load questionnaire from JSON file
+    try:
+        with open('questionnaire.json', 'r') as f:
+            questionnaire_data = json.load(f)
+        questionnaire = questionnaire_data['questionnaire']
+        questions = questionnaire['questions']
+    except FileNotFoundError:
+        # Fallback to default questions if JSON file doesn't exist
+        questionnaire = {
+            'title': 'Complete Your Financial Profile',
+            'description': 'Help us provide better insights by answering a few questions about areas we couldn\'t detect from your statements.'
         }
-    ]
-    return render_template('questionnaire.html', questions=questions)
+        questions = [
+            {
+                'id': 'insurance_coverage',
+                'category': 'Insurance',
+                'question': 'What types of insurance coverage do you currently have?',
+                'type': 'multiple_choice',
+                'options': ['Health', 'Life', 'Disability', 'Home/Renters', 'Auto', 'None'],
+                'required': True
+            },
+            {
+                'id': 'financial_goals',
+                'category': 'Goals',
+                'question': 'What are your top 3 financial goals for the next 5 years?',
+                'type': 'text',
+                'required': True
+            },
+            {
+                'id': 'risk_tolerance',
+                'category': 'Investments',
+                'question': 'How comfortable are you with investment risk?',
+                'type': 'single_choice',
+                'options': ['Very Conservative', 'Conservative', 'Moderate', 'Aggressive', 'Very Aggressive'],
+                'required': True
+            }
+        ]
+    return render_template('questionnaire.html', questions=questions, questionnaire=questionnaire)
 
 
 if __name__ == '__main__':

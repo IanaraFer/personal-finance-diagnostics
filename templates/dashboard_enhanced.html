@@ -123,6 +123,32 @@
       </div>
     </div>
 
+    {% if results.questionnaire and results.questionnaire|length > 0 %}
+    <div class="card mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-2xl font-bold">📋 Questionnaire Responses</h2>
+          <p class="text-sm text-gray-600">Your uploaded questionnaire information is included in this report.</p>
+        </div>
+        <a href="/questionnaire" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm">Update Questionnaire</a>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for key, value in results.questionnaire.items() %}
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+          <div class="text-xs uppercase tracking-wide text-gray-500">{{ key.replace('_', ' ').title() }}</div>
+          <div class="mt-2 text-gray-900 text-sm">
+            {% if value is iterable and value is not string %}
+              {{ value|join(', ') }}
+            {% else %}
+              {{ value }}
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
     <!-- Financial Health Diagnostic Report -->
     {% if results.diagnostic_report %}
     <div class="card mb-8">

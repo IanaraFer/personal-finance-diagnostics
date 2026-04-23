@@ -9,8 +9,8 @@
 <body class="bg-gray-50">
     <div class="max-w-3xl mx-auto p-6">
         <div class="bg-white rounded-lg shadow-lg p-8">
-            <h1 class="text-3xl font-bold mb-2 text-gray-900">📋 Complete Your Financial Profile</h1>
-            <p class="text-gray-600 mb-8">Help us provide better insights by answering a few questions about areas we couldn't detect from your statements.</p>
+            <h1 class="text-3xl font-bold mb-2 text-gray-900">📋 {{ questionnaire.title if questionnaire else 'Complete Your Financial Profile' }}</h1>
+            <p class="text-gray-600 mb-8">{{ questionnaire.description if questionnaire else 'Help us provide better insights by answering a few questions about areas we couldn\'t detect from your statements.' }}</p>
             
             <form method="POST" action="/questionnaire">
                 {% for question in questions %}

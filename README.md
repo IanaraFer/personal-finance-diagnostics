@@ -10,6 +10,89 @@ An MVP web app that analyzes personal finance data and provides diagnostics, ale
 - Dashboard with charts and recommendations
 - Session-based authentication with SQLite user store
 - Health check endpoint for monitoring
+- **Dynamic Questionnaire**: JSON-based questionnaire system for gathering additional financial information
+
+## Questionnaire System
+
+The app includes a flexible, bilingual questionnaire system (English + Portuguese) that allows clients to provide comprehensive financial information.
+
+### JSON Configuration
+
+Questionnaires are defined in `questionnaire.json` with the following structure:
+
+```json
+{
+  "questionnaire": {
+    "title": "Financial Analysis Questionnaire / Questionário de Análise Financeira",
+    "description": "Bilingual form for financial analysis (English + Portuguese).",
+    "questions": [
+      {
+        "id": "full_name",
+        "category": "Personal Information",
+        "question": "Full Name / Nome Completo",
+        "type": "text",
+        "required": true
+      }
+    ]
+  }
+}
+```
+
+### Supported Question Types
+
+- `text`: Free-form text input (single line or paragraph)
+- `single_choice`: Radio buttons for single selection
+- `multiple_choice`: Checkboxes for multiple selections
+- `yes_no`: Yes/No radio buttons
+
+### Questionnaire Categories
+
+- **Personal Information**: Basic personal details
+- **Contact Information**: Email and phone
+- **Family Information**: Marital status and dependents
+- **Employment**: Job status and details
+- **Income**: Salary and additional sources
+- **Expenses**: Fixed and variable costs
+- **Debts**: Liabilities and obligations
+- **Assets**: Savings and investments
+- **Habits**: Financial behavior patterns
+- **Goals**: Financial objectives
+- **Concerns**: Challenges and worries
+- **Additional**: Extra information
+
+### API Endpoints
+
+- `GET /api/questionnaire`: Returns the questionnaire JSON
+- `POST /api/questionnaire/responses`: Submits questionnaire responses
+- `GET /questionnaire/client`: Client-side questionnaire interface
+
+### Usage
+
+1. Edit `questionnaire.json` to customize questions
+2. Access `/questionnaire/client` for the interactive bilingual form
+3. Responses are stored in user session for analysis
+4. Use `process_questionnaire_responses.py` to export and analyze collected data
+
+### Response Processing
+
+The `process_questionnaire_responses.py` script provides tools to:
+
+- Export responses to CSV format for spreadsheet analysis
+- Export responses to JSON format for programmatic processing
+- Analyze completion rates and response patterns
+- Generate basic insights from questionnaire data
+
+Example usage:
+```python
+from process_questionnaire_responses import export_responses_to_csv, analyze_responses
+
+# Export session responses to CSV
+csv_file = export_responses_to_csv(session['questionnaire_responses'])
+
+# Get analysis insights
+analysis = analyze_responses(session['questionnaire_responses'])
+print(f"Completion rate: {analysis['completion_rate']:.1f}%")
+```
 
 ## Data Format
 

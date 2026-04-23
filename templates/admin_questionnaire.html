@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire Responses - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-6xl mx-auto p-6">
+        <div class="bg-white rounded-lg shadow-lg p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">📊 Questionnaire Responses</h1>
+                <div class="space-x-2">
+                    <a href="/admin/export-responses" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                        Export to CSV
+                    </a>
+                    <a href="/" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+            {% if responses %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Question</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Response</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for question_id, response in responses.items() %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ question_id.replace('_', ' ').title() }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-pre-wrap text-sm text-gray-500">
+                                    {% if response is iterable and response is not string %}
+                                        {{ response|join(', ') }}
+                                    {% else %}
+                                        {{ response }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                    <h3 class="text-lg font-medium text-blue-900 mb-2">Response Summary</h3>
+                    <p class="text-blue-700">Total responses: {{ responses|length }}</p>
+                </div>
+            {% else %}
+                <div class="text-center py-12">
+                    <div class="text-gray-400 text-6xl mb-4">📝</div>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">No Responses Yet</h3>
+                    <p class="text-gray-500">Questionnaire responses will appear here once clients complete the form.</p>
+                    <a href="/questionnaire/client" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                        View Questionnaire
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+{
+  "questionnaire": {
+    "title": "Financial Analysis Questionnaire / Questionário de Análise Financeira",
+    "description": "Bilingual form for financial analysis (English + Portuguese).",
+    "questions": [
+      {
+        "id": "full_name",
+        "category": "Personal Information",
+        "question": "Full Name / Nome Completo",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "date_of_birth",
+        "category": "Personal Information",
+        "question": "Date of Birth / Data de Nascimento",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "address",
+        "category": "Personal Information",
+        "question": "Address / Endereço",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "email",
+        "category": "Contact Information",
+        "question": "Email / E-mail",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "phone_number",
+        "category": "Contact Information",
+        "question": "Phone Number / Telefone",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "marital_status",
+        "category": "Personal Information",
+        "question": "Marital Status / Estado Civil",
+        "type": "single_choice",
+        "options": [
+          "Single / Solteiro(a)",
+          "Married / Casado(a)",
+          "Divorced / Divorciado(a)",
+          "Widowed / Viúvo(a)",
+          "Other / Outro"
+        ],
+        "required": true
+      },
+      {
+        "id": "dependents",
+        "category": "Family Information",
+        "question": "Number of Dependents / Número de Dependentes",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "employment_status",
+        "category": "Employment",
+        "question": "Employment Status / Situação Profissional",
+        "type": "single_choice",
+        "options": [
+          "Employed / Empregado(a)",
+          "Self-employed / Autônomo(a)",
+          "Unemployed / Desempregado(a)",
+          "Student / Estudante",
+          "Retired / Aposentado(a)"
+        ],
+        "required": true
+      },
+      {
+        "id": "job_title_business",
+        "category": "Employment",
+        "question": "Job Title or Business Type / Cargo ou Tipo de Negócio",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "monthly_income",
+        "category": "Income",
+        "question": "Monthly Net Income / Rendimento Mensal Líquido",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "additional_income",
+        "category": "Income",
+        "question": "Additional Income Sources / Outras Fontes de Renda",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "income_changes",
+        "category": "Income",
+        "question": "Expected income changes in the next 12 months? / Mudanças esperadas na renda nos próximos 12 meses?",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "fixed_expenses",
+        "category": "Expenses",
+        "question": "Fixed Expenses / Despesas Fixas (Rent, utilities, insurance, childcare, transport, loans, subscriptions)",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "variable_expenses",
+        "category": "Expenses",
+        "question": "Variable Expenses / Despesas Variáveis (Groceries, eating out, entertainment, clothing, personal care, others)",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "debts_liabilities",
+        "category": "Debts",
+        "question": "Debts & Liabilities / Dívidas e Obrigações",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "savings_assets",
+        "category": "Assets",
+        "question": "Savings & Assets / Poupanças e Ativos",
+        "type": "text",
+        "required": true
+      },
+      {
+        "id": "financial_habits",
+        "category": "Habits",
+        "question": "Financial Habits / Hábitos Financeiros",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "financial_goals",
+        "category": "Goals",
+        "question": "Financial Goals / Objetivos Financeiros",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "challenges_concerns",
+        "category": "Concerns",
+        "question": "Challenges & Concerns / Desafios e Preocupações",
+        "type": "text",
+        "required": false
+      },
+      {
+        "id": "additional_info",
+        "category": "Additional",
+        "question": "Additional Information / Informações Adicionais",
+        "type": "text",
+        "required": false
+      }
+    ]
+  }
+}

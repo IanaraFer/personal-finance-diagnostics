@@ -268,6 +268,142 @@
       margin-right: 0.5rem;
     }
 
+    .questionnaire-card {
+      background: #ffffff;
+      border: 1px solid #dfe3ee;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 6px 15px rgba(102, 126, 234, 0.08);
+    }
+
+    .questionnaire-title {
+      font-size: 1.45rem;
+      margin-bottom: 0.5rem;
+      color: #1f2937;
+    }
+
+    .questionnaire-description {
+      color: #4b5563;
+      margin-bottom: 1.25rem;
+      line-height: 1.65;
+    }
+
+    .question-group {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .question-group:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .question-category {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #4338ca;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      padding: 0.4rem 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .question-label {
+      display: block;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .question-input {
+      width: 100%;
+      padding: 1rem 1.1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #111827;
+      resize: vertical;
+      min-height: 3.2rem;
+    }
+
+    .question-option {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 1rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      background: #fbfbff;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .question-option:hover {
+      background: #f4f6ff;
+      border-color: #c7d2fe;
+    }
+
+    .question-option input {
+      flex-shrink: 0;
+    }
+
+    .question-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .question-actions .btn {
+      width: auto;
+      min-width: 180px;
+    }
+
+    .text-gray-600 {
+      color: #4b5563;
+    }
+
+    .text-red-600 {
+      color: #dc2626;
+    }
+
+    .bg-white {
+      background: #ffffff;
+    }
+
+    .border {
+      border: 1px solid #d1d5db;
+    }
+
+    .border-gray-200 {
+      border-color: #e5e7eb;
+    }
+
+    .rounded-lg {
+      border-radius: 1rem;
+    }
+
+    .p-6 {
+      padding: 1.5rem;
+    }
+
+    .mb-6 {
+      margin-bottom: 1.5rem;
+    }
+
+    .question-required {
+      color: #dc2626;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
     @media (max-width: 600px) {
       header h1 {
         font-size: 1.5rem;
@@ -308,6 +444,23 @@
     {% endif %}
 
     <div class="upload-section">
+      <h2>📋 Complete the Financial Questionnaire</h2>
+      <p style="color: #666; margin-bottom: 1rem;">Answer these questions first so we can combine your personal profile with your uploaded bank data.</p>
+
+      {% if questionnaire_complete %}
+      <div class="info-box" style="border-left-color:#10b981;">
+        <h3>Questionnaire completed</h3>
+        <p>Your questionnaire answers are already saved and will be included in the analysis.</p>
+        <p><a href="/questionnaire" class="btn btn-secondary" style="display:inline-block; width:auto;">Review or update form</a></p>
+      </div>
+      {% else %}
+      <div id="questionnaire-container" class="questionnaire-card">
+        <div id="questionnaire-loading" class="text-gray-600">Loading questionnaire…</div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="upload-section">
       <h2>Step 1: Upload Your Files</h2>
             
       <p style="color: #666; margin-bottom: 1.5rem;">
@@ -344,6 +497,16 @@
         <button type="submit" class="btn">🚀 Analyze My Data</button>
         <button type="reset" class="btn btn-secondary">🔄 Clear Files</button>
       </form>
+
+      <div class="info-box" style="border-left-color:#10b981;">
+        <h3>Questionnaire Integration</h3>
+        {% if questionnaire_complete %}
+        <p>Your questionnaire has already been completed. The form data will be included in your analysis and report.</p>
+        {% else %}
+        <p>Complete the questionnaire to combine your bank upload with your personal financial profile for a richer report.</p>
+        <p><a href="/questionnaire" class="btn btn-secondary" style="display:inline-block; width:auto;">📋 Complete Questionnaire</a></p>
+        {% endif %}
+      </div>
     </div>
 
     <div class="upload-section">
@@ -445,7 +608,7 @@
         e.preventDefault();
         uploadArea.classList.remove('dragover');
         if (e.dataTransfer.files.length > 0) {
-          fileInput.files = e.dataTransfer.files;
+          fileInput.files = createDataTransfer(e.dataTransfer.files);
           updateFileInfo(fileInput, fileInfo);
         }
       });
@@ -468,6 +631,12 @@
       }
     }
 
+    function createDataTransfer(files) {
+      const dataTransfer = new DataTransfer();
+      Array.from(files).forEach((file) => dataTransfer.items.add(file));
+      return dataTransfer.files;
+    }
+
     // Form validation
     document.getElementById('uploadForm').addEventListener('submit', (e) => {
       const txInput = document.getElementById('fileInputTx');
@@ -484,6 +653,130 @@
       btn.disabled = true;
       btn.innerHTML = '⏳ Processing...';
     });
+
+    // Questionnaire loader
+    const questionnaireContainer = document.getElementById('questionnaire-container');
+    if (questionnaireContainer) {
+      loadQuestionnaire();
+    }
+
+    async function loadQuestionnaire() {
+      try {
+        const response = await fetch('/api/questionnaire');
+        if (!response.ok) {
+          throw new Error('Unable to fetch questionnaire');
+        }
+        const payload = await response.json();
+        const questionnaire = payload.questionnaire;
+        questionnaireContainer.innerHTML = renderQuestionnaire(questionnaire);
+        document.getElementById('questionnaire-form').addEventListener('submit', handleQuestionnaireSubmit);
+      } catch (error) {
+        console.error(error);
+        questionnaireContainer.innerHTML = '<p class="text-red-600">Failed to load questionnaire. Please refresh the page.</p>';
+      }
+    }
+
+    function renderQuestionnaire(questionnaire) {
+      return `
+        <div class="questionnaire-card">
+          <h3 class="questionnaire-title">${questionnaire.title}</h3>
+          <p class="questionnaire-description">${questionnaire.description}</p>
+          <form id="questionnaire-form">
+            ${questionnaire.questions.map((question) => renderQuestion(question)).join('')}
+            <div class="question-actions">
+              <button type="submit" class="btn">Save Questionnaire</button>
+              <a href="/questionnaire" class="btn btn-secondary" style="display:inline-flex; align-items:center; justify-content:center;">Open full form</a>
+            </div>
+          </form>
+        </div>
+      `;
+    }
+
+    function renderQuestion(question) {
+      const requiredMark = question.required ? '<span class="question-required">*Required</span>' : '';
+      let inputHtml = '';
+
+      if (question.type === 'text') {
+        const rows = question.question.toLowerCase().includes('additional') ||
+                     question.question.toLowerCase().includes('changes') ||
+                     question.question.toLowerCase().includes('expenses') ||
+                     question.question.toLowerCase().includes('debts') ||
+                     question.question.toLowerCase().includes('assets') ||
+                     question.question.toLowerCase().includes('habits') ||
+                     question.question.toLowerCase().includes('goals') ? 5 : 3;
+        inputHtml = `
+          <textarea name="${question.id}" rows="${rows}" class="question-input" placeholder="Enter your answer..." ${question.required ? 'required' : ''}></textarea>
+        `;
+      } else if (question.type === 'date') {
+        inputHtml = `
+          <input type="date" name="${question.id}" class="question-input" ${question.required ? 'required' : ''} />
+        `;
+      } else if (question.type === 'single_choice' || question.type === 'yes_no') {
+        inputHtml = `
+          <div>
+            ${question.options.map((option) => `
+              <label class="question-option">
+                <input type="radio" name="${question.id}" value="${option}" ${question.required ? 'required' : ''}>
+                <span>${option}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+      } else if (question.type === 'multiple_choice') {
+        inputHtml = `
+          <div>
+            ${question.options.map((option) => `
+              <label class="question-option">
+                <input type="checkbox" name="${question.id}" value="${option}">
+                <span>${option}</span>
+              </label>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      return `
+        <div class="question-group">
+          <div class="question-category">${question.category}</div>
+          ${requiredMark}
+          <label class="question-label">${question.question}</label>
+          ${inputHtml}
+        </div>
+      `;
+    }
+
+    async function handleQuestionnaireSubmit(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const responses = {};
+      const multiFields = {};
+      for (const [key, value] of formData.entries()) {
+        if (responses[key]) {
+          if (!Array.isArray(responses[key])) {
+            responses[key] = [responses[key]];
+          }
+          responses[key].push(value);
+        } else {
+          responses[key] = value;
+        }
+      }
+
+      try {
+        const response = await fetch('/api/questionnaire/responses', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(responses)
+        });
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to save questionnaire');
+        }
+        alert('Questionnaire saved. Your profile will be included in the analysis.');
+      } catch (error) {
+        console.error(error);
+        alert('Could not save questionnaire. Please try again.');
+      }
+    }
   </script>
 </body>
 </html>
