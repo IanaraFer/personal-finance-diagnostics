@@ -173,80 +173,349 @@ def parse_txt(file_content):
         raise ValueError(f"Could not parse TXT file: {str(e)}")
 
 
-def parse_pdf_transactions(file_content):
+def _categorize_transaction(description):
+    """Categorize a transaction based on its description keywords."""
+    if not description:
+        return 'Uncategorized'
+    d = description.lower()
+
+    # Revolut internal pocket / savings transfers (check FIRST — highest priority)
+    if any(x in d for x in ['to pocket', 'from pocket', 'pocket withdrawal',
+                              'ia saves', 'theo saves', 'saves for holidays',
+                              'to holiday', 'from holiday',
+                              'to theo', 'from theo',
+                              'new house', 'instant access savings',
+                              'flexible cash', 'to allianz',
+                              'to instant', 'from instant',
+                              'to eur ', 'from eur ']):
+        return 'Savings Transfer'
+
+    if any(x in d for x in ['transfer from', 'payment from', 'cashback', 'refund']):
+        return 'Income / Transfer'
+    if any(x in d for x in ['dunnes', 'lidl', 'aldi', 'tesco', 'supervalu', 'spar', 'polonez', 'centra',
+                              'costcutter', 'eurospar', 'superquinn', 'marks & spencer', 'm&s food',
+                              'grocery', 'supermarket']):
+        return 'Groceries'
+    if any(x in d for x in ['circle k', ' bp ', 'shell', 'texaco', 'applegreen', 'petrol', 'fuel',
+                              'aircoach', 'dart', 'bus eireann', 'irish rail', 'iarnrod', 'luas',
+                              'car park', 'parking', 'uber', 'taxi', 'ryanair', 'aer lingus',
+                              'dublin airport']):
+        return 'Transport'
+    if any(x in d for x in ['mcdonald', 'kfc', 'subway', 'burger king', 'dominos', 'just eat',
+                              'deliveroo', 'restaurant', 'takeaway', 'cafe', 'coffee', 'starbucks',
+                              'costa', 'nandos', 'supermacs', 'pizza', 'borger', 'chippy']):
+        return 'Food & Dining'
+    if any(x in d for x in ['amazon', 'ebay', 'asos', 'penneys', 'primark', 'zara', 'shein',
+                              'temu', 'name tags', 'nametags', 'shopping']):
+        return 'Shopping'
+    if any(x in d for x in ['electric ireland', 'bord gais', 'gas networks', 'eir ', 'three',
+                              'vodafone', 'sky ', 'netflix', 'spotify', 'disney', 'apple',
+                              'google play', 'microsoft', 'youtube', 'prime']):
+        return 'Utilities & Bills'
+    if any(x in d for x in ['lottery', 'lotto', 'cinema', 'cineworld', 'odeon', 'paddy power',
+                              'bookmaker', 'gambling', 'bingo', 'bet365']):
+        return 'Entertainment'
+    if any(x in d for x in ['pharmacy', 'boots', 'lloyds', 'doctor', 'medical', 'dentist',
+                              'optician', 'health', 'clinic', 'hospital']):
+        return 'Health'
+    if any(x in d for x in ['digital assets', 'doge', 'bitcoin', 'crypto', 'coinbase', 'purchase of']):
+        return 'Investment / Crypto'
+    if any(x in d for x in ['stamp duty', 'fee:', 'irish stamp', 'revolut fee', 'atm', 'cash withdrawal']):
+        return 'Fees & Charges'
+    if any(x in d for x in ['airbnb', 'hotel', 'hostel', 'booking.com', 'holiday inn', 'travel']):
+        return 'Travel'
+    if any(x in d for x in ['international transfer', 'transfer to revolut', 'transfer to ianara',
+                              'to ianara', 'sent from revolut']):
+        return 'Transfer'
+    return 'Uncategorized'
+
+
+def _try_parse_revolut_pdf(file_content):
+    """Parse a Revolut-style PDF statement using text extraction.
+
+    PyMuPDF (fast) gives each field on its own line: date, description, amounts.
+    We use a state machine to group them into transactions.
+    Falls back to pdfplumber single-line format if needed.
     """
-    Parse PDF bank statement into transactions DataFrame.
-    This is a basic parser that extracts tables from PDF.
-    
-    Expected DataFrame columns: date, description, amount, type, category
-    
-    Note: PDF parsing is complex and depends on bank statement format.
-    This implementation tries to extract tables and assumes common formats.
-    You may need to customize this for specific bank statement layouts.
-    """
+    months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+               'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12}
+    # Date-only line (PyMuPDF format): "2 Jan 2025"
+    date_only_re = re.compile(
+        r'^(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})$',
+        re.IGNORECASE
+    )
+    # Date-plus-rest line (pdfplumber format): "2 Jan 2025 Transfer from..."
+    date_rest_re = re.compile(
+        r'^(\d{1,2})\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{4})\s+(.*)',
+        re.IGNORECASE
+    )
+    euro_re = re.compile(r'^€([\d,]+\.?\d*)$')
+    euro_inline_re = re.compile(r'€([\d,]+\.?\d*)')
+
+    skip_kw = [
+        'EUR Statement', 'Generated on', 'Revolut Bank UAB', 'Date Description',
+        'Report lost or stolen', '+370 5', 'Get help directly', 'Scan the QR',
+        'regulated by', 'Registered address', 'Republic of Lithuania',
+        'Revolut Bank UAB has established', 'Deposits are protected',
+        'Investment Insurance', 'available at www.', 'Balance summary',
+        'Opening balance', 'Money out  Money in', 'Product Opening',
+        'The balance on your statement', 'BIC REVOIE', 'BIC REVOLT',
+        'IBAN IE', 'IBAN LT', 'You cannot use this IBAN',
+        'FI code 70700', 'authorised by the Bank', 'conduct of business',
+        'number of registration', 'Viešoji', 'Personal and Group Pockets',
+        'Account transactions from', 'Account (Current',
+        'Date', 'Description', 'Money out', 'Money in', 'Balance',
+        'Page  of', '© 20',
+    ]
+    skip_starts = ('Reference:', 'From:', 'To: ', 'Merchant: ')
+
+    # ── 1. Extract all text lines via PyMuPDF (fast) ──────────────────────────
+    all_lines = []
+    try:
+        import pymupdf
+        doc = pymupdf.open(stream=file_content, filetype="pdf")
+        for page in doc:
+            for line in page.get_text().split('\n'):
+                line = line.strip()
+                if line:
+                    all_lines.append(line)
+        doc.close()
+    except Exception:
+        try:
+            with pdfplumber.open(BytesIO(file_content)) as pdf:
+                for page in pdf.pages:
+                    text = page.extract_text() or ''
+                    for line in text.split('\n'):
+                        line = line.strip()
+                        if line:
+                            all_lines.append(line)
+        except Exception:
+            return None
+
+    if not all_lines:
+        return None
+
+    # ── 2. Detect format ──────────────────────────────────────────────────────
+    # If lines have date + rest on same line → pdfplumber-style single-line
+    # If lines are date-only → PyMuPDF multi-line style
+    has_multiline = any(date_only_re.match(l) for l in all_lines)
+    has_singleline = any(date_rest_re.match(l) for l in all_lines)
+
     transactions = []
-    
+    prev_balance = None
+
+    # ── 3a. Multi-line (PyMuPDF) state machine ─────────────────────────────────
+    if has_multiline:
+        i = 0
+        while i < len(all_lines):
+            line = all_lines[i]
+            dm = date_only_re.match(line)
+            if not dm:
+                i += 1
+                continue
+
+            day = int(dm.group(1))
+            month = months.get(dm.group(2).capitalize())
+            year = int(dm.group(3))
+            if not month:
+                i += 1
+                continue
+            date_str = f"{year:04d}-{month:02d}-{day:02d}"
+            i += 1
+
+            # Collect description (non-amount, non-date, non-skip lines)
+            desc_parts = []
+            while i < len(all_lines):
+                l = all_lines[i]
+                if date_only_re.match(l):
+                    break
+                if euro_re.match(l):
+                    break
+                if any(kw in l for kw in skip_kw):
+                    i += 1
+                    continue
+                if l.startswith(skip_starts):
+                    i += 1
+                    continue
+                desc_parts.append(l)
+                i += 1
+
+            # Collect euro amounts
+            amounts = []
+            while i < len(all_lines):
+                l = all_lines[i]
+                m2 = euro_re.match(l)
+                if m2:
+                    try:
+                        amounts.append(float(m2.group(1).replace(',', '')))
+                    except Exception:
+                        pass
+                    i += 1
+                else:
+                    break
+
+            # Skip trailing reference/from lines
+            while i < len(all_lines):
+                l = all_lines[i]
+                if l.startswith(skip_starts) or any(kw in l for kw in skip_kw):
+                    i += 1
+                else:
+                    break
+
+            if not amounts or not desc_parts:
+                continue
+
+            balance = amounts[-1]
+            tx_amounts = amounts[:-1]
+            if not tx_amounts:
+                continue
+
+            amount = tx_amounts[0]
+            if amount <= 0:
+                continue
+
+            if prev_balance is not None:
+                tx_type = 'income' if round(balance - prev_balance, 2) > 0 else 'expense'
+            else:
+                desc_lower = ' '.join(desc_parts).lower()
+                if any(kw in desc_lower for kw in [
+                        'transfer from', 'payment from', 'pocket withdrawal',
+                        'cashback', 'refund', 'from revolut user']):
+                    tx_type = 'income'
+                else:
+                    tx_type = 'expense'
+
+            prev_balance = balance
+            desc = ' '.join(desc_parts)[:120]
+            transactions.append({
+                'date': date_str,
+                'description': desc,
+                'amount': amount,
+                'type': tx_type,
+                'category': _categorize_transaction(desc),
+            })
+
+    # ── 3b. Single-line (pdfplumber) format ────────────────────────────────────
+    elif has_singleline:
+        for line in all_lines:
+            if any(kw in line for kw in skip_kw):
+                continue
+            m = date_rest_re.match(line)
+            if not m:
+                continue
+
+            day = int(m.group(1))
+            month = months.get(m.group(2).capitalize())
+            year = int(m.group(3))
+            if not month:
+                continue
+            date_str = f"{year:04d}-{month:02d}-{day:02d}"
+            rest = m.group(4).strip()
+
+            raw = euro_inline_re.findall(rest)
+            if not raw:
+                continue
+            parsed = []
+            for a in raw:
+                try:
+                    parsed.append(float(a.replace(',', '')))
+                except Exception:
+                    pass
+            if not parsed:
+                continue
+
+            balance = parsed[-1]
+            tx_amounts = parsed[:-1]
+            if not tx_amounts:
+                continue
+
+            amount = tx_amounts[0]
+            if amount <= 0:
+                continue
+
+            if prev_balance is not None:
+                tx_type = 'income' if round(balance - prev_balance, 2) > 0 else 'expense'
+            else:
+                desc_lower = rest.lower()
+                if any(kw in desc_lower for kw in [
+                        'transfer from', 'payment from', 'pocket withdrawal',
+                        'cashback', 'refund', 'from revolut user']):
+                    tx_type = 'income'
+                else:
+                    tx_type = 'expense'
+
+            prev_balance = balance
+            desc = euro_inline_re.sub('', rest).strip()
+            desc = re.sub(r'\s+', ' ', desc).strip(' -')[:120]
+            transactions.append({
+                'date': date_str,
+                'description': desc,
+                'amount': amount,
+                'type': tx_type,
+                'category': _categorize_transaction(desc),
+            })
+
+    if not transactions:
+        return None
+    return pd.DataFrame(transactions)
+
+
+def parse_pdf_transactions(file_content):
+    """Parse PDF bank statement into a transactions DataFrame.
+
+    Tries Revolut text-based format first (no tables), then falls back to
+    generic table extraction for other bank PDF layouts.
+    """
+    # 1. Try Revolut / text-based format
+    df = _try_parse_revolut_pdf(file_content)
+    if df is not None and not df.empty:
+        return df
+
+    # 2. Fall back to table extraction (AIB, generic banks)
+    transactions = []
     with pdfplumber.open(BytesIO(file_content)) as pdf:
         for page in pdf.pages:
-            # Try to extract tables
             tables = page.extract_tables()
-            
-            if tables:
-                for table in tables:
-                    # Skip header row if present
-                    for row in table[1:] if len(table) > 1 else table:
-                        if not row or len(row) < 3:
-                            continue
-                        
-                        # Try to parse common bank statement formats
-                        # Format 1: [Date, Description, Debit, Credit, Balance]
-                        # Format 2: [Date, Description, Amount, Type]
-                        # Format 3: [Date, Reference, Description, Amount]
-                        
-                        try:
-                            # Assume: date in first column, description in middle, amount somewhere
-                            date = row[0] if row[0] else None
-                            description = row[1] if len(row) > 1 else 'Unknown'
-                            
-                            # Try to find amount (look for numeric values)
-                            amount = None
-                            transaction_type = 'expense'
-                            
-                            for cell in row[2:]:
-                                if cell and isinstance(cell, (str, float)):
-                                    try:
-                                        # Clean and parse amount
-                                        amount_str = str(cell).replace(',', '').replace('€', '').replace('$', '').strip()
-                                        if amount_str and amount_str != '':
-                                            parsed = float(amount_str)
-                                            if parsed != 0:
-                                                amount = abs(parsed)
-                                                # Negative usually means expense, positive means income
-                                                transaction_type = 'expense' if parsed < 0 else 'income'
-                                                break
-                                    except (ValueError, AttributeError):
-                                        continue
-                            
-                            if date and amount:
-                                transactions.append({
-                                    'date': date,
-                                    'description': description,
-                                    'amount': amount,
-                                    'type': transaction_type,
-                                    'category': 'Uncategorized'
-                                })
-                        except Exception:
-                            continue
-    
+            if not tables:
+                continue
+            for table in tables:
+                for row in (table[1:] if len(table) > 1 else table):
+                    if not row or len(row) < 3:
+                        continue
+                    try:
+                        date = row[0] if row[0] else None
+                        description = row[1] if len(row) > 1 else 'Unknown'
+                        amount = None
+                        transaction_type = 'expense'
+                        for cell in row[2:]:
+                            if cell and isinstance(cell, (str, float)):
+                                try:
+                                    amt_str = str(cell).replace(',', '').replace('€', '').replace('$', '').strip()
+                                    if amt_str:
+                                        parsed = float(amt_str)
+                                        if parsed != 0:
+                                            amount = abs(parsed)
+                                            transaction_type = 'expense' if parsed < 0 else 'income'
+                                            break
+                                except (ValueError, AttributeError):
+                                    continue
+                        if date and amount:
+                            transactions.append({
+                                'date': date,
+                                'description': description,
+                                'amount': amount,
+                                'type': transaction_type,
+                                'category': _categorize_transaction(str(description)),
+                            })
+                    except Exception:
+                        continue
+
     if not transactions:
-        # If table extraction failed, try text extraction (fallback)
-        # This is very basic and may need customization
         raise ValueError(
             "Could not extract transaction data from PDF. "
             "Please ensure the PDF contains a transaction table, "
             "or convert to CSV/Excel format for better compatibility."
         )
-    
     return pd.DataFrame(transactions)
 
 

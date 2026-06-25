@@ -14,6 +14,7 @@ import user_store
 import json
 from datetime import datetime
 import io
+import client_manager
 try:
     import stripe
     STRIPE_AVAILABLE = True
@@ -97,6 +98,18 @@ def load_user(user_id):
     if user:
         return User(id=user['email'], email=user['email'], is_admin=user.get('is_admin', 0))
     return None
+
+
+# --- Admin utilities ---
+def admin_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        if not getattr(current_user, 'is_admin', False):
+            abort(403)
+        return f(*args, **kwargs)
+    return wrapper
 
 
 @app.route('/')
@@ -304,6 +317,228 @@ def upload():
     return render_template('upload.html', questionnaire_complete=bool(session.get('questionnaire_responses', {})))
 
 
+# ---------------------------------------------------------------------------
+# Client file management routes
+# ---------------------------------------------------------------------------
+
+@app.route('/clients')
+@login_required
+@admin_required
+def clients_list():
+    """Admin: list all clients."""
+    clients = client_manager.list_clients()
+    return render_template('clients.html', clients=clients)
+
+
+@app.route('/clients/new', methods=['POST'])
+@login_required
+@admin_required
+def clients_new():
+    """Admin: create a new client folder."""
+    client_name = request.form.get('client_name', '').strip()
+    if not client_name:
+        clients = client_manager.list_clients()
+        return render_template('clients.html', clients=clients, error='Client name is required.')
+    result = client_manager.create_client(client_name)
+    if not result['ok']:
+        clients = client_manager.list_clients()
+        return render_template('clients.html', clients=clients, error=result['error'])
+    return redirect(url_for('client_detail', client_slug=result['slug']))
+
+
+@app.route('/clients/<client_slug>')
+@login_required
+@admin_required
+def client_detail(client_slug):
+    """Admin: view a client's files."""
+    if not client_manager.client_exists(client_slug):
+        return redirect(url_for('clients_list'))
+    files = client_manager.get_client_files(client_slug)
+    return render_template('client_detail.html',
+                           client_slug=client_slug,
+                           client_name=client_slug.replace('_', ' '),
+                           files=files)
+
+
+@app.route('/clients/<client_slug>/upload', methods=['POST'])
+@login_required
+@admin_required
+def client_upload(client_slug):
+    """Admin: upload a file to a client folder and optionally run analysis."""
+    if not client_manager.client_exists(client_slug):
+        return redirect(url_for('clients_list'))
+
+    uploaded = request.files.get('file')
+    if not uploaded or not uploaded.filename:
+        files = client_manager.get_client_files(client_slug)
+        return render_template('client_detail.html',
+                               client_slug=client_slug,
+                               client_name=client_slug.replace('_', ' '),
+                               files=files,
+                               error='No file selected.')
+
+    result = client_manager.save_client_file(client_slug, uploaded, uploaded.filename)
+    if not result['ok']:
+        files = client_manager.get_client_files(client_slug)
+        return render_template('client_detail.html',
+                               client_slug=client_slug,
+                               client_name=client_slug.replace('_', ' '),
+                               files=files,
+                               error=result['error'])
+
+    # If user requested analysis, redirect to analyze endpoint
+    if request.form.get('analyze'):
+        return redirect(url_for('client_analyze', client_slug=client_slug, filename=result['filename']))
+
+    files = client_manager.get_client_files(client_slug)
+    return render_template('client_detail.html',
+                           client_slug=client_slug,
+                           client_name=client_slug.replace('_', ' '),
+                           files=files,
+                           success=f'File "{result["filename"]}" saved successfully.')
+
+
+@app.route('/clients/<client_slug>/analyze/<path:filename>')
+@login_required
+@admin_required
+def client_analyze(client_slug, filename):
+    """Admin: run financial analysis on a client file and show dashboard."""
+    path = client_manager.get_client_file_path(client_slug, filename)
+    if not path:
+        return redirect(url_for('client_detail', client_slug=client_slug))
+
+    try:
+        with open(path, 'rb') as f:
+            content = f.read()
+        tx_df = parse_file(content, filename, file_type='transactions')
+        tx_df.columns = [''.join(ch if ch.isalnum() else '_' for ch in str(c).strip().lower()) for c in tx_df.columns]
+
+        # Minimal column normalization (reuse same logic as /upload)
+        def _to_num(s):
+            s = s.astype(str).str.replace(r'[\u00a0 €$,]', '', regex=True)
+            return pd.to_numeric(s, errors='coerce')
+
+        if 'amount' not in tx_df.columns:
+            for pair in [('credit', 'debit'), ('money_in', 'money_out'), ('deposit', 'withdrawal')]:
+                if set(pair).issubset(tx_df.columns):
+                    tx_df['amount'] = _to_num(tx_df[pair[0]]).fillna(0) - _to_num(tx_df[pair[1]]).fillna(0)
+                    break
+        if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
+            tx_df['type'] = _to_num(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+        if 'date' not in tx_df.columns:
+            for alt in ['transaction_date', 'posted_date', 'value_date']:
+                if alt in tx_df.columns:
+                    tx_df['date'] = tx_df[alt]
+                    break
+        if 'description' not in tx_df.columns:
+            for alt in ['details', 'narrative', 'memo', 'reference']:
+                if alt in tx_df.columns:
+                    tx_df['description'] = tx_df[alt]
+                    break
+            else:
+                tx_df['description'] = 'Unknown'
+        if 'category' not in tx_df.columns:
+            tx_df['category'] = 'Uncategorized'
+
+        _, acct_df = load_sample_data()
+        results = analyze_finances(tx_df, acct_df)
+        results['client_name'] = client_slug.replace('_', ' ')
+        results['source_file'] = filename
+        results['transactions'] = tx_df.to_dict('records')
+        return render_template('dashboard_enhanced.html', results=results)
+    except Exception as e:
+        import traceback
+        err = f"Analysis failed: {str(e)}"
+        files = client_manager.get_client_files(client_slug)
+        return render_template('client_detail.html',
+                               client_slug=client_slug,
+                               client_name=client_slug.replace('_', ' '),
+                               files=files,
+                               error=err)
+
+
+@app.route('/clients/<client_slug>/delete-file', methods=['POST'])
+@login_required
+@admin_required
+def client_delete_file(client_slug):
+    """Admin: delete a file from a client folder."""
+    filename = request.form.get('filename', '')
+    client_manager.delete_client_file(client_slug, filename)
+    return redirect(url_for('client_detail', client_slug=client_slug))
+
+
+@app.route('/clients/<client_slug>/delete', methods=['POST'])
+@login_required
+@admin_required
+def client_delete(client_slug):
+    """Admin: delete a client and all their files."""
+    client_manager.delete_client(client_slug)
+    return redirect(url_for('clients_list'))
+
+
+@app.route('/clients/<client_slug>/report/<path:filename>')
+@login_required
+@admin_required
+def client_report(client_slug, filename):
+    """Admin: download a clean diagnostic report for a client file."""
+    path = client_manager.get_client_file_path(client_slug, filename)
+    if not path:
+        return redirect(url_for('client_detail', client_slug=client_slug))
+    try:
+        with open(path, 'rb') as f:
+            content = f.read()
+        tx_df = parse_file(content, filename, file_type='transactions')
+        tx_df.columns = [''.join(ch if ch.isalnum() else '_' for ch in str(c).strip().lower()) for c in tx_df.columns]
+
+        def _to_num(s):
+            s = s.astype(str).str.replace(r'[\u00a0 €$,]', '', regex=True)
+            return pd.to_numeric(s, errors='coerce')
+
+        if 'amount' not in tx_df.columns:
+            for pair in [('credit', 'debit'), ('money_in', 'money_out'), ('deposit', 'withdrawal')]:
+                if set(pair).issubset(tx_df.columns):
+                    tx_df['amount'] = _to_num(tx_df[pair[0]]).fillna(0) - _to_num(tx_df[pair[1]]).fillna(0)
+                    break
+        if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
+            tx_df['type'] = _to_num(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
+        if 'date' not in tx_df.columns:
+            for alt in ['transaction_date', 'posted_date', 'value_date']:
+                if alt in tx_df.columns:
+                    tx_df['date'] = tx_df[alt]
+                    break
+        if 'description' not in tx_df.columns:
+            for alt in ['details', 'narrative', 'memo', 'reference']:
+                if alt in tx_df.columns:
+                    tx_df['description'] = tx_df[alt]
+                    break
+            else:
+                tx_df['description'] = 'Unknown'
+        if 'category' not in tx_df.columns:
+            tx_df['category'] = 'Uncategorized'
+
+        _, acct_df = load_sample_data()
+        results = analyze_finances(tx_df, acct_df)
+
+        client_name = client_slug.replace('_', ' ').title()
+        report_text = _generate_clean_report(results, client_name=client_name,
+                                             source_file=filename, transactions_df=tx_df)
+
+        buffer = io.BytesIO()
+        buffer.write(report_text.encode('utf-8'))
+        buffer.seek(0)
+        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
+        dl_name = f"{client_slug}_diagnostic_{ts}.txt"
+        return send_file(buffer, mimetype='text/plain', as_attachment=True, download_name=dl_name)
+    except Exception as e:
+        err = f"Report generation failed: {str(e)}"
+        files = client_manager.get_client_files(client_slug)
+        return render_template('client_detail.html',
+                               client_slug=client_slug,
+                               client_name=client_slug.replace('_', ' '),
+                               files=files,
+                               error=err)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -320,17 +555,6 @@ def login():
         return render_template('login.html', error='Invalid credentials.')
     return render_template('login.html')
 
-
-# --- Admin utilities ---
-def admin_required(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        if not current_user.is_authenticated:
-            return redirect(url_for('login'))
-        if not getattr(current_user, 'is_admin', False):
-            abort(403)
-        return f(*args, **kwargs)
-    return wrapper
 
 
 @app.route('/admin')
@@ -349,6 +573,7 @@ def admin_dashboard():
             "<p>Quick links: "
             "<a href='/dashboard'>Open Dashboard</a> | "
             "<a href='/upload'>Upload Files</a> | "
+            "<a href='/clients'>Client Files</a> | "
             "<a href='/'>Landing Page</a> | "
             "<a href='/pay'>Paywall</a>"
             "</p>"
@@ -506,6 +731,219 @@ def export_data():
     return jsonify(data)
 
 
+# ---------------------------------------------------------------------------
+# Clean report generator — used by both /api/export/pdf and client reports
+# ---------------------------------------------------------------------------
+
+def _generate_clean_report(results: dict, client_name: str = None, source_file: str = None, transactions_df=None) -> str:
+    """Return a clean, number-focused diagnostic report as plain text."""
+    W = 66  # line width
+    bar = '━' * W
+
+    def section(title):
+        return f"\n{bar}\n  {title}\n{bar}\n"
+
+    def money(v):
+        try:
+            return f"€{float(v):>12,.2f}"
+        except Exception:
+            return f"{'N/A':>13}"
+
+    def pct(v):
+        try:
+            return f"{float(v):>6.1f}%"
+        except Exception:
+            return "   N/A"
+
+    lines = []
+
+    # ── Header ──────────────────────────────────────────────────────────────
+    lines.append('╔' + '═' * (W - 2) + '╗')
+    lines.append('║' + '  FINANCIAL DIAGNOSTIC REPORT'.center(W - 2) + '║')
+    if client_name:
+        lines.append('║' + f'  Client: {client_name}'.ljust(W - 2) + '║')
+    if source_file:
+        lines.append('║' + f'  File:   {source_file}'.ljust(W - 2) + '║')
+    lines.append('║' + f'  Generated: {datetime.now().strftime("%Y-%m-%d %H:%M")} UTC'.ljust(W - 2) + '║')
+    lines.append('╚' + '═' * (W - 2) + '╝')
+
+    # ── Health score ────────────────────────────────────────────────────────
+    diag = results.get('diagnostic_report') or {}
+    score = diag.get('overall_score', 0)
+    grade = diag.get('grade', 'N/A')
+    lines.append(section('HEALTH SCORE'))
+    lines.append(f"  Score : {score}/100   Grade: {grade}")
+    score_desc = (
+        'Excellent' if score >= 80 else
+        'Good' if score >= 60 else
+        'Fair — Room for Improvement' if score >= 40 else
+        'Needs Urgent Attention'
+    )
+    lines.append(f"  Status: {score_desc}")
+
+    # Category scores
+    diagnostics = diag.get('diagnostics') or {}
+    if diagnostics:
+        lines.append('')
+        lines.append(f"  {'Category':<22}  {'Score':>5}   {'Status'}")
+        lines.append(f"  {'-'*22}  {'-'*5}   {'-'*20}")
+        for cat, data in diagnostics.items():
+            cat_label = cat.replace('_', ' ').title()
+            s = data.get('score', 0)
+            st = data.get('status', '').title()
+            bar_full = '█' * int(s / 10) + '░' * (10 - int(s / 10))
+            lines.append(f"  {cat_label:<22}  {s:>4}/100  {bar_full}  {st}")
+
+    # ── Key numbers ─────────────────────────────────────────────────────────
+    income   = results.get('income', 0)
+    expenses = results.get('expenses', 0)
+    net      = income - expenses
+    sav_rate = results.get('savings_rate', 0)
+    forecast = (results.get('prediction') or {}).get('predicted_expenses', 0)
+
+    lines.append(section('KEY NUMBERS'))
+    lines.append(f"  {'Total Income':<30}  {money(income)}")
+    lines.append(f"  {'Total Expenses':<30}  {money(expenses)}")
+    lines.append(f"  {'Net (Saved)':<30}  {money(net)}")
+    lines.append(f"  {'Savings Rate':<30}  {pct(sav_rate * 100):>13}")
+    if forecast:
+        lines.append(f"  {'Next Month Forecast':<30}  {money(forecast)}")
+
+    # ── Monthly breakdown ───────────────────────────────────────────────────
+    monthly = results.get('monthly_trends') or {}
+    months_list = monthly.get('months', [])
+    inc_list    = monthly.get('income', [])
+    exp_list    = monthly.get('expenses', [])
+    sav_list    = monthly.get('savings', [])
+
+    if months_list:
+        lines.append(section('MONTHLY BREAKDOWN'))
+        lines.append(f"  {'Month':<12}  {'Income':>12}  {'Expenses':>12}  {'Saved':>12}  {'Rate':>7}")
+        lines.append(f"  {'-'*12}  {'-'*12}  {'-'*12}  {'-'*12}  {'-'*7}")
+        for i, m in enumerate(months_list):
+            inc_v = inc_list[i] if i < len(inc_list) else 0
+            exp_v = exp_list[i] if i < len(exp_list) else 0
+            sav_v = sav_list[i] if i < len(sav_list) else 0
+            rate_v = (sav_v / inc_v * 100) if inc_v else 0
+            lines.append(
+                f"  {str(m):<12}  {money(inc_v)}  {money(exp_v)}  {money(sav_v)}  {pct(rate_v)}"
+            )
+
+    # ── Top spending categories ──────────────────────────────────────────────
+    overspending = results.get('overspending', [])
+    cat_data     = (results.get('charts') or {}).get('category_breakdown') or {}
+    cat_labels   = cat_data.get('labels', [])
+    cat_amounts  = cat_data.get('data', [])
+    total_exp    = max(float(expenses), 1e-9)
+
+    if cat_labels:
+        lines.append(section('TOP SPENDING CATEGORIES'))
+        lines.append(f"  {'#':<3}  {'Category':<22}  {'Amount':>12}  {'% of Expenses':>14}")
+        lines.append(f"  {'-'*3}  {'-'*22}  {'-'*12}  {'-'*14}")
+        for rank, (lbl, amt) in enumerate(zip(cat_labels[:10], cat_amounts[:10]), 1):
+            pct_v = float(amt) / total_exp * 100
+            flag  = '  ⚠ HIGH' if pct_v >= 20 else ''
+            lines.append(f"  {rank:<3}  {str(lbl):<22}  {money(amt)}  {pct(pct_v):>14}{flag}")
+
+    # ── Recurring bills ──────────────────────────────────────────────────────
+    recurring = results.get('recurring_transactions', [])
+    if recurring:
+        lines.append(section('RECURRING BILLS & SUBSCRIPTIONS'))
+        lines.append(f"  {'Description':<28}  {'Amount':>12}  {'Frequency':<12}  {'Next Due'}")
+        lines.append(f"  {'-'*28}  {'-'*12}  {'-'*12}  {'-'*12}")
+        total_rec = 0.0
+        for r in recurring[:15]:
+            desc = str(r.get('description', ''))[:27]
+            amt  = r.get('amount', 0)
+            freq = str(r.get('frequency', ''))
+            due  = str(r.get('next_due', ''))
+            lines.append(f"  {desc:<28}  {money(amt)}  {freq:<12}  {due}")
+            total_rec += float(amt)
+        lines.append(f"  {'─'*28}  {'─'*12}")
+        lines.append(f"  {'TOTAL RECURRING':<28}  {money(total_rec)}")
+
+    # ── Alerts ──────────────────────────────────────────────────────────────
+    alerts = results.get('alerts', [])
+    risks  = diag.get('risks', [])
+    if alerts or risks:
+        lines.append(section('ALERTS & RISKS'))
+        for a in alerts:
+            lines.append(f"  ⚠  {a}")
+        for r in (risks[:5] if isinstance(risks, list) else []):
+            if isinstance(r, dict):
+                sev = r.get('severity', 'medium').upper()
+                msg = r.get('message', '')
+                lines.append(f"  [{sev}]  {msg}")
+            elif isinstance(r, str):
+                lines.append(f"  ⚠  {r}")
+
+    # ── Recommendations ──────────────────────────────────────────────────────
+    recs_basic = results.get('recommendations', [])
+    recs_diag  = diag.get('recommendations', [])
+    all_recs   = list(recs_diag[:6]) if recs_diag else []
+    if not all_recs:
+        all_recs = recs_basic
+
+    if all_recs:
+        lines.append(section('RECOMMENDATIONS'))
+        for i, rec in enumerate(all_recs, 1):
+            if isinstance(rec, dict):
+                pri    = rec.get('priority', 'medium').upper()
+                action = rec.get('action', '')
+                impact = rec.get('impact', '')
+                lines.append(f"  {i}. [{pri}] {action}")
+                if impact:
+                    lines.append(f"       → {impact}")
+            else:
+                lines.append(f"  {i}. {rec}")
+
+    # ── All transactions ─────────────────────────────────────────────────────
+    if transactions_df is not None and not transactions_df.empty:
+        try:
+            tx = transactions_df.copy()
+            # Normalize columns
+            tx.columns = [''.join(ch if ch.isalnum() else '_' for ch in str(c).strip().lower())
+                          for c in tx.columns]
+            if 'date' in tx.columns:
+                tx['date'] = pd.to_datetime(tx['date'], errors='coerce', dayfirst=True)
+                tx = tx.sort_values('date', na_position='last')
+            total_tx = len(tx)
+            lines.append(section(f'ALL TRANSACTIONS  ({total_tx} total)'))
+            lines.append(f"  {'Date':<12}  {'Description':<40}  {'Amount':>10}  {'Type':<8}  {'Category'}")
+            lines.append(f"  {'-'*12}  {'-'*40}  {'-'*10}  {'-'*8}  {'-'*20}")
+            income_total = 0.0
+            expense_total = 0.0
+            for _, row in tx.iterrows():
+                try:
+                    d = str(row.get('date', ''))[:10]
+                    desc = str(row.get('description', ''))[:39]
+                    amt = float(row.get('amount', 0) or 0)
+                    t = str(row.get('type', '')).lower()
+                    cat = str(row.get('category', 'Uncategorized'))[:20]
+                    sign = '+' if t == 'income' else '-'
+                    lines.append(f"  {d:<12}  {desc:<40}  {sign}€{amt:>8,.2f}  {t.capitalize():<8}  {cat}")
+                    if t == 'income':
+                        income_total += amt
+                    else:
+                        expense_total += amt
+                except Exception:
+                    continue
+            lines.append(f"  {'─'*12}  {'─'*40}  {'─'*10}  {'─'*8}")
+            lines.append(f"  {'TOTAL INCOME':<54}  +€{income_total:>8,.2f}")
+            lines.append(f"  {'TOTAL EXPENSES':<54}  -€{expense_total:>8,.2f}")
+            lines.append(f"  {'NET':<54}   €{income_total - expense_total:>8,.2f}")
+        except Exception:
+            pass
+
+    lines.append('')
+    lines.append('═' * W)
+    lines.append('  This report is generated automatically from your financial data.')
+    lines.append('  Consult a certified financial advisor for personalised advice.')
+    lines.append('═' * W)
+
+    return '\n'.join(lines)
+
+
 @app.route('/api/export/data')
 @login_required
 def api_export_data():
@@ -561,91 +999,23 @@ def api_export_data():
 @app.route('/api/export/pdf')
 @login_required
 def api_export_pdf():
-    """Export financial health report as PDF."""
+    """Download a clean, number-focused financial diagnostic report."""
     try:
-        # Get user's uploaded data file path
         data_file = session.get('data_file')
         if not data_file or not os.path.exists(data_file):
-            # Use demo data if no file uploaded
             transactions_df, accounts_df = load_sample_data()
         else:
             transactions_df = pd.read_csv(data_file)
-            accounts_df = pd.DataFrame()  # Empty if not provided
-        
-        # Analyze the data
-        results = analyze_finances(transactions_df, accounts_df)
-        diagnostic = results.get('diagnostic_report', {})
-        
-        # Create simple text-based report (PDF libraries like reportlab can be added later)
-        report_lines = [
-            "FINANCIAL HEALTH DIAGNOSTIC REPORT",
-            "=" * 80,
-            f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-            f"User: {current_user.email}",
-            "",
-            f"OVERALL HEALTH SCORE: {diagnostic.get('overall_score', 0):.0f}/100 (Grade: {diagnostic.get('grade', 'N/A')})",
-            "",
-            "CATEGORY SCORES:",
-            "-" * 80
-        ]
-        
-        for category, data in diagnostic.get('categories', {}).items():
-            score = data.get('score', 0)
-            status = data.get('status', 'unknown')
-            report_lines.append(f"{category.replace('_', ' ').title():30s}: {score:3.0f}/100 ({status})")
-        
-        report_lines.extend([
-            "",
-            "FINANCIAL SUMMARY:",
-            "-" * 80,
-            f"Total Income:     €{results['income']:,.2f}",
-            f"Total Expenses:   €{results['expenses']:,.2f}",
-            f"Savings Rate:     {results['savings_rate']:.1f}%",
-            ""
-        ])
-        
-        # Add risks
-        risks = diagnostic.get('risks', [])
-        if risks:
-            report_lines.extend(["RISKS IDENTIFIED:", "-" * 80])
-            for i, risk in enumerate(risks, 1):
-                report_lines.append(f"{i}. [{risk.get('severity', 'medium').upper()}] {risk.get('message', '')}")
-            report_lines.append("")
-        
-        # Add recommendations
-        recommendations = diagnostic.get('recommendations', [])
-        if recommendations:
-            report_lines.extend(["RECOMMENDATIONS:", "-" * 80])
-            for i, rec in enumerate(recommendations, 1):
-                report_lines.append(f"{i}. [{rec.get('priority', 'medium').upper()}] {rec.get('action', '')}")
-                report_lines.append(f"   Impact: {rec.get('impact', '')}")
-                report_lines.append("")
+            accounts_df = pd.DataFrame()
 
-        # Add questionnaire information
-        questionnaire_responses = session.get('questionnaire_responses', {})
-        if questionnaire_responses:
-            report_lines.extend(["QUESTIONNAIRE RESPONSES:", "-" * 80])
-            for key, value in questionnaire_responses.items():
-                if isinstance(value, list):
-                    value = ', '.join(value)
-                report_lines.append(f"{key.replace('_', ' ').title()}: {value}")
-            report_lines.append("")
-        
-        # Create text file (can be enhanced to proper PDF later)
-        report_text = "\n".join(report_lines)
+        results = analyze_finances(transactions_df, accounts_df)
+        report_text = _generate_clean_report(results, client_name=current_user.email)
+
         buffer = io.BytesIO()
         buffer.write(report_text.encode('utf-8'))
         buffer.seek(0)
-        
-        # Generate filename with timestamp
-        filename = f"financial_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-        
-        return send_file(
-            buffer,
-            mimetype='text/plain',
-            as_attachment=True,
-            download_name=filename
-        )
+        filename = f"diagnostic_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        return send_file(buffer, mimetype='text/plain', as_attachment=True, download_name=filename)
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
