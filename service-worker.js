@@ -1,11 +1,9 @@
 /* Simple PWA Service Worker for offline support */
-const CACHE_NAME = 'finance-diag-cache-v1';
+const CACHE_NAME = 'finance-diag-cache-v2';
 const CORE_ASSETS = [
   '/',
-  '/demo.html',
-  '/static/manifest.webmanifest',
-  // Cache CDN script used by demo for offline after first load
-  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js'
+  '/demo',
+  '/static/manifest.webmanifest'
 ];
 
 self.addEventListener('install', (event) => {
@@ -24,7 +22,7 @@ self.addEventListener('activate', (event) => {
 function isStatic(reqUrl) {
   try {
     const url = new URL(reqUrl);
-    return url.origin === location.origin && (url.pathname.startsWith('/static/') || url.pathname.endsWith('/demo.html'));
+    return url.origin === location.origin && url.pathname.startsWith('/static/');
   } catch (_) {
     return false;
   }
@@ -46,8 +44,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets and demo: cache-first
-  if (isStatic(request.url) || request.url.includes('cdnjs.cloudflare.com/ajax/libs/xlsx/')) {
+  // Static assets: cache-first
+  if (isStatic(request.url)) {
     event.respondWith(
       caches.match(request).then((cached) => cached || fetch(request).then((resp) => {
         const respClone = resp.clone();
