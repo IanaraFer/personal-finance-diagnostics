@@ -78,9 +78,12 @@ if ADMIN_EMAIL and ADMIN_PASSWORD:
 # Stripe configuration (optional; only used if keys are provided)
 STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
-STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')  # e.g., 'price_1SmcTcEPS0ev8tkiLDa2mJqM'
+STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')
 STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET')
-STRIPE_CHECKOUT_URL = getenv('STRIPE_CHECKOUT_URL') or 'https://buy.stripe.com/4gMeVdgk43pheUSfeY5c402'
+# Monthly plan (EUR 14.99)
+STRIPE_CHECKOUT_URL = getenv('STRIPE_CHECKOUT_URL') or 'https://buy.stripe.com/cNi8wP1pa3ph286aYI5c405'
+# Annual plan (EUR 109.99)
+STRIPE_CHECKOUT_URL_ANNUAL = getenv('STRIPE_CHECKOUT_URL_ANNUAL') or ''
 if STRIPE_AVAILABLE and STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
 
@@ -613,39 +616,48 @@ def admin_dashboard():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # plan = 'monthly' or 'annual', passed as query param or hidden form field
+    plan = request.args.get('plan', 'monthly')
+
     if request.method == 'POST':
         email = request.form.get('email', '').strip().lower()
         password = request.form.get('password', '')
         confirm = request.form.get('confirm_password', '')
+        plan = request.form.get('plan', 'monthly')
 
         if not email or not password:
-            return render_template('register.html', error='Email and password required.')
+            return render_template('register.html', error='Email and password required.', plan=plan)
         if password != confirm:
-            return render_template('register.html', error='Passwords do not match.')
+            return render_template('register.html', error='Passwords do not match.', plan=plan)
         if len(password) < 8:
-            return render_template('register.html', error='Password must be at least 8 characters.')
+            return render_template('register.html', error='Password must be at least 8 characters.', plan=plan)
+
+        # Pick the right Stripe URL
+        if plan == 'annual':
+            stripe_url = STRIPE_CHECKOUT_URL_ANNUAL
+            if not stripe_url:
+                return render_template('register.html', error='Annual plan is not yet available. Please choose Monthly.', plan=plan)
+        else:
+            stripe_url = STRIPE_CHECKOUT_URL
 
         # Create account first (unpaid), then send to payment
         existing = user_store.get_user_by_email(email)
         if existing:
-            # Account exists — if already paid, go to login; if not, send back to payment
             if user_store.has_paid(email):
                 return redirect(url_for('login', registered=1))
-            # Not yet paid — re-send to Stripe
             session['pending_payment_email'] = email
-            stripe_url = STRIPE_CHECKOUT_URL + '?prefilled_email=' + email
-            return redirect(stripe_url)
+            session['pending_plan'] = plan
+            return redirect(stripe_url + '?prefilled_email=' + email)
 
         user = user_store.create_user(email, password)
         if not user:
-            return render_template('register.html', error='Could not create account. Please try again.')
+            return render_template('register.html', error='Could not create account. Please try again.', plan=plan)
 
-        # Store email so checkout/success can mark this user as paid
         session['pending_payment_email'] = email
-        stripe_url = STRIPE_CHECKOUT_URL + '?prefilled_email=' + email
-        return redirect(stripe_url)
+        session['pending_plan'] = plan
+        return redirect(stripe_url + '?prefilled_email=' + email)
 
-    return render_template('register.html')
+    return render_template('register.html', plan=plan)
 
 
 @app.route('/api/register', methods=['POST'])
