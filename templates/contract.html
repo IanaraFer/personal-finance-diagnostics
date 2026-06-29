@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrato de Prestação de Serviços / Service Agreement — Money Diagnostics</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; min-height: 100vh; }
+
+    header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    header h1 { font-size: 1.4rem; }
+    header nav a { color: white; text-decoration: none; padding: 0.4rem 0.9rem; background: rgba(255,255,255,0.2); border-radius: 4px; margin-left: 0.5rem; transition: background 0.2s; }
+    header nav a:hover { background: rgba(255,255,255,0.35); }
+
+    .container { max-width: 860px; margin: 2rem auto; padding: 0 1rem 4rem; }
+
+    .lang-toggle { display: flex; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .lang-btn { padding: 0.45rem 1.1rem; border: 2px solid #667eea; border-radius: 20px; background: white; color: #667eea; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+    .lang-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; }
+
+    .contract { background: white; border-radius: 12px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+
+    .contract-header { text-align: center; border-bottom: 3px solid #667eea; padding-bottom: 1.5rem; margin-bottom: 2rem; }
+    .contract-header .logo { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .contract-header h2 { font-size: 1.5rem; color: #2d3748; margin-bottom: 0.3rem; }
+    .contract-header .subtitle { color: #718096; font-size: 0.95rem; }
+    .contract-header .version { margin-top: 0.6rem; font-size: 0.8rem; color: #a0aec0; }
+
+    .section { margin-bottom: 2rem; }
+    .section h3 { font-size: 1.05rem; color: #553c9a; font-weight: 700; margin-bottom: 0.75rem; padding-left: 0.75rem; border-left: 4px solid #667eea; }
+    .section p { color: #4a5568; line-height: 1.75; margin-bottom: 0.6rem; font-size: 0.95rem; }
+    .section ul { padding-left: 1.5rem; color: #4a5568; line-height: 1.75; font-size: 0.95rem; }
+    .section ul li { margin-bottom: 0.4rem; }
+
+    .highlight-box { background: #f8f9ff; border: 1px solid #c3cff5; border-radius: 8px; padding: 1rem 1.2rem; margin: 0.8rem 0; }
+    .highlight-box p { margin: 0; color: #4a5568; font-size: 0.92rem; }
+
+    .confidential-badge { display: inline-block; background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 0.25rem 0.7rem; border-radius: 4px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+
+    .signature-area { margin-top: 3rem; border-top: 2px solid #e2e8f0; padding-top: 2rem; }
+    .signature-area h3 { color: #553c9a; font-size: 1.05rem; margin-bottom: 1.5rem; }
+    .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .sig-block { text-align: center; }
+    .sig-line { border-top: 2px solid #2d3748; margin-bottom: 0.5rem; margin-top: 3rem; }
+    .sig-block p { font-size: 0.88rem; color: #718096; line-height: 1.5; }
+    .sig-block strong { color: #2d3748; display: block; margin-bottom: 0.2rem; }
+
+    .date-line { margin-top: 1.5rem; font-size: 0.9rem; color: #718096; }
+    .date-line span { border-bottom: 1px solid #718096; display: inline-block; min-width: 200px; margin-left: 0.3rem; }
+
+    .print-btn { display: block; margin: 1.5rem auto 0; padding: 0.75rem 2rem; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+    .print-btn:hover { opacity: 0.85; }
+
+    /* Language sections */
+    .lang-pt .en { display: none; }
+    .lang-en .pt { display: none; }
+
+    @media print {
+      header, .lang-toggle, .print-btn { display: none !important; }
+      body { background: white; }
+      .contract { box-shadow: none; padding: 1.5rem; }
+      .container { margin: 0; padding: 0; max-width: 100%; }
+    }
+    @media (max-width: 600px) {
+      .sig-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contract { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>💰 Money Diagnostics</h1>
+  <nav>
+    {% if current_user.is_authenticated %}
+      <a href="/admin">Admin</a>
+      <a href="/clients">Clients</a>
+    {% endif %}
+  </nav>
+</header>
+
+<div class="container">
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('pt')" id="btn-pt">🇧🇷 Português</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en">🇬🇧 English</button>
+  </div>
+
+  <div class="contract lang-pt" id="contract-doc">
+
+    <!-- PT VERSION -->
+    <div class="pt">
+      <div class="contract-header">
+        <div class="logo">📋</div>
+        <h2>Contrato de Prestação de Serviços de Diagnóstico Financeiro</h2>
+        <div class="subtitle">e Acordo de Sigilo e Confidencialidade das Informações</div>
+        <div class="version">Versão 1.0 · Junho 2026 · Money Diagnostics</div>
+      </div>
+
+      <div class="section">
+        <h3>1. PARTES CONTRATANTES</h3>
+        <p><strong>PRESTADOR DE SERVIÇOS:</strong> Money Diagnostics, serviço de diagnóstico e consultoria financeira pessoal, doravante denominado <em>"Prestador"</em>.</p>
+        <p><strong>CLIENTE:</strong> A pessoa identificada no momento do cadastro na plataforma, doravante denominada <em>"Cliente"</em>.</p>
+      </div>
+
+      <div class="section">
+        <h3>2. OBJETO DO CONTRATO</h3>
+        <p>O Prestador se compromete a fornecer ao Cliente os seguintes serviços de diagnóstico financeiro pessoal:</p>
+        <ul>
+          <li>Análise e categorização de extratos bancários (formatos PDF, CSV, Excel, TXT)</li>
+          <li>Geração de relatórios de diagnóstico financeiro com indicadores de saúde financeira</li>
+          <li>Cálculo de score de saúde financeira, taxa de poupança e projeções</li>
+          <li>Identificação de padrões de receitas, despesas e oportunidades de otimização</li>
+          <li>Acesso à plataforma Money Diagnostics durante o período contratado</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>3. OBRIGAÇÕES DO PRESTADOR</h3>
+        <ul>
+          <li>Prestar os serviços com diligência, qualidade e dentro dos prazos acordados</li>
+          <li>Manter em absoluto sigilo todas as informações financeiras fornecidas pelo Cliente</li>
+          <li>Utilizar os dados do Cliente exclusivamente para os fins descritos neste contrato</li>
+          <li>Não compartilhar, vender, divulgar ou transferir dados do Cliente a terceiros</li>
+          <li>Adotar medidas técnicas adequadas de segurança para proteção dos dados</li>
+          <li>Informar imediatamente o Cliente em caso de qualquer incidente de segurança</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>4. OBRIGAÇÕES DO CLIENTE</h3>
+        <ul>
+          <li>Fornecer informações verídicas, completas e atualizadas</li>
+          <li>Utilizar a plataforma exclusivamente para fins pessoais e lícitos</li>
+          <li>Não compartilhar suas credenciais de acesso com terceiros</li>
+          <li>Notificar imediatamente o Prestador em caso de suspeita de acesso indevido</li>
+          <li>Responsabilizar-se pela veracidade dos documentos enviados</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>5. SIGILO E CONFIDENCIALIDADE DAS INFORMAÇÕES</h3>
+        <div class="confidential-badge">🔒 CONFIDENCIAL</div>
+        <p>Este capítulo constitui o núcleo do compromisso de privacidade assumido pelo Prestador.</p>
+
+        <div class="highlight-box">
+          <p><strong>5.1</strong> Todas as informações financeiras, dados bancários, extratos, transações, valores, documentos e quaisquer outros dados fornecidos pelo Cliente são considerados <strong>estritamente confidenciais</strong>.</p>
+        </div>
+
+        <p><strong>5.2</strong> O Prestador se compromete a:</p>
+        <ul>
+          <li>Não revelar, publicar, compartilhar ou divulgar qualquer dado do Cliente a terceiros, sem autorização prévia e expressa do Cliente</li>
+          <li>Tratar os dados do Cliente com o mesmo grau de proteção que trata seus próprios dados confidenciais, nunca inferior ao padrão mínimo exigido pela LGPD</li>
+          <li>Limitar o acesso às informações do Cliente apenas aos colaboradores estritamente necessários para execução dos serviços</li>
+          <li>Destruir ou devolver todos os dados do Cliente, a pedido deste, após o encerramento do contrato</li>
+        </ul>
+
+        <p><strong>5.3</strong> A obrigação de sigilo <strong>não se aplica</strong> às informações que:</p>
+        <ul>
+          <li>Já sejam de domínio público no momento da divulgação, sem culpa do Prestador</li>
+          <li>O Prestador seja legalmente obrigado a divulgar por determinação judicial ou autoridade competente</li>
+        </ul>
+
+        <p><strong>5.4</strong> A violação do dever de sigilo por parte do Prestador ensejará responsabilização civil, incluindo reparação por danos materiais e morais sofridos pelo Cliente.</p>
+      </div>
+
+      <div class="section">
+        <h3>6. PROTEÇÃO DE DADOS — LGPD</h3>
+        <p>Em conformidade com a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), o Prestador declara:</p>
+        <ul>
+          <li><strong>Base legal:</strong> os dados são tratados com base no consentimento do titular e na execução do contrato</li>
+          <li><strong>Finalidade:</strong> análise financeira pessoal exclusivamente para o Cliente titular dos dados</li>
+          <li><strong>Retenção:</strong> os dados serão mantidos apenas pelo tempo necessário à prestação dos serviços</li>
+          <li><strong>Direitos do titular:</strong> o Cliente pode, a qualquer momento, solicitar acesso, correção, portabilidade, exclusão ou revogação do consentimento de seus dados</li>
+          <li><strong>Contato DPO:</strong> para exercer seus direitos, o Cliente deve entrar em contato pelo canal disponibilizado na plataforma</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>7. LIMITAÇÃO DE RESPONSABILIDADE</h3>
+        <p>Os relatórios e diagnósticos gerados pela plataforma têm caráter <strong>informativo e educacional</strong>. Não constituem aconselhamento financeiro, jurídico ou de investimento. O Cliente é responsável pelas decisões financeiras tomadas com base nas análises fornecidas.</p>
+      </div>
+
+      <div class="section">
+        <h3>8. VIGÊNCIA E RESCISÃO</h3>
+        <p>Este contrato entra em vigor na data de aceite pelo Cliente e permanece vigente enquanto o Cliente mantiver conta ativa na plataforma. Qualquer das partes poderá rescindir o contrato mediante aviso prévio de <strong>15 (quinze) dias</strong>, sem prejuízo das obrigações de sigilo que permanecem por prazo indeterminado após o encerramento.</p>
+      </div>
+
+      <div class="section">
+        <h3>9. FORO</h3>
+        <p>As partes elegem o foro da comarca do domicílio do Cliente para dirimir quaisquer controvérsias decorrentes deste contrato, com renúncia expressa a qualquer outro, por mais privilegiado que seja.</p>
+      </div>
+
+      <div class="signature-area">
+        <h3>✍️ ASSINATURAS / ACEITE</h3>
+        <div class="sig-grid">
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <strong>Prestador de Serviços</strong>
+            <p>Money Diagnostics<br>Consultoria Financeira Pessoal</p>
+          </div>
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <strong>Cliente</strong>
+            <p>Nome: ____________________________<br>CPF/ID: ___________________________</p>
+          </div>
+        </div>
+        <p class="date-line">Data: <span id="contract-date"></span></p>
+      </div>
+    </div><!-- end .pt -->
+
+    <!-- EN VERSION -->
+    <div class="en">
+      <div class="contract-header">
+        <div class="logo">📋</div>
+        <h2>Service Agreement for Personal Financial Diagnostics</h2>
+        <div class="subtitle">and Information Confidentiality & Non-Disclosure Agreement</div>
+        <div class="version">Version 1.0 · June 2026 · Money Diagnostics</div>
+      </div>
+
+      <div class="section">
+        <h3>1. PARTIES</h3>
+        <p><strong>SERVICE PROVIDER:</strong> Money Diagnostics, a personal financial diagnostics and advisory service, hereinafter referred to as the <em>"Provider"</em>.</p>
+        <p><strong>CLIENT:</strong> The individual identified upon registration on the platform, hereinafter referred to as the <em>"Client"</em>.</p>
+      </div>
+
+      <div class="section">
+        <h3>2. SCOPE OF SERVICES</h3>
+        <p>The Provider agrees to deliver the following personal financial diagnostic services to the Client:</p>
+        <ul>
+          <li>Analysis and categorisation of bank statements (PDF, CSV, Excel, TXT formats)</li>
+          <li>Generation of financial diagnostic reports with financial health indicators</li>
+          <li>Calculation of financial health score, savings rate, and projections</li>
+          <li>Identification of income/expense patterns and optimisation opportunities</li>
+          <li>Access to the Money Diagnostics platform during the contracted period</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>3. PROVIDER OBLIGATIONS</h3>
+        <ul>
+          <li>Deliver services diligently, with quality and within agreed timelines</li>
+          <li>Maintain strict confidentiality of all financial information provided by the Client</li>
+          <li>Use Client data solely for the purposes described in this agreement</li>
+          <li>Not share, sell, disclose, or transfer Client data to any third party</li>
+          <li>Implement adequate technical security measures to protect Client data</li>
+          <li>Immediately notify the Client of any security incident involving their data</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>4. CLIENT OBLIGATIONS</h3>
+        <ul>
+          <li>Provide truthful, complete, and up-to-date information</li>
+          <li>Use the platform solely for personal and lawful purposes</li>
+          <li>Not share login credentials with third parties</li>
+          <li>Immediately notify the Provider upon suspicion of unauthorised access</li>
+          <li>Take responsibility for the accuracy of documents submitted</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>5. CONFIDENTIALITY & NON-DISCLOSURE</h3>
+        <div class="confidential-badge">🔒 CONFIDENTIAL</div>
+        <p>This section constitutes the core of the privacy commitment undertaken by the Provider.</p>
+
+        <div class="highlight-box">
+          <p><strong>5.1</strong> All financial information, banking data, statements, transactions, values, documents, and any other data provided by the Client are considered <strong>strictly confidential</strong>.</p>
+        </div>
+
+        <p><strong>5.2</strong> The Provider undertakes to:</p>
+        <ul>
+          <li>Not reveal, publish, share, or disclose any Client data to third parties without the Client's prior and express authorisation</li>
+          <li>Treat Client data with the same level of protection as its own confidential data, never below the minimum standard required by applicable data protection law</li>
+          <li>Restrict access to Client information to only those personnel strictly necessary for service delivery</li>
+          <li>Destroy or return all Client data, upon request, following termination of this agreement</li>
+        </ul>
+
+        <p><strong>5.3</strong> The confidentiality obligation does <strong>not apply</strong> to information that:</p>
+        <ul>
+          <li>Is already in the public domain at the time of disclosure, through no fault of the Provider</li>
+          <li>The Provider is legally compelled to disclose by court order or competent authority</li>
+        </ul>
+
+        <p><strong>5.4</strong> A breach of confidentiality by the Provider shall give rise to civil liability, including compensation for material and moral damages suffered by the Client.</p>
+      </div>
+
+      <div class="section">
+        <h3>6. DATA PROTECTION — GDPR / LGPD</h3>
+        <p>In compliance with applicable data protection legislation (GDPR and Brazilian LGPD — Law No. 13,709/2018), the Provider declares:</p>
+        <ul>
+          <li><strong>Legal basis:</strong> data is processed on the basis of the Client's consent and performance of this contract</li>
+          <li><strong>Purpose:</strong> personal financial analysis exclusively for the Client who is the data subject</li>
+          <li><strong>Retention:</strong> data will be held only for as long as necessary for service delivery</li>
+          <li><strong>Data subject rights:</strong> the Client may, at any time, request access, correction, portability, deletion, or withdrawal of consent regarding their data</li>
+          <li><strong>DPO contact:</strong> to exercise rights, the Client should contact via the channel provided on the platform</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>7. LIMITATION OF LIABILITY</h3>
+        <p>Reports and diagnostics generated by the platform are <strong>informational and educational</strong> in nature. They do not constitute financial, legal, or investment advice. The Client is responsible for financial decisions made based on the analyses provided.</p>
+      </div>
+
+      <div class="section">
+        <h3>8. TERM AND TERMINATION</h3>
+        <p>This agreement comes into effect upon acceptance by the Client and remains in force while the Client maintains an active account on the platform. Either party may terminate this agreement with <strong>15 (fifteen) days'</strong> prior written notice, without prejudice to the confidentiality obligations which remain in force indefinitely after termination.</p>
+      </div>
+
+      <div class="section">
+        <h3>9. GOVERNING LAW & JURISDICTION</h3>
+        <p>This agreement shall be governed by and construed in accordance with the laws of the Client's country of residence. Any disputes shall be subject to the exclusive jurisdiction of the courts of the Client's domicile, with express waiver of any other jurisdiction.</p>
+      </div>
+
+      <div class="signature-area">
+        <h3>✍️ SIGNATURES / ACCEPTANCE</h3>
+        <div class="sig-grid">
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <strong>Service Provider</strong>
+            <p>Money Diagnostics<br>Personal Financial Advisory</p>
+          </div>
+          <div class="sig-block">
+            <div class="sig-line"></div>
+            <strong>Client</strong>
+            <p>Full Name: ________________________<br>ID / Passport: ______________________</p>
+          </div>
+        </div>
+        <p class="date-line">Date: <span id="contract-date-en"></span></p>
+      </div>
+    </div><!-- end .en -->
+
+  </div><!-- end .contract -->
+
+  <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Print as PDF</button>
+</div>
+
+<script>
+  // Set today's date
+  const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
+  const todayEn = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+  const d = document.getElementById('contract-date');
+  const dEn = document.getElementById('contract-date-en');
+  if (d) d.textContent = today;
+  if (dEn) dEn.textContent = todayEn;
+
+  function setLang(lang) {
+    const doc = document.getElementById('contract-doc');
+    doc.className = 'contract lang-' + lang;
+    document.getElementById('btn-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  }
+</script>
+
+</body>
+</html>

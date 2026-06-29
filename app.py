@@ -539,6 +539,11 @@ def client_report(client_slug, filename):
                                error=err)
 
 
+@app.route('/contract')
+def contract():
+    return render_template('contract.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
