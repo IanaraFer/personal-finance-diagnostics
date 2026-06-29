@@ -80,8 +80,19 @@
   </nav>
 
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    {% if results.no_data %}
+    <!-- Empty state banner -->
+    <div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:16px;padding:2.5rem 2rem;margin-bottom:2rem;text-align:center;color:white;">
+      <div style="font-size:3rem;margin-bottom:1rem;">📂</div>
+      <h2 style="font-size:1.6rem;font-weight:700;margin-bottom:0.5rem;">No data yet — upload your bank statement to get started</h2>
+      <p style="opacity:0.85;margin-bottom:1.5rem;">Your dashboard will show your real income, expenses, health score and insights once you upload a file.</p>
+      <a href="/upload" style="display:inline-block;background:white;color:#553c9a;font-weight:700;padding:0.75rem 2rem;border-radius:8px;text-decoration:none;font-size:1rem;">⬆️ Upload Bank Statement</a>
+    </div>
+    {% endif %}
+
     <!-- Summary Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" {% if results.no_data %}style="opacity:0.3;pointer-events:none;"{% endif %}>
       <div class="stat-card">
         <p class="text-blue-100 text-sm font-medium">Total Income</p>
         <p class="text-3xl font-bold mt-2">€{{ "%.2f"|format(results.income) }}</p>
@@ -114,10 +125,10 @@
       
       <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-lg p-6 shadow-lg">
         <p class="text-orange-100 text-sm font-medium">Next Month Forecast</p>
-        <p class="text-3xl font-bold mt-2">€{{ "%.0f"|format(results.prediction.predicted_expenses) }}</p>
+        <p class="text-3xl font-bold mt-2">€{{ "%.0f"|format(results.prediction.predicted_expenses if results.prediction else 0) }}</p>
         <p class="text-sm mt-2">
-          <span class="badge {% if results.prediction.trend == 'Decreasing' %}badge-success{% else %}badge-warning{% endif %} bg-orange-700">
-            {{ results.prediction.trend }} ({{ results.prediction.confidence }})
+          <span class="badge {% if results.prediction and results.prediction.trend == 'Decreasing' %}badge-success{% else %}badge-warning{% endif %} bg-orange-700">
+            {{ results.prediction.trend if results.prediction else '—' }} ({{ results.prediction.confidence if results.prediction else '' }})
           </span>
         </p>
       </div>

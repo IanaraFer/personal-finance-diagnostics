@@ -132,9 +132,30 @@ def index():
     # Gate access if user hasn't paid
     if (not getattr(current_user, 'is_admin', False)) and (not user_store.has_paid(current_user.email)):
         return redirect(url_for('paywall'))
-    # Load sample data for the landing demo
-    tx_df, acct_df = load_sample_data()
-    results = analyze_finances(tx_df, acct_df)
+    # Empty dashboard — no data loaded until user uploads their own file
+    results = {
+        'income': 0.0,
+        'expenses': 0.0,
+        'savings_rate': 0.0,
+        'alerts': [],
+        'recommendations': [],
+        'benchmarks': {'your_savings_rate': 0.0, 'age_group_average': 12.0},
+        'overspending': [],
+        'charts': {
+            'income_vs_expenses': {'labels': ['Income', 'Expenses'], 'data': [0.0, 0.0]},
+            'category_breakdown': {'labels': [], 'data': []},
+            'savings_progress': {'liquid_savings': 0.0, 'target_emergency': 0.0},
+            'monthly_trends': {'months': [], 'income': [], 'expenses': [], 'savings': []},
+        },
+        'monthly_trends': {'months': [], 'income': [], 'expenses': [], 'savings': []},
+        'prediction': None,
+        'recurring_transactions': [],
+        'category_trends': [],
+        'unusual_transactions': [],
+        'optimization': {},
+        'diagnostic_report': {},
+        'no_data': True,
+    }
     return render_template('dashboard_enhanced.html', results=results)
 
 
@@ -520,15 +541,9 @@ def client_report(client_slug, filename):
         results = analyze_finances(tx_df, acct_df)
 
         client_name = client_slug.replace('_', ' ').title()
-        report_text = _generate_clean_report(results, client_name=client_name,
-                                             source_file=filename, transactions_df=tx_df)
-
-        buffer = io.BytesIO()
-        buffer.write(report_text.encode('utf-8'))
-        buffer.seek(0)
-        ts = datetime.now().strftime('%Y%m%d_%H%M%S')
-        dl_name = f"{client_slug}_diagnostic_{ts}.txt"
-        return send_file(buffer, mimetype='text/plain', as_attachment=True, download_name=dl_name)
+        html = _generate_html_report(results, client_name=client_name,
+                                     source_file=filename, transactions_df=tx_df)
+        return html, 200, {'Content-Type': 'text/html; charset=utf-8'}
     except Exception as e:
         err = f"Report generation failed: {str(e)}"
         files = client_manager.get_client_files(client_slug)
@@ -947,6 +962,296 @@ def _generate_clean_report(results: dict, client_name: str = None, source_file: 
     lines.append('═' * W)
 
     return '\n'.join(lines)
+
+
+def _generate_html_report(results: dict, client_name: str = None, source_file: str = None, transactions_df=None) -> str:
+    """Return a rich HTML report with Plotly charts — grouped by category, no raw transactions."""
+    import json as _json
+
+    income   = float(results.get('income', 0) or 0)
+    expenses = float(results.get('expenses', 0) or 0)
+    net      = income - expenses
+    sav_rate = float(results.get('savings_rate', 0) or 0) * 100
+    diag     = results.get('diagnostic_report') or {}
+    score    = diag.get('overall_score', 0)
+    grade    = diag.get('grade', '—')
+    forecast = float((results.get('prediction') or {}).get('predicted_expenses', 0) or 0)
+
+    score_color = '#10b981' if score >= 70 else '#f59e0b' if score >= 50 else '#ef4444'
+    net_color   = '#10b981' if net >= 0 else '#ef4444'
+
+    # ── Category totals (grouped, unknowns → Others) ───────────────────────
+    UNKNOWN_LABELS = {'uncategorized', 'unknown', 'other', 'others', '', 'nan', 'none'}
+    TOP_N = 10  # show top 10, rest → Others
+
+    cat_labels_raw = (results.get('charts') or {}).get('category_breakdown', {}).get('labels', [])
+    cat_amounts_raw = (results.get('charts') or {}).get('category_breakdown', {}).get('data', [])
+
+    cat_map = {}
+    for lbl, amt in zip(cat_labels_raw, cat_amounts_raw):
+        key = str(lbl).strip()
+        if key.lower() in UNKNOWN_LABELS:
+            key = 'Others'
+        cat_map[key] = cat_map.get(key, 0) + float(amt)
+
+    # sort descending, keep top N, rest into Others
+    sorted_cats = sorted(cat_map.items(), key=lambda x: x[1], reverse=True)
+    if len(sorted_cats) > TOP_N:
+        top = sorted_cats[:TOP_N]
+        rest = sum(v for _, v in sorted_cats[TOP_N:])
+        if rest > 0:
+            top.append(('Others', rest))
+        sorted_cats = top
+
+    pie_labels = [c[0] for c in sorted_cats]
+    pie_values = [round(c[1], 2) for c in sorted_cats]
+    total_exp_shown = max(sum(pie_values), 1e-9)
+
+    # ── Monthly trend data ─────────────────────────────────────────────────
+    monthly  = results.get('monthly_trends') or {}
+    m_months = monthly.get('months', [])
+    m_inc    = [float(x) for x in monthly.get('income', [])]
+    m_exp    = [float(x) for x in monthly.get('expenses', [])]
+    m_sav    = [float(x) for x in monthly.get('savings', [])]
+
+    # ── Recurring ─────────────────────────────────────────────────────────
+    recurring = results.get('recurring_transactions', []) or []
+
+    # ── Alerts ─────────────────────────────────────────────────────────────
+    alerts = results.get('alerts', []) or []
+
+    # ── Recommendations ────────────────────────────────────────────────────
+    recs_diag  = (diag.get('recommendations') or [])
+    recs_basic = results.get('recommendations', []) or []
+    recs = list(recs_diag[:6]) if recs_diag else recs_basic
+
+    # ── JSON for Plotly ────────────────────────────────────────────────────
+    pie_json = _json.dumps({'labels': pie_labels, 'values': pie_values})
+    bar_json = _json.dumps({'months': [str(m) for m in m_months], 'income': m_inc, 'expenses': m_exp, 'savings': m_sav})
+
+    # ── Category table rows ────────────────────────────────────────────────
+    cat_rows_html = ''
+    for rank, (lbl, amt) in enumerate(sorted_cats, 1):
+        pct_v = amt / total_exp_shown * 100
+        flag = '<span style="color:#ef4444;font-weight:700"> ⚠</span>' if pct_v >= 20 else ''
+        bar_w = min(int(pct_v * 2), 100)
+        cat_rows_html += f'''
+        <tr>
+          <td style="padding:0.5rem 0.75rem;color:#6b7280">{rank}</td>
+          <td style="padding:0.5rem 0.75rem;font-weight:600">{lbl}{flag}</td>
+          <td style="padding:0.5rem 0.75rem;text-align:right;font-weight:700">€{amt:,.2f}</td>
+          <td style="padding:0.5rem 0.75rem;text-align:right;color:#6b7280">{pct_v:.1f}%</td>
+          <td style="padding:0.5rem 0.75rem;min-width:120px">
+            <div style="height:10px;background:#e5e7eb;border-radius:5px">
+              <div style="height:10px;width:{bar_w}%;background:linear-gradient(90deg,#667eea,#764ba2);border-radius:5px"></div>
+            </div>
+          </td>
+        </tr>'''
+
+    # ── Recurring rows ────────────────────────────────────────────────────
+    rec_rows_html = ''
+    total_rec = 0.0
+    for r in recurring[:15]:
+        desc = str(r.get('description', ''))[:40]
+        amt  = float(r.get('amount', 0) or 0)
+        freq = str(r.get('frequency', ''))
+        due  = str(r.get('next_due', ''))
+        total_rec += amt
+        rec_rows_html += f'<tr><td style="padding:0.5rem 0.75rem">{desc}</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:700">€{amt:,.2f}</td><td style="padding:0.5rem 0.75rem;color:#6b7280">{freq}</td><td style="padding:0.5rem 0.75rem;color:#6b7280">{due}</td></tr>'
+    if rec_rows_html:
+        rec_rows_html += f'<tr style="border-top:2px solid #e5e7eb;background:#f9fafb"><td style="padding:0.5rem 0.75rem;font-weight:700">TOTAL RECURRING</td><td style="padding:0.5rem 0.75rem;text-align:right;font-weight:700;color:#ef4444">€{total_rec:,.2f}</td><td colspan="2"></td></tr>'
+
+    # Pre-build recurring card (can't nest ''' inside f''')
+    if rec_rows_html:
+        recurring_card_html = (
+            '<div class="card"><h2>\U0001f504 Recurring Bills &amp; Subscriptions</h2>'
+            '<table><thead><tr><th>Description</th>'
+            '<th style="text-align:right">Amount</th>'
+            '<th>Frequency</th><th>Next Due</th></tr></thead>'
+            '<tbody>' + rec_rows_html + '</tbody></table></div>'
+        )
+    else:
+        recurring_card_html = ''
+
+    # ── Alerts HTML ────────────────────────────────────────────────────────
+    alerts_html = ''.join(
+        f'<div style="background:#fef9c3;border-left:4px solid #f59e0b;padding:0.75rem 1rem;border-radius:4px;margin-bottom:0.5rem">⚠️ {a}</div>'
+        for a in alerts
+    ) if alerts else '<p style="color:#6b7280">No critical alerts.</p>'
+
+    # ── Recs HTML ─────────────────────────────────────────────────────────
+    recs_html = ''
+    for i, rec in enumerate(recs, 1):
+        if isinstance(rec, dict):
+            action = rec.get('action', '')
+            impact = rec.get('impact', '')
+            pri    = rec.get('priority', 'medium').upper()
+            pri_color = '#10b981' if pri == 'HIGH' else '#f59e0b'
+            recs_html += f'<div style="margin-bottom:0.75rem;padding:0.75rem 1rem;background:#f8f9ff;border-left:4px solid {pri_color};border-radius:4px"><strong>{i}. {action}</strong>'
+            if impact:
+                recs_html += f'<br><span style="color:#6b7280;font-size:0.9em">→ {impact}</span>'
+            recs_html += '</div>'
+        else:
+            recs_html += f'<div style="margin-bottom:0.5rem;padding:0.75rem 1rem;background:#f8f9ff;border-left:4px solid #667eea;border-radius:4px">{i}. {rec}</div>'
+    if not recs_html:
+        recs_html = '<p style="color:#6b7280">No recommendations available.</p>'
+
+    generated = datetime.now().strftime('%Y-%m-%d %H:%M')
+
+    html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Financial Report — {client_name or 'Client'}</title>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  <style>
+    *{{margin:0;padding:0;box-sizing:border-box}}
+    body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f7fa;color:#1f2937}}
+    .page{{max-width:960px;margin:0 auto;padding:2rem 1rem 4rem}}
+    .header{{background:linear-gradient(135deg,#667eea,#764ba2);color:white;border-radius:16px;padding:2.5rem;margin-bottom:2rem;text-align:center}}
+    .header h1{{font-size:2rem;margin-bottom:0.25rem}}
+    .header .sub{{opacity:0.85;font-size:0.95rem}}
+    .kpi-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}}
+    .kpi{{background:white;border-radius:12px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.07);text-align:center}}
+    .kpi .label{{font-size:0.8rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:0.5rem}}
+    .kpi .value{{font-size:1.8rem;font-weight:800}}
+    .kpi .sub{{font-size:0.82rem;color:#9ca3af;margin-top:0.3rem}}
+    .card{{background:white;border-radius:12px;padding:1.75rem;box-shadow:0 2px 10px rgba(0,0,0,.07);margin-bottom:2rem}}
+    .card h2{{font-size:1.15rem;font-weight:700;color:#374151;margin-bottom:1.25rem;padding-bottom:0.6rem;border-bottom:2px solid #e5e7eb}}
+    table{{width:100%;border-collapse:collapse}}
+    thead th{{background:#f9fafb;padding:0.6rem 0.75rem;text-align:left;font-size:0.8rem;text-transform:uppercase;color:#6b7280;letter-spacing:.04em}}
+    tbody tr:hover{{background:#f9fafb}}
+    .charts-grid{{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}}
+    .print-btn{{position:fixed;bottom:2rem;right:2rem;background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;border-radius:50px;padding:0.85rem 1.75rem;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(102,126,234,.4)}}
+    @media print{{.print-btn{{display:none}};body{{background:white}};.page{{padding:0}};.header{{border-radius:0}}}}
+    @media(max-width:600px){{.charts-grid{{grid-template-columns:1fr}};.kpi-grid{{grid-template-columns:1fr 1fr}}}}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>💰 Financial Diagnostic Report</h1>
+    <div class="sub">{'Client: ' + client_name if client_name else ''} &nbsp;·&nbsp; Generated: {generated}</div>
+    {'<div class="sub" style="margin-top:.3rem;font-size:.8rem;opacity:.7">Source: ' + (source_file or '') + '</div>' if source_file else ''}
+  </div>
+
+  <!-- KPI cards -->
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Total Income</div>
+      <div class="value" style="color:#10b981">€{income:,.0f}</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Total Expenses</div>
+      <div class="value" style="color:#ef4444">€{expenses:,.0f}</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Net Saved</div>
+      <div class="value" style="color:{net_color}">€{net:,.0f}</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Savings Rate</div>
+      <div class="value" style="color:{'#10b981' if sav_rate >= 10 else '#ef4444'}">{sav_rate:.1f}%</div>
+      <div class="sub">Target 12%</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Health Score</div>
+      <div class="value" style="color:{score_color}">{score}<span style="font-size:1rem">/100</span></div>
+      <div class="sub">{grade}</div>
+    </div>
+    {('<div class="kpi"><div class="label">Next Month Forecast</div><div class="value" style="color:#f59e0b">€' + f'{forecast:,.0f}' + '</div></div>') if forecast else ''}
+  </div>
+
+  <!-- Charts row -->
+  <div class="charts-grid">
+    <div class="card" style="margin-bottom:0">
+      <h2>🥧 Spending by Category</h2>
+      <div id="pie-chart" style="height:320px"></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <h2>📈 Monthly Income vs Expenses</h2>
+      <div id="bar-chart" style="height:320px"></div>
+    </div>
+  </div>
+  <div style="margin-bottom:2rem"></div>
+
+  <!-- Category table -->
+  <div class="card">
+    <h2>📊 Expenses by Category</h2>
+    <table>
+      <thead><tr><th>#</th><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">% of Total</th><th>Share</th></tr></thead>
+      <tbody>{cat_rows_html}</tbody>
+      <tfoot><tr style="border-top:2px solid #e5e7eb;background:#f9fafb">
+        <td colspan="2" style="padding:0.6rem 0.75rem;font-weight:700">TOTAL EXPENSES</td>
+        <td style="padding:0.6rem 0.75rem;text-align:right;font-weight:800;color:#ef4444">€{expenses:,.2f}</td>
+        <td colspan="2"></td>
+      </tr></tfoot>
+    </table>
+  </div>
+
+  {recurring_card_html}
+
+  <div class="card">
+    <h2>⚠️ Alerts</h2>
+    {alerts_html}
+  </div>
+
+  <div class="card">
+    <h2>💡 Recommendations</h2>
+    {recs_html}
+  </div>
+
+  <div style="text-align:center;color:#9ca3af;font-size:0.82rem;margin-top:2rem">
+    This report is generated automatically from your financial data.<br>
+    Consult a certified financial advisor for personalised advice.
+  </div>
+
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+<script>
+const pie = {pie_json};
+const bar = {bar_json};
+
+Plotly.newPlot('pie-chart', [{{
+  type: 'pie',
+  labels: pie.labels,
+  values: pie.values,
+  hole: 0.4,
+  textinfo: 'label+percent',
+  textposition: 'outside',
+  hovertemplate: '<b>%{{label}}</b><br>€%{{value:,.2f}}<br>%{{percent}}<extra></extra>',
+  marker: {{ colors: ['#667eea','#764ba2','#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316','#6b7280'] }}
+}}], {{
+  margin: {{t:10,b:30,l:10,r:10}},
+  showlegend: false,
+  paper_bgcolor: 'white'
+}}, {{responsive: true, displayModeBar: false}});
+
+if (bar.months && bar.months.length > 0) {{
+  Plotly.newPlot('bar-chart', [
+    {{type:'bar', name:'Income', x:bar.months, y:bar.income, marker:{{color:'#10b981'}}}},
+    {{type:'bar', name:'Expenses', x:bar.months, y:bar.expenses, marker:{{color:'#ef4444'}}}},
+    {{type:'scatter', name:'Saved', x:bar.months, y:bar.savings, mode:'lines+markers', line:{{color:'#667eea',width:2}}, marker:{{size:6}}}}
+  ], {{
+    barmode: 'group',
+    margin: {{t:10,b:60,l:60,r:10}},
+    xaxis: {{tickangle:-30}},
+    yaxis: {{tickprefix:'€', tickformat:',.0f'}},
+    legend: {{orientation:'h', y:-0.25}},
+    paper_bgcolor: 'white',
+    plot_bgcolor: '#f9fafb'
+  }}, {{responsive: true, displayModeBar: false}});
+}} else {{
+  document.getElementById('bar-chart').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9ca3af">Not enough monthly data</div>';
+}}
+</script>
+</body>
+</html>'''
+    return html
 
 
 @app.route('/api/export/data')
