@@ -632,9 +632,28 @@
             
             <!-- Inline Registration Form -->
             <div class="registration-form">
-                <h3>Get Started — From €14.99/mo</h3>
-                
-                <form id="registrationForm">
+                <h3>Get Started</h3>
+
+                <!-- Plan selector -->
+                <div style="display:flex;gap:.75rem;margin-bottom:1.25rem;">
+                    <label style="flex:1;cursor:pointer">
+                        <input type="radio" name="hero_plan" value="monthly" id="heroPlanMonthly" checked style="display:none">
+                        <div class="plan-opt" id="optMonthly" onclick="selectPlan('monthly')" style="border:2px solid #667eea;border-radius:10px;padding:.75rem;text-align:center;background:#f5f3ff">
+                            <div style="font-weight:700;color:#4f46e5">Monthly</div>
+                            <div style="font-size:1.25rem;font-weight:800;color:#1f2937">€14.99<span style="font-size:.8rem;font-weight:500">/mo</span></div>
+                        </div>
+                    </label>
+                    <label style="flex:1;cursor:pointer">
+                        <input type="radio" name="hero_plan" value="annual" id="heroPlanAnnual" style="display:none">
+                        <div class="plan-opt" id="optAnnual" onclick="selectPlan('annual')" style="border:2px solid #e5e7eb;border-radius:10px;padding:.75rem;text-align:center;background:white">
+                            <div style="font-weight:700;color:#6b7280">Annual <span style="background:#10b981;color:white;font-size:.7rem;padding:.1rem .4rem;border-radius:10px">-39%</span></div>
+                            <div style="font-size:1.25rem;font-weight:800;color:#1f2937">€109.99<span style="font-size:.8rem;font-weight:500">/yr</span></div>
+                        </div>
+                    </label>
+                </div>
+
+                <form id="registrationForm" action="/register" method="post">
+                    <input type="hidden" name="plan" id="heroplan" value="monthly">
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" id="email" name="email" placeholder="your@email.com" required>
@@ -643,16 +662,16 @@
                     <div class="form-group password-group">
                         <div>
                             <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+                            <input type="password" id="password" name="password" placeholder="••••••••" required minlength="8">
                         </div>
                         <div>
                             <label for="confirm_password">Confirm Password</label>
-                            <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required minlength="6">
+                            <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required minlength="8">
                         </div>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        Create Free Account
+                        Continue to Payment →
                     </button>
 
                     <div class="form-message" id="formMessage"></div>
@@ -931,13 +950,28 @@
                 navigator.serviceWorker.register('/service-worker.js').catch(console.error);
             });
         }
-        // Initialize Stripe
-        const stripe = Stripe('{{ stripe_publishable_key }}');
-        const priceId = '{{ stripe_price_id }}';
 
-        // Registration Form Handler
-        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Plan selector for hero form
+        function selectPlan(plan) {
+            document.getElementById('heroplan').value = plan;
+            const monthly = document.getElementById('optMonthly');
+            const annual  = document.getElementById('optAnnual');
+            if (plan === 'annual') {
+                annual.style.border  = '2px solid #10b981';
+                annual.style.background = '#f0fdf4';
+                annual.querySelector('div').style.color = '#065f46';
+                monthly.style.border = '2px solid #e5e7eb';
+                monthly.style.background = 'white';
+                monthly.querySelector('div').style.color = '#6b7280';
+            } else {
+                monthly.style.border = '2px solid #667eea';
+                monthly.style.background = '#f5f3ff';
+                monthly.querySelector('div').style.color = '#4f46e5';
+                annual.style.border  = '2px solid #e5e7eb';
+                annual.style.background = 'white';
+                annual.querySelector('div').style.color = '#6b7280';
+            }
+        }
 
             const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value;
@@ -1000,30 +1034,6 @@
                     submitBtn.textContent = 'Register & Pay €9.99';
                     return;
                 }
-
-                // Step 3: Redirect to Stripe checkout
-                window.location.href = checkoutData.checkout_url;
-
-            } catch (error) {
-                console.error('Error:', error);
-                showMessage('An error occurred. Please try again.', 'error');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Register & Pay €9.99';
-            }
-        });
-
-        function showMessage(message, type) {
-            const formMessage = document.getElementById('formMessage');
-            formMessage.textContent = message;
-            formMessage.className = `form-message ${type}`;
-            formMessage.style.display = 'block';
-            
-            if (type === 'error') {
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                }, 5000);
-            }
-        }
 
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(question => {
