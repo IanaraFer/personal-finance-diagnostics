@@ -80,7 +80,7 @@ STRIPE_SECRET_KEY = getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLISHABLE_KEY = getenv('STRIPE_PUBLISHABLE_KEY')
 STRIPE_PRICE_ID = getenv('STRIPE_PRICE_ID')  # e.g., 'price_1SmcTcEPS0ev8tkiLDa2mJqM'
 STRIPE_WEBHOOK_SECRET = getenv('STRIPE_WEBHOOK_SECRET')
-STRIPE_CHECKOUT_URL = getenv('STRIPE_CHECKOUT_URL') or 'https://buy.stripe.com/cNi9ATgk4cZRfYW9UE5c401'
+STRIPE_CHECKOUT_URL = getenv('STRIPE_CHECKOUT_URL') or 'https://buy.stripe.com/4gMeVdgk43pheUSfeY5c402'
 if STRIPE_AVAILABLE and STRIPE_SECRET_KEY:
     stripe.api_key = STRIPE_SECRET_KEY
 
@@ -617,21 +617,34 @@ def register():
         email = request.form.get('email', '').strip().lower()
         password = request.form.get('password', '')
         confirm = request.form.get('confirm_password', '')
-        
+
         if not email or not password:
             return render_template('register.html', error='Email and password required.')
         if password != confirm:
             return render_template('register.html', error='Passwords do not match.')
         if len(password) < 8:
             return render_template('register.html', error='Password must be at least 8 characters.')
-        
-        # Require payment before allowing registration
-        if not user_store.has_paid(email):
-            return render_template('register.html', error='Please complete payment to create an account.')
+
+        # Create account first (unpaid), then send to payment
+        existing = user_store.get_user_by_email(email)
+        if existing:
+            # Account exists — if already paid, go to login; if not, send back to payment
+            if user_store.has_paid(email):
+                return redirect(url_for('login', registered=1))
+            # Not yet paid — re-send to Stripe
+            session['pending_payment_email'] = email
+            stripe_url = STRIPE_CHECKOUT_URL + '?prefilled_email=' + email
+            return redirect(stripe_url)
+
         user = user_store.create_user(email, password)
-        if user:
-            return redirect(url_for('login', registered=1))
-        return render_template('register.html', error='Email already registered.')
+        if not user:
+            return render_template('register.html', error='Could not create account. Please try again.')
+
+        # Store email so checkout/success can mark this user as paid
+        session['pending_payment_email'] = email
+        stripe_url = STRIPE_CHECKOUT_URL + '?prefilled_email=' + email
+        return redirect(stripe_url)
+
     return render_template('register.html')
 
 
@@ -740,7 +753,17 @@ def checkout():
 
 @app.route('/checkout/success')
 def checkout_success():
-    return "Payment successful. You can now register/login to access the beta."
+    """Called after successful Stripe payment. Mark user as paid, log in, redirect to dashboard."""
+    email = session.pop('pending_payment_email', None)
+    if email:
+        user_store.mark_paid(email)
+        user = user_store.get_user_by_email(email)
+        if user:
+            u = User(id=user['email'], email=user['email'], is_admin=user.get('is_admin', 0))
+            login_user(u)
+            return redirect(url_for('dashboard'))
+    # Fallback: payment received but session expired — ask user to log in
+    return render_template('checkout_success.html')
 
 
 @app.route('/checkout/cancel')
