@@ -1,900 +1,349 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demo - Upload & Analyze Financial Data</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 3rem;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .demo-section {
-            margin-bottom: 3rem;
-        }
-
-        .section-title {
-            color: #667eea;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
-
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 8px;
-            padding: 3rem;
-            text-align: center;
-            background: #f8f9ff;
-            transition: all 0.3s;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-
-        .upload-area:hover {
-            background: #f0f2ff;
-            border-color: #764ba2;
-        }
-
-        .upload-area.dragover {
-            background: #e8ebff;
-            border-color: #764ba2;
-            transform: scale(1.02);
-        }
-
-        .upload-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .upload-area p {
-            color: #333;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-area .small {
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-
-        .btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 0.5rem;
-        }
-
-        .btn:hover {
-            background: #5568d3;
-        }
-
-        .btn-secondary {
-            background: #e0e7ff;
-            color: #667eea;
-            margin-left: 0.5rem;
-        }
-
-        .btn-secondary:hover {
-            background: #cdd5ff;
-        }
-
-        .file-info {
-            background: #f8f9ff;
-            border-left: 4px solid #667eea;
-            padding: 1rem;
-            margin-top: 1rem;
-            border-radius: 4px;
-            display: none;
-        }
-
-        .file-info.show {
-            display: block;
-        }
-
-        .file-name {
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .file-size {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .analysis-results {
-            background: #f8f9ff;
-            border-radius: 8px;
-            padding: 2rem;
-            margin-top: 2rem;
-            display: none;
-        }
-
-        .analysis-results.show {
-            display: block;
-        }
-
-        .result-card {
-            background: white;
-            border: 1px solid #e0e7ff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .result-card h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .result-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .result-description {
-            color: #666;
-            font-size: 0.95rem;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .stat-item {
-            background: white;
-            padding: 1rem;
-            border-radius: 6px;
-            border-left: 3px solid #667eea;
-        }
-
-        .stat-label {
-            color: #999;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-top: 0.5rem;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .loading.show {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-top: 1rem;
-            display: none;
-            border-left: 4px solid #c33;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        .success-message {
-            background: #efe;
-            color: #3c3;
-            padding: 1rem;
-            border-radius: 6px;
-            margin-top: 1rem;
-            display: none;
-            border-left: 4px solid #3c3;
-        }
-
-        .success-message.show {
-            display: block;
-        }
-
-        .features {
-            background: #f8f9ff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        .features h4 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .features ul {
-            list-style: none;
-            padding-left: 1.5rem;
-        }
-
-        .features li {
-            color: #666;
-            margin-bottom: 0.5rem;
-        }
-
-        .features li:before {
-            content: "✓ ";
-            color: #667eea;
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-
-        .note {
-            background: #fff8e1;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            border-radius: 4px;
-            margin-top: 1rem;
-            color: #856404;
-            font-size: 0.95rem;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .upload-area {
-                padding: 2rem 1rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Demo — Money Diagnostics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"><\/script>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:#f5f7fa; color:#1f2937; min-height:100vh; }
+    .hero { background:linear-gradient(135deg,#667eea,#764ba2); color:white; text-align:center; padding:3rem 1rem 2.5rem; }
+    .hero h1 { font-size:2.2rem; font-weight:800; margin-bottom:.5rem; }
+    .hero p  { opacity:.9; font-size:1.05rem; margin-bottom:1.25rem; }
+    .back-link { color:rgba(255,255,255,.75); text-decoration:none; font-size:.9rem; }
+    .back-link:hover { color:white; }
+    .page { max-width:880px; margin:0 auto; padding:2rem 1rem 5rem; }
+    .card { background:white; border-radius:14px; box-shadow:0 2px 14px rgba(0,0,0,.07); padding:2rem; margin-bottom:1.5rem; }
+    .card h2 { font-size:1.1rem; font-weight:700; color:#374151; margin-bottom:1.25rem; padding-bottom:.6rem; border-bottom:2px solid #e5e7eb; display:flex; align-items:center; gap:.5rem; }
+    .upload-zone { border:2.5px dashed #a5b4fc; border-radius:10px; padding:2.5rem; text-align:center; background:#f8f9ff; cursor:pointer; transition:all .2s; }
+    .upload-zone:hover,.upload-zone.over { background:#eef0ff; border-color:#667eea; }
+    .upload-zone input { display:none; }
+    .upload-zone .icon { font-size:2.5rem; margin-bottom:.75rem; }
+    .upload-zone strong { color:#374151; font-size:1rem; }
+    .upload-zone .hint { color:#9ca3af; font-size:.85rem; margin-top:.4rem; }
+    .btn-row { display:flex; gap:.75rem; margin-top:1rem; flex-wrap:wrap; }
+    .btn { display:inline-block; padding:.7rem 1.5rem; border-radius:8px; font-size:.95rem; font-weight:600; cursor:pointer; border:none; text-decoration:none; transition:opacity .2s; }
+    .btn-primary   { background:linear-gradient(135deg,#667eea,#764ba2); color:white; }
+    .btn-secondary { background:#e0e7ff; color:#4f46e5; }
+    .btn-cta       { background:linear-gradient(135deg,#10b981,#059669); color:white; font-size:1rem; padding:.85rem 2rem; }
+    .btn:hover { opacity:.88; }
+    .file-badge { display:inline-flex; align-items:center; gap:.5rem; background:#ede9fe; color:#6d28d9; padding:.4rem .9rem; border-radius:20px; font-size:.85rem; margin-top:.75rem; }
+    .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+    .kpi { background:white; border-radius:12px; padding:1.25rem 1rem; box-shadow:0 2px 10px rgba(0,0,0,.06); text-align:center; }
+    .kpi .lbl { font-size:.75rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.4rem; }
+    .kpi .val { font-size:1.75rem; font-weight:800; }
+    .kpi .sub { font-size:.78rem; color:#9ca3af; margin-top:.2rem; }
+    .charts-row { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem; }
+    @media(max-width:600px){ .charts-row { grid-template-columns:1fr; } .kpi-row { grid-template-columns:1fr 1fr; } }
+    table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    thead th { background:#f9fafb; padding:.55rem .75rem; text-align:left; color:#6b7280; font-size:.75rem; text-transform:uppercase; letter-spacing:.04em; }
+    tbody tr:hover { background:#f9fafb; }
+    td { padding:.55rem .75rem; }
+    .bar-cell { min-width:100px; }
+    .mini-bar { height:8px; background:#e5e7eb; border-radius:4px; overflow:hidden; }
+    .mini-bar-fill { height:100%; background:linear-gradient(90deg,#667eea,#764ba2); border-radius:4px; }
+    .locked-wrap { position:relative; overflow:hidden; border-radius:12px; }
+    .locked-wrap .blur-layer { filter:blur(6px); pointer-events:none; user-select:none; }
+    .locked-overlay { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(255,255,255,.72); backdrop-filter:blur(2px); text-align:center; padding:1.5rem; }
+    .locked-overlay .lock-icon { font-size:2.5rem; margin-bottom:.75rem; }
+    .locked-overlay h3 { color:#374151; font-size:1.05rem; margin-bottom:.4rem; }
+    .locked-overlay p { color:#6b7280; font-size:.88rem; margin-bottom:1rem; }
+    .score-ring { width:120px; height:120px; margin:0 auto .75rem; position:relative; }
+    .score-ring svg { transform:rotate(-90deg); }
+    .score-ring .score-num { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:1.9rem; font-weight:800; }
+    .alert-item { background:#fef9c3; border-left:4px solid #f59e0b; border-radius:5px; padding:.7rem 1rem; margin-bottom:.5rem; font-size:.9rem; }
+    .cta-banner { background:linear-gradient(135deg,#667eea,#764ba2); color:white; border-radius:14px; padding:2.5rem 2rem; text-align:center; margin-bottom:1.5rem; }
+    .cta-banner h2 { font-size:1.6rem; margin-bottom:.5rem; }
+    .cta-banner p  { opacity:.9; margin-bottom:1.5rem; font-size:.97rem; }
+    .cta-banner ul { list-style:none; display:inline-grid; grid-template-columns:1fr 1fr; gap:.35rem .75rem; text-align:left; margin-bottom:1.5rem; font-size:.9rem; }
+    .cta-banner li::before { content:"+ "; font-weight:700; color:#86efac; }
+    @media(max-width:500px){ .cta-banner ul { grid-template-columns:1fr; } }
+    .privacy-note { background:#f0fdf4; border-left:4px solid #10b981; border-radius:6px; padding:.85rem 1rem; font-size:.88rem; color:#065f46; margin-bottom:1.5rem; }
+    .hidden { display:none !important; }
+    #loadingSpinner { text-align:center; padding:3rem; }
+    .spinner { width:42px; height:42px; border:4px solid #e5e7eb; border-top-color:#667eea; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto .75rem; }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+    .error-box { background:#fee2e2; border-left:4px solid #ef4444; border-radius:6px; padding:.85rem 1rem; color:#b91c1c; font-size:.9rem; margin-top:.75rem; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📊 Financial Data Demo</h1>
-        <p class="subtitle">Upload your bank CSV files and get instant analysis - No registration required!</p>
-
-        <div class="demo-section">
-            <div class="section-title">Step 1: Upload Your File</div>
-            <p style="color: #666; margin-bottom: 1rem;">
-                Upload a CSV file with your bank transactions. The platform will analyze:
-            </p>
-            <div class="features">
-                <h4>Analysis Preview (Sample Data):</h4>
-                <ul>
-                    <li>Total spending summary</li>
-                    <li>Transaction count</li>
-                    <li>Average transaction amount</li>
-                    <li>Top spending categories</li>
-                    <li>Monthly patterns</li>
-                </ul>
-            </div>
-
-            <div class="upload-area" id="uploadArea">
-                <div class="upload-icon">📁</div>
-                <p><strong>Click to upload or drag and drop</strong></p>
-                <p class="small">Supports: CSV, Excel (XLS, XLSX), PDF, JSON, TXT</p>
-                <p class="small">Max file size: 10MB</p>
-                <input type="file" id="fileInput" accept=".csv,.xls,.xlsx,.pdf,.json,.txt" />
-            </div>
-
-            <div class="file-info" id="fileInfo">
-                <div class="file-name" id="fileName"></div>
-                <div class="file-size" id="fileSize"></div>
-            </div>
-
-            <div class="error-message" id="errorMessage"></div>
-            <div class="success-message" id="successMessage"></div>
-
-            <button class="btn" onclick="triggerFileInput()">📂 Choose File</button>
-            <button class="btn btn-secondary" onclick="loadSampleData()">📊 Try Sample Data</button>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Analyzing your financial data...</p>
-        </div>
-
-        <div class="analysis-results" id="analysisResults">
-            <div class="section-title">Analysis Results</div>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-label">Total Transactions</div>
-                    <div class="stat-value" id="totalTransactions">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Total Amount (EUR)</div>
-                    <div class="stat-value" id="totalAmount">€ 0.00</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Average Transaction</div>
-                    <div class="stat-value" id="avgTransaction">€ 0.00</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Highest Transaction</div>
-                    <div class="stat-value" id="highestTransaction">€ 0.00</div>
-                </div>
-            </div>
-
-            <div id="additionalStats" style="margin-top: 1rem;"></div>
-
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <p style="color: #666; margin-bottom: 1rem;">
-                    This is a preview of what the platform can analyze.
-                </p>
-                <p style="color: #667eea; font-weight: bold; margin-bottom: 1rem;">
-                    For complete analysis including spending categories, trends, and recommendations:
-                </p>
-                <a href="/register" class="btn">Get Full Analysis - Register Now</a>
-                <p style="color: #999; font-size: 0.9rem; margin-top: 1rem;">
-                    Or <a href="/login" style="color: #667eea;">login if you already have an account</a>
-                </p>
-            </div>
-        </div>
-
-        <div class="note">
-            <strong>ℹ️ Privacy Note:</strong> This demo processes your file in the browser only. Your data is not stored or sent anywhere. Upload with confidence!
-        </div>
+<div class="hero">
+  <h1>Financial Demo</h1>
+  <p>Upload your CSV bank statement and get instant charts. No account needed.</p>
+  <a href="/" class="back-link">Back to Home</a>
+</div>
+<div class="page">
+  <div class="privacy-note">Your file is processed entirely in your browser. Nothing is uploaded to any server.</div>
+  <div class="card" id="uploadCard">
+    <h2>Step 1 - Upload your bank statement (CSV)</h2>
+    <div class="upload-zone" id="dropZone">
+      <div class="icon">&#128193;</div>
+      <strong>Drag and drop your CSV here, or click to choose</strong>
+      <div class="hint">Revolut, AIB, Bank of Ireland, PTSB, Any bank CSV export</div>
+      <input type="file" id="fileInput" accept=".csv,.txt">
     </div>
-
-    <script>
-        const uploadArea = document.getElementById('uploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const fileInfo = document.getElementById('fileInfo');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const loading = document.getElementById('loading');
-        const analysisResults = document.getElementById('analysisResults');
-
-        // Drag and drop
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            handleFiles(e.dataTransfer.files);
-        });
-
-        uploadArea.addEventListener('click', triggerFileInput);
-
-        fileInput.addEventListener('change', (e) => {
-            handleFiles(e.target.files);
-        });
-
-        function triggerFileInput() {
-            fileInput.click();
-        }
-
-        function handleFiles(files) {
-            if (files.length === 0) return;
-
-            const file = files[0];
-            const supportedFormats = ['.csv', '.xls', '.xlsx', '.pdf', '.json', '.txt'];
-            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
-
-            // Validate file type
-            if (!supportedFormats.includes(fileExtension)) {
-                showError('Unsupported file format. Please upload: CSV, Excel, PDF, JSON, or TXT');
-                return;
-            }
-
-            // Validate file size (10MB)
-            if (file.size > 10 * 1024 * 1024) {
-                showError('File is too large. Maximum size: 10MB');
-                return;
-            }
-
-            // Show file info
-            document.getElementById('fileName').textContent = `📄 ${file.name}`;
-            document.getElementById('fileSize').textContent = `Size: ${(file.size / 1024).toFixed(2)} KB | Type: ${fileExtension.toUpperCase()}`;
-            fileInfo.classList.add('show');
-
-            // Clear previous results
-            clearMessages();
-
-            // Analyze file
-            analyzeFile(file, fileExtension);
-        }
-
-        function analyzeFile(file, fileExtension) {
-            if (fileExtension === '.pdf') {
-                analyzePDF(file);
-            } else if (['.xls', '.xlsx'].includes(fileExtension)) {
-                analyzeExcel(file);
-            } else if (fileExtension === '.json') {
-                analyzeJSON(file);
-            } else {
-                // CSV or TXT
-                analyzeCSV(file);
-            }
-        }
-
-        function analyzeCSV(file) {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                try {
-                    const content = e.target.result;
-                    const lines = content.trim().split('\n');
-
-                    if (lines.length < 2) {
-                        showError('File appears to be empty');
-                        return;
-                    }
-
-                    // Parse CSV
-                    const headers = lines[0].split(',').map(h => h.trim());
-                    const rows = [];
-
-                    for (let i = 1; i < lines.length; i++) {
-                        if (lines[i].trim()) {
-                            rows.push(lines[i].split(',').map(v => v.trim()));
-                        }
-                    }
-
-                    if (rows.length === 0) {
-                        showError('No data found in file');
-                        return;
-                    }
-
-                    loading.classList.add('show');
-
-                    setTimeout(() => {
-                        analyzeTransactionData(headers, rows, file.name);
-                        loading.classList.remove('show');
-                    }, 1000);
-
-                } catch (error) {
-                    showError('Error reading file: ' + error.message);
-                }
-            };
-
-            reader.readAsText(file);
-        }
-
-        function analyzePDF(file) {
-            loading.classList.add('show');
-            showSuccess('📄 PDF uploaded! Extracting data...');
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setTimeout(() => {
-                    loading.classList.remove('show');
-                    showSuccess('✓ PDF processed - Showing sample analysis from your data type');
-                    displayGenericAnalysis(`${file.name} (PDF)`, 856);
-                }, 1500);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function analyzeExcel(file) {
-            loading.classList.add('show');
-            showSuccess('📊 Excel file uploaded! Processing...');
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setTimeout(() => {
-                    loading.classList.remove('show');
-                    showSuccess('✓ Excel processed - Showing sample analysis from your data type');
-                    displayGenericAnalysis(`${file.name} (Excel)`, 1243);
-                }, 1500);
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        function analyzeJSON(file) {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                try {
-                    const content = e.target.result;
-                    const data = JSON.parse(content);
-
-                    loading.classList.add('show');
-
-                    setTimeout(() => {
-                        // Extract transactions from various JSON structures
-                        let transactions = [];
-                        if (Array.isArray(data)) {
-                            transactions = data;
-                        } else if (data.transactions && Array.isArray(data.transactions)) {
-                            transactions = data.transactions;
-                        } else if (data.data && Array.isArray(data.data)) {
-                            transactions = data.data;
-                        }
-
-                        if (transactions.length === 0) {
-                            showError('No transaction data found in JSON file');
-                            loading.classList.remove('show');
-                            return;
-                        }
-
-                        analyzeJSONTransactions(transactions);
-                        loading.classList.remove('show');
-                    }, 1000);
-
-                } catch (error) {
-                    showError('Invalid JSON file: ' + error.message);
-                }
-            };
-
-            reader.readAsText(file);
-        }
-
-        function analyzeJSONTransactions(transactions) {
-            // Find amount field
-            const firstTx = transactions[0];
-            const amountKey = Object.keys(firstTx).find(key =>
-                key.toLowerCase().includes('amount') ||
-                key.toLowerCase().includes('value') ||
-                key.toLowerCase().includes('euro') ||
-                key.toLowerCase().includes('eur')
-            );
-
-            if (!amountKey) {
-                displayGenericAnalysis('JSON Data', transactions.length);
-                return;
-            }
-
-            let totalAmount = 0;
-            let amounts = [];
-
-            transactions.forEach(tx => {
-                let amount = parseFloat(tx[amountKey]);
-                if (!isNaN(amount)) {
-                    totalAmount += Math.abs(amount);
-                    amounts.push(Math.abs(amount));
-                }
-            });
-
-            if (amounts.length === 0) {
-                displayGenericAnalysis('JSON Data', transactions.length);
-                return;
-            }
-
-            const avgAmount = totalAmount / amounts.length;
-            const maxAmount = Math.max(...amounts);
-            const minAmount = Math.min(...amounts);
-
-            document.getElementById('totalTransactions').textContent = amounts.length.toLocaleString();
-            document.getElementById('totalAmount').textContent = '€ ' + totalAmount.toFixed(2).toLocaleString();
-            document.getElementById('avgTransaction').textContent = '€ ' + avgAmount.toFixed(2).toLocaleString();
-            document.getElementById('highestTransaction').textContent = '€ ' + maxAmount.toFixed(2).toLocaleString();
-
-            const additionalStatsDiv = document.getElementById('additionalStats');
-            additionalStatsDiv.innerHTML = `
-                <div class="result-card">
-                    <h3>📈 Additional Statistics</h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Lowest Transaction</div>
-                            <div class="stat-value">€ ${minAmount.toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Median Transaction</div>
-                            <div class="stat-value">€ ${getMedian(amounts).toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Standard Deviation</div>
-                            <div class="stat-value">€ ${getStdDev(amounts).toFixed(2)}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="result-card">
-                    <h3>ℹ️ File Summary</h3>
-                    <p><strong>Format:</strong> JSON</p>
-                    <p><strong>Total Records:</strong> ${amounts.length}</p>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">
-                        This analysis shows basic statistics. Register to unlock full features including category analysis, spending trends, and personalized recommendations.
-                    </p>
-                </div>
-            `;
-
-            analysisResults.classList.add('show');
-            showSuccess('JSON file analyzed successfully! ✓');
-        }
-
-        function displayGenericAnalysis(fileName, recordCount) {
-            // Show generic analysis for file types that need server processing
-            const sampleStats = {
-                totalTransactions: recordCount,
-                totalAmount: 12450.75 + (Math.random() * 50000),
-                avgAmount: (12450.75 + (Math.random() * 50000)) / recordCount
-            };
-
-            document.getElementById('totalTransactions').textContent = sampleStats.totalTransactions.toLocaleString();
-            document.getElementById('totalAmount').textContent = '€ ' + sampleStats.totalAmount.toFixed(2).toLocaleString();
-            document.getElementById('avgTransaction').textContent = '€ ' + sampleStats.avgAmount.toFixed(2).toLocaleString();
-            document.getElementById('highestTransaction').textContent = '€ ' + (sampleStats.avgAmount * 2.5).toFixed(2).toLocaleString();
-
-            const additionalStatsDiv = document.getElementById('additionalStats');
-            additionalStatsDiv.innerHTML = `
-                <div class="result-card">
-                    <h3>📋 File Analysis Preview</h3>
-                    <p style="color: #666; margin-bottom: 1rem;">
-                        Your file <strong>${fileName}</strong> has been uploaded successfully.
-                    </p>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Records Found</div>
-                            <div class="stat-value">${recordCount}</div>
-                        </div>
-                    </div>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 1rem;">
-                        <strong>Note:</strong> Full extraction and detailed analysis requires registration and server processing.
-                    </p>
-                </div>
-                <div class="result-card">
-                    <h3>🔓 Unlock Full Analysis</h3>
-                    <p style="color: #666;">
-                        To get complete analysis including:
-                    </p>
-                    <ul style="margin-left: 1rem; margin-top: 0.5rem; color: #666;">
-                        <li>✓ Detailed spending categories</li>
-                        <li>✓ Transaction extraction from PDF</li>
-                        <li>✓ Multi-file analysis</li>
-                        <li>✓ Spending trends and patterns</li>
-                        <li>✓ Budget recommendations</li>
-                        <li>✓ Financial health scoring</li>
-                        <li>✓ And much more...</li>
-                    </ul>
-                </div>
-            `;
-
-            analysisResults.classList.add('show');
-        }
-
-        function analyzeTransactionData(headers, rows, fileName = 'Your File') {
-            // Find amount column
-            const amountIndex = headers.findIndex(h => 
-                h.toLowerCase().includes('amount') || 
-                h.toLowerCase().includes('value') ||
-                h.toLowerCase().includes('euro') ||
-                h.toLowerCase().includes('eur')
-            );
-
-            if (amountIndex === -1) {
-                showError('Could not find amount column in CSV');
-                return;
-            }
-
-            // Parse amounts and calculate stats
-            let totalAmount = 0;
-            let count = 0;
-            let amounts = [];
-
-            rows.forEach(row => {
-                if (row[amountIndex]) {
-                    let amount = parseFloat(row[amountIndex].replace(/[^\d.-]/g, ''));
-                    if (!isNaN(amount)) {
-                        totalAmount += Math.abs(amount); // Use absolute value for analysis
-                        amounts.push(Math.abs(amount));
-                        count++;
-                    }
-                }
-            });
-
-            if (count === 0) {
-                showError('Could not parse any transaction amounts');
-                return;
-            }
-
-            // Calculate statistics
-            const avgAmount = totalAmount / count;
-            const maxAmount = Math.max(...amounts);
-            const minAmount = Math.min(...amounts);
-
-            // Update UI
-            document.getElementById('totalTransactions').textContent = count.toLocaleString();
-            document.getElementById('totalAmount').textContent = '€ ' + totalAmount.toFixed(2).toLocaleString();
-            document.getElementById('avgTransaction').textContent = '€ ' + avgAmount.toFixed(2).toLocaleString();
-            document.getElementById('highestTransaction').textContent = '€ ' + maxAmount.toFixed(2).toLocaleString();
-
-            // Show additional stats
-            const additionalStatsDiv = document.getElementById('additionalStats');
-            additionalStatsDiv.innerHTML = `
-                <div class="result-card">
-                    <h3>📈 Additional Statistics</h3>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Lowest Transaction</div>
-                            <div class="stat-value">€ ${minAmount.toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Median Transaction</div>
-                            <div class="stat-value">€ ${getMedian(amounts).toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Standard Deviation</div>
-                            <div class="stat-value">€ ${getStdDev(amounts).toFixed(2)}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="result-card">
-                    <h3>ℹ️ File Summary</h3>
-                    <p><strong>Columns detected:</strong> ${headers.length}</p>
-                    <p><strong>Data rows:</strong> ${count}</p>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">
-                        This analysis shows basic statistics. Register to unlock full features including category analysis, spending trends, and personalized recommendations.
-                    </p>
-                </div>
-            `;
-
-            analysisResults.classList.add('show');
-            showSuccess('File analyzed successfully! ✓');
-        }
-
-        function loadSampleData() {
-            // Use pre-calculated sample data
-            const sampleStats = {
-                totalTransactions: 2274,
-                totalAmount: 82879.17,
-                avgAmount: 36.44,
-                maxAmount: 18573.40,
-                minAmount: 0.50,
-                median: 15.20,
-                stdDev: 124.35
-            };
-
-            document.getElementById('totalTransactions').textContent = sampleStats.totalTransactions.toLocaleString();
-            document.getElementById('totalAmount').textContent = '€ ' + sampleStats.totalAmount.toFixed(2).toLocaleString();
-            document.getElementById('avgTransaction').textContent = '€ ' + sampleStats.avgAmount.toFixed(2).toLocaleString();
-            document.getElementById('highestTransaction').textContent = '€ ' + sampleStats.maxAmount.toFixed(2).toLocaleString();
-
-            const additionalStatsDiv = document.getElementById('additionalStats');
-            additionalStatsDiv.innerHTML = `
-                <div class="result-card">
-                    <h3>📊 Sample Data Analysis (Combined Bank Data)</h3>
-                    <p style="color: #666; margin-bottom: 1rem;">
-                        This sample includes data from Revolut EUR and AIB bank accounts analyzed in our diagnostic report.
-                    </p>
-                    <div class="stats-grid">
-                        <div class="stat-item">
-                            <div class="stat-label">Lowest Transaction</div>
-                            <div class="stat-value">€ ${sampleStats.minAmount.toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Median Transaction</div>
-                            <div class="stat-value">€ ${sampleStats.median.toFixed(2)}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">Standard Deviation</div>
-                            <div class="stat-value">€ ${sampleStats.stdDev.toFixed(2)}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="result-card">
-                    <h3>📋 What You're Seeing</h3>
-                    <p style="color: #666;">
-                        This is a <strong>limited preview</strong> showing only basic statistics (20% of analysis capabilities).
-                    </p>
-                    <p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">
-                        To unlock the full power of financial analysis including:
-                    </p>
-                    <ul style="margin-left: 1rem; margin-top: 0.5rem; color: #666;">
-                        <li>✓ Detailed spending categories and trends</li>
-                        <li>✓ Monthly budget comparison</li>
-                        <li>✓ Savings rate analysis</li>
-                        <li>✓ Financial health scoring</li>
-                        <li>✓ Personalized recommendations</li>
-                        <li>✓ Multi-account comparison</li>
-                        <li>✓ And much more...</li>
-                    </ul>
-                </div>
-            `;
-
-            analysisResults.classList.add('show');
-            successMessage.classList.add('show');
-            successMessage.textContent = '✓ Sample data loaded! Register for complete analysis.';
-        }
-
-        function getMedian(arr) {
-            const sorted = [...arr].sort((a, b) => a - b);
-            const mid = Math.floor(sorted.length / 2);
-            return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-        }
-
-        function getStdDev(arr) {
-            const avg = arr.reduce((a, b) => a + b) / arr.length;
-            const sqDiff = arr.map(x => Math.pow(x - avg, 2));
-            const avgSqDiff = sqDiff.reduce((a, b) => a + b) / sqDiff.length;
-            return Math.sqrt(avgSqDiff);
-        }
-
-        function showError(message) {
-            errorMessage.textContent = '❌ ' + message;
-            errorMessage.classList.add('show');
-            successMessage.classList.remove('show');
-        }
-
-        function showSuccess(message) {
-            successMessage.textContent = message;
-            successMessage.classList.add('show');
-            errorMessage.classList.remove('show');
-        }
-
-        function clearMessages() {
-            errorMessage.classList.remove('show');
-            successMessage.classList.remove('show');
-        }
-    </script>
+    <div id="fileBadge" class="hidden"></div>
+    <div id="errorBox" class="hidden error-box"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">Choose File</button>
+      <button class="btn btn-secondary" onclick="loadSample()">Try Sample Data</button>
+    </div>
+  </div>
+  <div id="loadingSpinner" class="hidden"><div class="spinner"></div><p style="color:#6b7280">Analysing your transactions...</p></div>
+  <div id="results" class="hidden">
+    <div class="kpi-row">
+      <div class="kpi"><div class="lbl">Total Income</div><div class="val" id="kpiIncome" style="color:#10b981">0</div><div class="sub" id="kpiIncomeSub"></div></div>
+      <div class="kpi"><div class="lbl">Total Expenses</div><div class="val" id="kpiExpenses" style="color:#ef4444">0</div><div class="sub" id="kpiExpensesSub"></div></div>
+      <div class="kpi"><div class="lbl">Net Saved</div><div class="val" id="kpiNet">0</div></div>
+      <div class="kpi"><div class="lbl">Transactions</div><div class="val" id="kpiTx" style="color:#667eea">0</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="card" style="margin-bottom:0"><h2>Spending by Category</h2><canvas id="pieChart" height="260"></canvas></div>
+      <div class="locked-wrap">
+        <div class="card blur-layer" style="margin-bottom:0"><h2>Monthly Trend</h2><canvas id="barChart" height="260"></canvas></div>
+        <div class="locked-overlay">
+          <div class="lock-icon">&#128202;</div>
+          <h3>Monthly Trend Chart</h3>
+          <p>See income vs expenses and your savings rate month by month.</p>
+          <a href="/register" class="btn btn-cta">Unlock Full Analysis</a>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Spending Breakdown</h2>
+      <table><thead><tr><th>#</th><th>Category</th><th style="text-align:right">Amount</th><th style="text-align:right">Share</th><th class="bar-cell">Bar</th></tr></thead><tbody id="catTableBody"></tbody></table>
+    </div>
+    <div class="charts-row">
+      <div class="card" style="margin-bottom:0;text-align:center">
+        <h2>Financial Health Score</h2>
+        <div class="score-ring">
+          <svg viewBox="0 0 120 120" width="120" height="120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="12"/>
+            <circle cx="60" cy="60" r="52" fill="none" id="scoreArc" stroke="#10b981" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+          </svg>
+          <div class="score-num" id="scoreNum">-</div>
+        </div>
+        <p id="scoreGrade" style="font-weight:700;font-size:1.1rem;margin-bottom:.4rem"></p>
+        <p style="color:#6b7280;font-size:.85rem;line-height:1.5" id="scoreNote"></p>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <h2>Alerts and Insights</h2>
+        <div id="alertsPreview"></div>
+        <div class="locked-wrap" style="margin-top:.5rem">
+          <div class="blur-layer" style="background:#fef9c3;padding:1rem;border-radius:8px">
+            <div class="alert-item">You are spending more than you earn in 3 months</div>
+            <div class="alert-item">Detected 7 recurring subscriptions totalling 94/month</div>
+            <div class="alert-item">Transport costs are 40% above average</div>
+          </div>
+          <div class="locked-overlay" style="border-radius:8px">
+            <div class="lock-icon" style="font-size:1.8rem">&#128274;</div>
+            <h3 style="font-size:.95rem">More Alerts Hidden</h3>
+            <p>Sign up to see all alerts and personalised recommendations.</p>
+            <a href="/register" class="btn btn-primary" style="font-size:.85rem;padding:.55rem 1.25rem">Unlock All</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:1.5rem"></div>
+    <div class="locked-wrap" style="margin-bottom:1.5rem">
+      <div class="card blur-layer" style="margin-bottom:0">
+        <h2>Recurring Bills and Subscriptions</h2>
+        <table><thead><tr><th>Merchant</th><th>Amount</th><th>Frequency</th></tr></thead>
+        <tbody><tr><td>Netflix</td><td>15.99</td><td>Monthly</td></tr><tr><td>Spotify</td><td>10.99</td><td>Monthly</td></tr><tr><td>Gym</td><td>40.00</td><td>Monthly</td></tr><tr><td>Amazon Prime</td><td>8.99</td><td>Monthly</td></tr></tbody></table>
+      </div>
+      <div class="locked-overlay">
+        <div class="lock-icon">&#128260;</div>
+        <h3>Recurring Bills Detected</h3>
+        <p>We automatically spot subscriptions, direct debits and recurring charges you may have forgotten about.</p>
+        <a href="/register" class="btn btn-cta">See My Subscriptions</a>
+      </div>
+    </div>
+    <div class="locked-wrap" style="margin-bottom:1.5rem">
+      <div class="card blur-layer" style="margin-bottom:0">
+        <h2>Personalised Recommendations</h2>
+        <div style="padding:.5rem 0">
+          <div style="border-left:4px solid #10b981;padding:.6rem 1rem;margin-bottom:.5rem;background:#f0fdf4;border-radius:4px"><strong>1. Cut your food delivery spend by 30%</strong><br><span style="color:#6b7280;font-size:.85rem">Switching to cooking 3 more meals/week could save 85/month</span></div>
+          <div style="border-left:4px solid #f59e0b;padding:.6rem 1rem;margin-bottom:.5rem;background:#fffbeb;border-radius:4px"><strong>2. Cancel unused subscriptions</strong><br><span style="color:#6b7280;font-size:.85em">You have 4 subscriptions unused in the last 30 days</span></div>
+          <div style="border-left:4px solid #667eea;padding:.6rem 1rem;background:#f8f9ff;border-radius:4px"><strong>3. Build a 3-month emergency fund</strong><br><span style="color:#6b7280;font-size:.85em">At your savings rate, you could reach this goal in 14 months</span></div>
+        </div>
+      </div>
+      <div class="locked-overlay">
+        <div class="lock-icon">&#128161;</div>
+        <h3>Personalised Recommendations</h3>
+        <p>Get specific, actionable steps tailored to your spending patterns, not generic advice.</p>
+        <a href="/register" class="btn btn-cta">Get My Recommendations</a>
+      </div>
+    </div>
+    <div class="cta-banner">
+      <h2>You have seen a glimpse. Ready for the full picture?</h2>
+      <p>A private financial adviser in Ireland charges 150-300 per hour. Get the same quality insights instantly for just 9.99 once.</p>
+      <ul>
+        <li>Full monthly trend charts</li><li>Recurring bills detector</li>
+        <li>Personalised recommendations</li><li>Financial health score</li>
+        <li>PDF and Excel support</li><li>Save and track over time</li>
+      </ul>
+      <a href="/register" class="btn btn-cta" style="font-size:1.1rem;padding:1rem 2.5rem">Get Full Access - 9.99 once</a>
+      <p style="opacity:.7;font-size:.82rem;margin-top:.75rem">One-time payment. No subscription. No hidden fees.</p>
+    </div>
+  </div>
+</div>
+<script>
+const RULES=[
+  {cat:'Groceries',kw:['tesco','lidl','aldi','dunnes','supervalu','spar','centra','marks & spencer','m&s','co-op','supermarket','grocery']},
+  {cat:'Food & Dining',kw:['restaurant','cafe','coffee','mcdonalds','kfc','supermacs','starbucks','deliveroo','just eat','takeaway','domino','subway','pizza','burger','nandos','chipper','hungry']},
+  {cat:'Transport',kw:['uber','lyft','taxi','bus','dart','luas','iarnrod','dublin bus','fuel','petrol','parking','toll','ryanair','aer lingus','flight','train','freenow']},
+  {cat:'Shopping',kw:['amazon','ebay','zara','penneys','primark','h&m','tk maxx','next','asos','argos','ikea','shein']},
+  {cat:'Health',kw:['pharmacy','chemist','doctor','gp','dentist','hospital','lloyds','physio','optician','gym','leisure','laya','vhi']},
+  {cat:'Entertainment',kw:['netflix','spotify','disney','apple tv','cinema','vue','odeon','theatre','steam','playstation','xbox','ticketmaster','concert','hbo','amazon prime']},
+  {cat:'Utilities',kw:['electricity','gas','broadband','internet','sky','eir','vodafone','three','o2','eircom','bord gais','electric ireland','energia','airtricity','bin']},
+  {cat:'Savings',kw:['savings','investment','pension','revolut savings','revolut vault']},
+];
+function categorise(desc){
+  if(!desc)return'Other';
+  const d=desc.toLowerCase();
+  for(const r of RULES){if(r.kw.some(k=>d.includes(k)))return r.cat;}
+  return'Other';
+}
+function fmt(n){return'EUR'+Math.abs(n).toLocaleString('en-IE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+const PALETTE=['#667eea','#764ba2','#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316','#6b7280'];
+let pieInst=null;
+function buildPie(labels,values){
+  if(pieInst)pieInst.destroy();
+  const ctx=document.getElementById('pieChart').getContext('2d');
+  pieInst=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data:values,backgroundColor:PALETTE.slice(0,labels.length),borderWidth:2}]},
+    options:{cutout:'55%',plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}},
+    tooltip:{callbacks:{label:c=>' EUR'+c.parsed.toLocaleString('en-IE',{minimumFractionDigits:2})+' ('+Math.round(c.parsed/values.reduce((a,b)=>a+b,0)*100)+'%)'}}}
+  }});
+}
+function analyse(rows){
+  let income=0,expenses=0;
+  const catMap={};
+  rows.forEach(r=>{
+    const amt=parseFloat(r.amount);
+    if(isNaN(amt))return;
+    const cat=categorise(r.description);
+    if(amt>0||r.type==='income'){income+=Math.abs(amt);}
+    else{expenses+=Math.abs(amt);const key=(cat==='Income'||cat==='Savings')?'Savings Transfer':cat;catMap[key]=(catMap[key]||0)+Math.abs(amt);}
+  });
+  const net=income-expenses;
+  const savRate=income>0?(net/income*100):0;
+  const sorted=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
+  const top=sorted.slice(0,8);
+  const rest=sorted.slice(8).reduce((s,[,v])=>s+v,0);
+  if(rest>0)top.push(['Other',rest]);
+  const totalExp=top.reduce((s,[,v])=>s+v,0)||1;
+  let score=50;
+  if(savRate>=20)score=85;else if(savRate>=12)score=72;else if(savRate>=5)score=60;else if(savRate<0)score=30;
+  let alert1='';
+  if(savRate<0)alert1='Your expenses exceed your income. You are spending more than you earn.';
+  else if(savRate<10)alert1='Your savings rate is below 10%. Financial experts recommend saving at least 12% of income.';
+  else alert1='Good! You are saving '+savRate.toFixed(1)+'% of your income.';
+  // KPIs
+  document.getElementById('kpiIncome').textContent=fmt(income);
+  document.getElementById('kpiExpenses').textContent=fmt(expenses);
+  const netEl=document.getElementById('kpiNet');
+  netEl.textContent=(net>=0?'+':'-')+fmt(net);
+  netEl.style.color=net>=0?'#10b981':'#ef4444';
+  document.getElementById('kpiTx').textContent=rows.length.toLocaleString();
+  document.getElementById('kpiIncomeSub').textContent=rows.length+' transactions';
+  document.getElementById('kpiExpensesSub').textContent='Savings '+savRate.toFixed(1)+'%';
+  // Pie
+  buildPie(top.map(c=>c[0]),top.map(c=>Math.round(c[1]*100)/100));
+  // Table
+  const tbody=document.getElementById('catTableBody');tbody.innerHTML='';
+  top.forEach(([lbl,amt],i)=>{
+    const pct=amt/totalExp*100;
+    const bw=Math.min(Math.round(pct*1.5),100);
+    tbody.innerHTML+=`<tr><td style="color:#9ca3af">${i+1}</td><td style="font-weight:600">${lbl}</td><td style="text-align:right;font-weight:700">${fmt(amt)}</td><td style="text-align:right;color:#6b7280">${pct.toFixed(1)}%</td><td class="bar-cell"><div class="mini-bar"><div class="mini-bar-fill" style="width:${bw}%"></div></div></td></tr>`;
+  });
+  tbody.innerHTML+=`<tr style="border-top:2px solid #e5e7eb;background:#f9fafb"><td colspan="2" style="font-weight:700">TOTAL EXPENSES</td><td style="text-align:right;font-weight:800;color:#ef4444">${fmt(expenses)}</td><td colspan="2"></td></tr>`;
+  // Score ring
+  const C=2*Math.PI*52;
+  const off=C-(score/100)*C;
+  const arc=document.getElementById('scoreArc');
+  arc.setAttribute('stroke-dasharray',C.toFixed(1));
+  arc.setAttribute('stroke-dashoffset',off.toFixed(1));
+  arc.setAttribute('stroke',score>=70?'#10b981':score>=50?'#f59e0b':'#ef4444');
+  document.getElementById('scoreNum').textContent=score;
+  const grade=score>=80?'Excellent':score>=70?'Good':score>=55?'Fair':'Needs Work';
+  document.getElementById('scoreGrade').textContent=grade;
+  document.getElementById('scoreNote').textContent=score>=70?'Your finances look healthy! The full report shows where to optimise.':score>=50?'There is room for improvement. See the full report for a personalised action plan.':'Your finances need attention. Unlock the full report for specific steps.';
+  document.getElementById('alertsPreview').innerHTML='<div class="alert-item">'+alert1+'</div>';
+  document.getElementById('results').classList.remove('hidden');
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function parseCSV(text){
+  const lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').trim().split('\n');
+  if(lines.length<2)return null;
+  const sep=(lines[0].match(/;/g)||[]).length>(lines[0].match(/,/g)||[]).length?';':',';
+  const parseRow=line=>{const r=[];let cur='';let q=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){q=!q;}else if(c===sep&&!q){r.push(cur.trim());cur='';}else{cur+=c;}}r.push(cur.trim());return r;};
+  const headers=parseRow(lines[0]).map(h=>h.toLowerCase().replace(/[^a-z0-9]/g,'_'));
+  const rows=[];
+  for(let i=1;i<lines.length;i++){if(!lines[i].trim())continue;const v=parseRow(lines[i]);const o={};headers.forEach((h,idx)=>{o[h]=v[idx]||'';});rows.push(o);}
+  const col=names=>names.find(n=>headers.includes(n))||null;
+  const amtCol=col(['amount','value','transaction_amount','debit','credit','eur']);
+  const descCol=col(['description','details','narrative','memo','reference','merchant','name','payee']);
+  const typeCol=col(['type','transaction_type','dr_cr']);
+  const inCol=col(['money_in','credit','deposit']);
+  const outCol=col(['money_out','debit','withdrawal']);
+  if(!amtCol&&!inCol&&!outCol)return null;
+  return rows.map(r=>{
+    let amount=0;
+    if(amtCol){const raw=String(r[amtCol]||'0').replace(/[EUR$\u00a3\u00a0,\s]/g,'');amount=parseFloat(raw)||0;}
+    else{const i=parseFloat(String(r[inCol]||'0').replace(/[EUR$\u00a3\u00a0,\s]/g,''))||0;const o=parseFloat(String(r[outCol]||'0').replace(/[EUR$\u00a3\u00a0,\s]/g,''))||0;amount=i-o;}
+    const desc=r[descCol]||'';
+    let type=amount>=0?'income':'expense';
+    if(typeCol){const t=String(r[typeCol]).toLowerCase();if(t.includes('cr')||t.includes('income'))type='income';}
+    return{description:desc,amount,type};
+  }).filter(r=>r.amount!==0);
+}
+function loadSample(){
+  showLoading(true);
+  setTimeout(()=>{
+    const s=[
+      {description:'Salary ACME Ltd',amount:3200,type:'income'},{description:'Salary ACME Ltd',amount:3200,type:'income'},{description:'Salary ACME Ltd',amount:3200,type:'income'},{description:'Salary ACME Ltd',amount:3200,type:'income'},{description:'Salary ACME Ltd',amount:3200,type:'income'},{description:'Salary ACME Ltd',amount:3200,type:'income'},
+      {description:'Tesco Weekly Shop',amount:-89.50,type:'expense'},{description:'Tesco Weekly Shop',amount:-94.20,type:'expense'},{description:'Lidl Groceries',amount:-65.30,type:'expense'},{description:'Aldi',amount:-58.40,type:'expense'},{description:'Aldi',amount:-61.20,type:'expense'},
+      {description:'Deliveroo Order',amount:-23.90,type:'expense'},{description:'Deliveroo Order',amount:-31.50,type:'expense'},{description:'Just Eat Takeaway',amount:-27.40,type:'expense'},{description:'Starbucks Coffee',amount:-5.90,type:'expense'},{description:'Restaurant Bill',amount:-48.00,type:'expense'},{description:'Restaurant Bill',amount:-62.50,type:'expense'},
+      {description:'Uber Trip',amount:-14.50,type:'expense'},{description:'Uber Trip',amount:-18.20,type:'expense'},{description:'Dublin Bus Top-up',amount:-20.00,type:'expense'},{description:'Dublin Bus Top-up',amount:-20.00,type:'expense'},{description:'Fuel Station',amount:-65.00,type:'expense'},{description:'Fuel Station',amount:-70.00,type:'expense'},
+      {description:'Netflix Monthly',amount:-15.99,type:'expense'},{description:'Netflix Monthly',amount:-15.99,type:'expense'},{description:'Netflix Monthly',amount:-15.99,type:'expense'},{description:'Spotify Premium',amount:-10.99,type:'expense'},{description:'Spotify Premium',amount:-10.99,type:'expense'},{description:'Spotify Premium',amount:-10.99,type:'expense'},{description:'Amazon Prime',amount:-8.99,type:'expense'},{description:'Amazon Prime',amount:-8.99,type:'expense'},{description:'Disney+ Subscription',amount:-8.99,type:'expense'},
+      {description:'Gym Monthly Fee',amount:-45.00,type:'expense'},{description:'Gym Monthly Fee',amount:-45.00,type:'expense'},{description:'Gym Monthly Fee',amount:-45.00,type:'expense'},
+      {description:'Electricity Bill ESB',amount:-95.00,type:'expense'},{description:'Electricity Bill ESB',amount:-110.00,type:'expense'},{description:'Broadband Eir',amount:-49.99,type:'expense'},{description:'Broadband Eir',amount:-49.99,type:'expense'},{description:'Vodafone Bill',amount:-35.00,type:'expense'},{description:'Vodafone Bill',amount:-35.00,type:'expense'},
+      {description:'Amazon Purchase',amount:-34.99,type:'expense'},{description:'Amazon Purchase',amount:-89.00,type:'expense'},{description:'Zara Clothing',amount:-79.95,type:'expense'},{description:'Penneys Clothes',amount:-45.00,type:'expense'},
+      {description:'Pharmacy Boots',amount:-28.50,type:'expense'},{description:'GP Visit',amount:-60.00,type:'expense'},{description:'Dentist Check-up',amount:-65.00,type:'expense'},
+      {description:'Revolut Savings',amount:-300.00,type:'expense'},{description:'Revolut Savings',amount:-300.00,type:'expense'},{description:'Revolut Savings',amount:-300.00,type:'expense'},
+    ];
+    showBadge('Sample Data - 6 months of Irish finances');
+    analyse(s);
+    showLoading(false);
+  },900);
+}
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput');
+dropZone.addEventListener('click',()=>fileInput.click());
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('over');});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('over');handleFile(e.dataTransfer.files[0]);});
+fileInput.addEventListener('change',e=>handleFile(e.target.files[0]));
+function handleFile(file){
+  if(!file)return;
+  clearError();
+  const ext=file.name.split('.').pop().toLowerCase();
+  if(!['csv','txt'].includes(ext)){showError('The free demo supports CSV files. For PDF and Excel, sign up for full access.');return;}
+  showBadge(file.name+' ('+( file.size/1024).toFixed(1)+' KB)');
+  showLoading(true);
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const rows=parseCSV(e.target.result);
+    showLoading(false);
+    if(!rows||rows.length===0){showError('Could not read transaction data. Make sure the CSV has amount and description columns.');return;}
+    analyse(rows);
+  };
+  reader.readAsText(file,'UTF-8');
+}
+function showLoading(on){document.getElementById('loadingSpinner').classList.toggle('hidden',!on);}
+function showBadge(t){const b=document.getElementById('fileBadge');b.className='file-badge';b.textContent=t;}
+function showError(m){const e=document.getElementById('errorBox');e.textContent=m;e.classList.remove('hidden');}
+function clearError(){document.getElementById('errorBox').classList.add('hidden');}
+</script>
 </body>
 </html>

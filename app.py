@@ -126,6 +126,11 @@ def service_worker_file():
     return send_from_directory(app.root_path, 'service-worker.js', mimetype='application/javascript')
 
 
+@app.route('/demo')
+def demo():
+    return render_template('demo.html')
+
+
 @app.route('/dashboard')
 @login_required
 def index():
