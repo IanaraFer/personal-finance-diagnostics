@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 from analytics import analyze_finances, load_sample_data
-from file_parsers import parse_file
+from file_parsers import parse_file, infer_transaction_columns
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from functools import wraps
@@ -427,56 +427,143 @@ def client_upload(client_slug):
                            success=f'File "{result["filename"]}" saved successfully.')
 
 
+def _load_client_analysis_inputs(slug):
+    """Load and consolidate all relevant client files for analysis/report."""
+    files = client_manager.get_client_files(slug)
+    tx_frames = []
+    questionnaire = {}
+    used_files = []
+
+    if not files:
+        raise ValueError('No files found for this client.')
+
+    def _ext(name):
+        return os.path.splitext(name)[1].lower()
+
+    # Always read questionnaire-like JSON files first.
+    for item in files:
+        current_name = item.get('filename')
+        if _ext(current_name) != '.json':
+            continue
+        current_path = client_manager.get_client_file_path(slug, current_name)
+        if not current_path:
+            continue
+        try:
+            with open(current_path, 'rb') as fh:
+                payload = json.loads(fh.read().decode('utf-8', errors='replace'))
+            if isinstance(payload, dict):
+                q = None
+                if isinstance(payload.get('responses'), dict):
+                    q = payload.get('responses')
+                elif isinstance(payload.get('questionnaire_responses'), dict):
+                    q = payload.get('questionnaire_responses')
+                if q:
+                    questionnaire.update(q)
+                    used_files.append(current_name)
+        except Exception:
+            continue
+
+    # Prefer faster structured sources; only parse PDFs if no structured transaction file exists.
+    structured_exts = {'.csv', '.xlsx', '.xls', '.txt'}
+    transaction_candidates = [f for f in files if _ext(f.get('filename')) in structured_exts]
+    if not transaction_candidates:
+        transaction_candidates = [f for f in files if _ext(f.get('filename')) in {'.csv', '.xlsx', '.xls', '.txt', '.json', '.pdf'}]
+
+    for item in transaction_candidates:
+        current_name = item.get('filename')
+        current_path = client_manager.get_client_file_path(slug, current_name)
+        if not current_path:
+            continue
+
+        try:
+            with open(current_path, 'rb') as fh:
+                content = fh.read()
+        except Exception:
+            continue
+
+        ext = _ext(current_name)
+        if ext == '.json':
+            # JSON transaction files are accepted only if they have transaction list shape.
+            try:
+                payload = json.loads(content.decode('utf-8', errors='replace'))
+                if isinstance(payload, dict) and isinstance(payload.get('responses'), dict):
+                    continue
+                if isinstance(payload, dict) and isinstance(payload.get('questionnaire_responses'), dict):
+                    continue
+            except Exception:
+                continue
+
+        try:
+            parsed = parse_file(content, current_name, file_type='transactions')
+            parsed = infer_transaction_columns(parsed)
+        except Exception:
+            continue
+
+        if parsed is None or parsed.empty or 'amount' not in parsed.columns:
+            continue
+
+        for col in ['date', 'description', 'type', 'category']:
+            if col not in parsed.columns:
+                if col == 'description':
+                    parsed[col] = 'Unknown'
+                elif col == 'category':
+                    parsed[col] = 'Uncategorized'
+                elif col == 'type':
+                    parsed[col] = np.where(pd.to_numeric(parsed['amount'], errors='coerce').fillna(0) > 0, 'income', 'expense')
+                else:
+                    parsed[col] = None
+
+        parsed['amount'] = pd.to_numeric(parsed['amount'], errors='coerce')
+        parsed = parsed.dropna(subset=['amount'])
+        if parsed.empty:
+            continue
+
+        tx_frames.append(parsed[['date', 'description', 'amount', 'type', 'category']].copy())
+        used_files.append(current_name)
+
+    if not tx_frames:
+        raise ValueError('No valid transaction data found for this client. Upload at least one statement with dates and amounts.')
+
+    tx_df = pd.concat(tx_frames, ignore_index=True)
+    tx_df['description'] = tx_df['description'].fillna('Unknown').astype(str)
+    tx_df['category'] = tx_df['category'].fillna('Uncategorized').astype(str)
+    tx_df['type'] = tx_df['type'].astype(str).str.lower()
+    tx_df.loc[~tx_df['type'].isin(['income', 'expense']), 'type'] = np.where(
+        tx_df.loc[~tx_df['type'].isin(['income', 'expense']), 'amount'] >= 0,
+        'income',
+        'expense'
+    )
+
+    tx_df['date'] = pd.to_datetime(tx_df['date'], errors='coerce', dayfirst=True)
+    tx_df = tx_df.dropna(subset=['date'])
+    if tx_df.empty:
+        raise ValueError('No valid transaction dates found in client files.')
+    tx_df['date'] = tx_df['date'].dt.strftime('%Y-%m-%d')
+    tx_df = tx_df.drop_duplicates(subset=['date', 'description', 'amount', 'type']).reset_index(drop=True)
+
+    _, acct_df = load_sample_data()
+    return tx_df, acct_df, questionnaire, used_files
+
+
 @app.route('/clients/<client_slug>/analyze/<path:filename>')
 @login_required
 @admin_required
 def client_analyze(client_slug, filename):
-    """Admin: run financial analysis on a client file and show dashboard."""
-    path = client_manager.get_client_file_path(client_slug, filename)
-    if not path:
-        return redirect(url_for('client_detail', client_slug=client_slug))
+    """Admin: run financial analysis using all files stored for this client."""
+    if not client_manager.client_exists(client_slug):
+        return redirect(url_for('clients_list'))
 
     try:
-        with open(path, 'rb') as f:
-            content = f.read()
-        tx_df = parse_file(content, filename, file_type='transactions')
-        tx_df.columns = [''.join(ch if ch.isalnum() else '_' for ch in str(c).strip().lower()) for c in tx_df.columns]
-
-        # Minimal column normalization (reuse same logic as /upload)
-        def _to_num(s):
-            s = s.astype(str).str.replace(r'[\u00a0 €$,]', '', regex=True)
-            return pd.to_numeric(s, errors='coerce')
-
-        if 'amount' not in tx_df.columns:
-            for pair in [('credit', 'debit'), ('money_in', 'money_out'), ('deposit', 'withdrawal')]:
-                if set(pair).issubset(tx_df.columns):
-                    tx_df['amount'] = _to_num(tx_df[pair[0]]).fillna(0) - _to_num(tx_df[pair[1]]).fillna(0)
-                    break
-        if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
-            tx_df['type'] = _to_num(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
-        if 'date' not in tx_df.columns:
-            for alt in ['transaction_date', 'posted_date', 'value_date']:
-                if alt in tx_df.columns:
-                    tx_df['date'] = tx_df[alt]
-                    break
-        if 'description' not in tx_df.columns:
-            for alt in ['details', 'narrative', 'memo', 'reference']:
-                if alt in tx_df.columns:
-                    tx_df['description'] = tx_df[alt]
-                    break
-            else:
-                tx_df['description'] = 'Unknown'
-        if 'category' not in tx_df.columns:
-            tx_df['category'] = 'Uncategorized'
-
-        _, acct_df = load_sample_data()
+        tx_df, acct_df, questionnaire, used_files = _load_client_analysis_inputs(client_slug)
         results = analyze_finances(tx_df, acct_df)
         results['client_name'] = client_slug.replace('_', ' ')
-        results['source_file'] = filename
+        results['source_file'] = ', '.join(used_files) if used_files else filename
         results['transactions'] = tx_df.to_dict('records')
+        results['questionnaire'] = questionnaire
+        if isinstance(results.get('diagnostic_report'), dict):
+            results['diagnostic_report']['questionnaire'] = questionnaire
         return render_template('dashboard_enhanced.html', results=results)
     except Exception as e:
-        import traceback
         err = f"Analysis failed: {str(e)}"
         files = client_manager.get_client_files(client_slug)
         return render_template('client_detail.html',
@@ -509,48 +596,20 @@ def client_delete(client_slug):
 @login_required
 @admin_required
 def client_report(client_slug, filename):
-    """Admin: download a clean diagnostic report for a client file."""
-    path = client_manager.get_client_file_path(client_slug, filename)
-    if not path:
-        return redirect(url_for('client_detail', client_slug=client_slug))
+    """Admin: generate report using all files stored for this client."""
+    if not client_manager.client_exists(client_slug):
+        return redirect(url_for('clients_list'))
     try:
-        with open(path, 'rb') as f:
-            content = f.read()
-        tx_df = parse_file(content, filename, file_type='transactions')
-        tx_df.columns = [''.join(ch if ch.isalnum() else '_' for ch in str(c).strip().lower()) for c in tx_df.columns]
-
-        def _to_num(s):
-            s = s.astype(str).str.replace(r'[\u00a0 €$,]', '', regex=True)
-            return pd.to_numeric(s, errors='coerce')
-
-        if 'amount' not in tx_df.columns:
-            for pair in [('credit', 'debit'), ('money_in', 'money_out'), ('deposit', 'withdrawal')]:
-                if set(pair).issubset(tx_df.columns):
-                    tx_df['amount'] = _to_num(tx_df[pair[0]]).fillna(0) - _to_num(tx_df[pair[1]]).fillna(0)
-                    break
-        if 'type' not in tx_df.columns and 'amount' in tx_df.columns:
-            tx_df['type'] = _to_num(tx_df['amount']).fillna(0).apply(lambda x: 'income' if x > 0 else 'expense')
-        if 'date' not in tx_df.columns:
-            for alt in ['transaction_date', 'posted_date', 'value_date']:
-                if alt in tx_df.columns:
-                    tx_df['date'] = tx_df[alt]
-                    break
-        if 'description' not in tx_df.columns:
-            for alt in ['details', 'narrative', 'memo', 'reference']:
-                if alt in tx_df.columns:
-                    tx_df['description'] = tx_df[alt]
-                    break
-            else:
-                tx_df['description'] = 'Unknown'
-        if 'category' not in tx_df.columns:
-            tx_df['category'] = 'Uncategorized'
-
-        _, acct_df = load_sample_data()
+        tx_df, acct_df, questionnaire, used_files = _load_client_analysis_inputs(client_slug)
         results = analyze_finances(tx_df, acct_df)
+        results['questionnaire'] = questionnaire
+        if isinstance(results.get('diagnostic_report'), dict):
+            results['diagnostic_report']['questionnaire'] = questionnaire
 
         client_name = client_slug.replace('_', ' ').title()
         html = _generate_html_report(results, client_name=client_name,
-                                     source_file=filename, transactions_df=tx_df)
+                                     source_file=', '.join(used_files) if used_files else filename,
+                                     transactions_df=tx_df)
         return html, 200, {'Content-Type': 'text/html; charset=utf-8'}
     except Exception as e:
         err = f"Report generation failed: {str(e)}"

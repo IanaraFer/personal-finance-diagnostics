@@ -101,6 +101,9 @@
     <!-- File list -->
     <div class="card">
       <h2>🗃️ Stored Files ({{ files|length }})</h2>
+      <p style="margin-bottom:1rem;color:#4a5568;font-size:0.9rem;">
+        Analyze and Report use all files from this client folder together for a complete diagnostic.
+      </p>
       {% if files %}
       <table>
         <thead>
@@ -121,8 +124,8 @@
             <td>{{ f.uploaded_at }}</td>
             <td>
               <div class="actions-col">
-                <a href="/clients/{{ client_slug }}/analyze/{{ f.filename }}" class="btn btn-sm btn-analyze">Analyze</a>
-                <a href="/clients/{{ client_slug }}/report/{{ f.filename }}" class="btn btn-sm btn-download" target="_blank">📊 Report</a>
+                <a href="/clients/{{ client_slug }}/analyze/{{ f.filename }}" class="btn btn-sm btn-analyze">Analyze All</a>
+                <a href="/clients/{{ client_slug }}/report/{{ f.filename }}" class="btn btn-sm btn-download" target="_blank">📊 Report All</a>
                 <form method="POST" action="/clients/{{ client_slug }}/delete-file" style="margin:0"
                       onsubmit="return confirm('Delete {{ f.filename }}?')">
                   <input type="hidden" name="filename" value="{{ f.filename }}">

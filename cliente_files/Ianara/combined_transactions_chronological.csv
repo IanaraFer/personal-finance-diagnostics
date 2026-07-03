@@ -1,0 +1,611 @@
+date,date_iso,source,type,description,amount,balance,raw_body
+01/01/2026,2026-01-01,revolut_text,Transfer,Transfer from CARLOS ROBERTO CHIMENES JUNIOR,45048.2,3,Transfer from CARLOS ROBERTO CHIMENES JUNIOR45048.23
+02/01/2026,2026-01-02,aib_statement,debit,D/D CLUBWISE SOFTW,48.00,,D/D CLUBWISE SOFTW 48.00
+02/01/2026,2026-01-02,aib_statement,debit,VDC-Our Lady's Chi,2.40,229.22,VDC-Our Lady's Chi 2.40 229.22
+02/01/2026,2026-01-02,aib_statement,debit,VDP-BRAZIER SPORTS,85.00,,VDP-BRAZIER SPORTS 85.00
+02/01/2026,2026-01-02,revolut_text,Card Payment,Circle K Gas Station,-3506.2,8,Circle K Gas Station-3506.28
+02/01/2026,2026-01-02,revolut_text,Card Payment,Lidl,-21.45,051.28,Lidl-21.45051.28
+02/01/2026,2026-01-02,revolut_text,Transfer,To EUR 50y BDay saving,-5098.2,3,To EUR 50y BDay saving-5098.23
+02/01/2026,2026-01-02,revolut_text,Transfer,To EUR 50y BDay saving,-5.50,92.73,To EUR 50y BDay saving-5.5092.73
+02/01/2026,2026-01-02,revolut_text,Transfer,To EUR 50y BDay saving,-10082.7,3,To EUR 50y BDay saving-10082.73
+02/01/2026,2026-01-02,revolut_text,Transfer,To Holiday,-50103.2,3,To Holiday-50103.23
+02/01/2026,2026-01-02,revolut_text,Transfer,Transfer from PAMELA REQUEJO NATALI,600108.2,3,Transfer from PAMELA REQUEJO NATALI600108.23
+03/01/2026,2026-01-03,revolut_text,Topup,Payment from MARINA TARDIOLI,55061.2,8,Payment from MARINA TARDIOLI55061.28
+03/01/2026,2026-01-03,revolut_text,Transfer,To EUR 50y BDay saving,-5072.7,3,To EUR 50y BDay saving-5072.73
+03/01/2026,2026-01-03,revolut_text,Transfer,To Holiday,-5077.7,3,To Holiday-5077.73
+03/01/2026,2026-01-03,revolut_text,Transfer,To investment account,-10041.2,8,To investment account-10041.28
+04/01/2026,2026-01-04,revolut_text,Transfer,To EUR 50y BDay saving,-50156.2,8,To EUR 50y BDay saving-50156.28
+04/01/2026,2026-01-04,revolut_text,Transfer,To EUR 50y BDay saving,-60061.2,8,To EUR 50y BDay saving-60061.28
+04/01/2026,2026-01-04,revolut_text,Transfer,To Holiday,-50161.2,8,To Holiday-50161.28
+04/01/2026,2026-01-04,revolut_text,Transfer,To Holiday,-350121.2,8,To Holiday-350121.28
+04/01/2026,2026-01-04,revolut_text,Transfer,Transfer from JESSE' MORELATTO BENATO,500111.2,8,Transfer from JESSE' MORELATTO BENATO500111.28
+04/01/2026,2026-01-04,revolut_text,Transfer,Transfer from JULIANA CASSIA TAVARES DE SOUSA,600166.2,8,Transfer from JULIANA CASSIA TAVARES DE SOUSA600166.28
+04/01/2026,2026-01-04,revolut_text,Transfer,Transfer from STELLA CAMPIDELLI L SERGIO,450106.2,8,Transfer from STELLA CAMPIDELLI L SERGIO450106.28
+05/01/2026,2026-01-05,aib_statement,debit,*MOBI THEO SCHOOL,155.62,,*MOBI THEO SCHOOL 155.62
+05/01/2026,2026-01-05,aib_statement,balance_forward,BALANCE FORWARD,,154.40,BALANCE FORWARD 154.40
+05/01/2026,2026-01-05,aib_statement,debit,D/D THREE IRELAND,66.53,,D/D THREE IRELAND 66.53
+05/01/2026,2026-01-05,aib_statement,debit,HAP,29.20,,HAP 29.20
+05/01/2026,2026-01-05,aib_statement,credit,IANARA ARAUJO FERN,250.00,,IANARA ARAUJO FERN 250.00
+05/01/2026,2026-01-05,aib_statement,debit,SAVE FOR THEO,140.00,154.40,SAVE FOR THEO 140.00 154.40
+05/01/2026,2026-01-05,revolut_text,Transfer,From EUR 50y BDay saving,500151.2,8,From EUR 50y BDay saving500151.28
+05/01/2026,2026-01-05,revolut_text,Transfer,From EUR 50y BDay saving,500251.2,8,From EUR 50y BDay saving500251.28
+05/01/2026,2026-01-05,revolut_text,Transfer,From Holiday,500201.2,8,From Holiday500201.28
+05/01/2026,2026-01-05,revolut_text,Transfer,To EUR 50y BDay saving,-50101.2,8,To EUR 50y BDay saving-50101.28
+05/01/2026,2026-01-05,revolut_text,Transfer,To Holiday,-50106.2,8,To Holiday-50106.28
+05/01/2026,2026-01-05,revolut_text,Transfer,To Ianara Fernandes,-25001.2,8,To Ianara Fernandes-25001.28
+06/01/2026,2026-01-06,aib_statement,credit,V165158435060126NA,140.00,,V165158435060126NA 140.00
+06/01/2026,2026-01-06,aib_statement,debit,VDC-MR PRICE,8.43,219.44,VDC-MR PRICE 8.43 219.44
+07/01/2026,2026-01-07,aib_statement,debit,D/D NAPS LOAN AIB,48.69,,D/D NAPS LOAN AIB 48.69
+08/01/2026,2026-01-08,aib_statement,credit,V165179435080126NA,350.00,,V165179435080126NA 350.00
+08/01/2026,2026-01-08,aib_statement,debit,VDC-CIRCLE K WESTW,50.00,470.75,VDC-CIRCLE K WESTW 50.00 470.75
+08/01/2026,2026-01-08,revolut_text,Card Payment,Amazon,-23.09,0240.48,Amazon-23.090240.48
+08/01/2026,2026-01-08,revolut_text,Transfer,From Holiday,15052.7,8,From Holiday15052.78
+08/01/2026,2026-01-08,revolut_text,Card Payment,Shopify,-6.15,046.63,Shopify-6.15046.63
+08/01/2026,2026-01-08,revolut_text,Transfer,To EUR 50y BDay saving,-8.50,47.78,To EUR 50y BDay saving-8.5047.78
+08/01/2026,2026-01-08,revolut_text,Transfer,To EUR 50y BDay saving,-5037.7,8,To EUR 50y BDay saving-5037.78
+08/01/2026,2026-01-08,revolut_text,Transfer,To Holiday,-5042.7,8,To Holiday-5042.78
+08/01/2026,2026-01-08,revolut_text,Transfer,Transfer from CARINE ILHA DALCOL,55056.2,8,Transfer from CARINE ILHA DALCOL55056.28
+08/01/2026,2026-01-08,revolut_text,Card Payment,Zenklub,-19.19,027.44,Zenklub-19.19027.44
+09/01/2026,2026-01-09,aib_statement,debit,VDC-NYA*Behan Vend,1.30,469.45,VDC-NYA*Behan Vend 1.30 469.45
+09/01/2026,2026-01-09,revolut_text,Card Payment,Eurocamp,-61.22,026.22,Eurocamp-61.22026.22
+09/01/2026,2026-01-09,revolut_text,Transfer,From EUR 50y BDay saving,60087.4,4,From EUR 50y BDay saving60087.44
+10/01/2026,2026-01-10,revolut_text,Card Payment,Lidl,-17.30,86.92,Lidl-17.3086.92
+10/01/2026,2026-01-10,revolut_text,Transfer,To EUR 50y BDay saving,-7059.2,2,To EUR 50y BDay saving-7059.22
+10/01/2026,2026-01-10,revolut_text,Transfer,To EUR 50y BDay saving,-5049.2,2,To EUR 50y BDay saving-5049.22
+10/01/2026,2026-01-10,revolut_text,Transfer,To Holiday,-5054.2,2,To Holiday-5054.22
+10/01/2026,2026-01-10,revolut_text,Topup,Top-up by *****,40066.2,2,Top-up by *****40066.22
+11/01/2026,2026-01-11,revolut_text,Card Payment,Cursor,-21.25,0263.57,Cursor-21.250263.57
+11/01/2026,2026-01-11,revolut_text,Transfer,To EUR 50y BDay saving,-50104.2,2,To EUR 50y BDay saving-50104.22
+11/01/2026,2026-01-11,revolut_text,Transfer,To EUR 50y BDay saving,-7.50,79.42,To EUR 50y BDay saving-7.5079.42
+11/01/2026,2026-01-11,revolut_text,Transfer,To Holiday,-50109.2,2,To Holiday-50109.22
+11/01/2026,2026-01-11,revolut_text,Transfer,Transfer from EMILLY LAISE PARDO XAVIER,650114.2,2,Transfer from EMILLY LAISE PARDO XAVIER650114.22
+12/01/2026,2026-01-12,aib_statement,debit,*MOBI CARD IANAR,200.00,240.25,*MOBI CARD IANAR 200.00 240.25
+12/01/2026,2026-01-12,aib_statement,debit,HAP,29.20,,HAP 29.20
+12/01/2026,2026-01-12,revolut_text,Transfer,From EUR 50y BDay saving,900219.4,2,From EUR 50y BDay saving900219.42
+12/01/2026,2026-01-12,revolut_text,Transfer,From EUR 50y BDay saving,60285.4,2,From EUR 50y BDay saving60285.42
+12/01/2026,2026-01-12,revolut_text,Transfer,From Holiday,600279.4,2,From Holiday600279.42
+12/01/2026,2026-01-12,revolut_text,Card Payment,Gough Brothers,-10239.4,8,Gough Brothers-10239.48
+12/01/2026,2026-01-12,revolut_text,Card Payment,Ryanair,-237.94,049.64,Ryanair-237.94049.64
+12/01/2026,2026-01-12,revolut_text,Transfer,To EUR 50y BDay saving,-10069.4,2,To EUR 50y BDay saving-10069.42
+12/01/2026,2026-01-12,revolut_text,Transfer,To EUR 50y BDay saving,-5059.4,2,To EUR 50y BDay saving-5059.42
+12/01/2026,2026-01-12,revolut_text,Transfer,To EUR 50y BDay saving,-0.60,284.82,To EUR 50y BDay saving-0.60284.82
+12/01/2026,2026-01-12,revolut_text,Transfer,To Holiday,-5064.4,2,To Holiday-5064.42
+12/01/2026,2026-01-12,revolut_text,Transfer,Transfer from ADREAN ALISON MARABEZI MARINHO,700129.4,2,Transfer from ADREAN ALISON MARABEZI MARINHO700129.42
+13/01/2026,2026-01-13,revolut_text,Transfer,To EUR 50y BDay saving,-50289.4,8,To EUR 50y BDay saving-50289.48
+13/01/2026,2026-01-13,revolut_text,Transfer,To Holiday,-50294.4,8,To Holiday-50294.48
+13/01/2026,2026-01-13,revolut_text,Transfer,Transfer from CARLOS HENRIQUE SILVA SANTANA,600299.4,8,Transfer from CARLOS HENRIQUE SILVA SANTANA600299.48
+14/01/2026,2026-01-14,aib_statement,debit,VDC-CIRCLE K GRANG,10.00,230.25,VDC-CIRCLE K GRANG 10.00 230.25
+14/01/2026,2026-01-14,revolut_text,Card Payment,Eurocamp,-40.81,048.83,Eurocamp-40.81048.83
+14/01/2026,2026-01-14,revolut_text,Transfer,From EUR 50y BDay saving,5094.6,4,From EUR 50y BDay saving5094.64
+14/01/2026,2026-01-14,revolut_text,Topup,Google Pay top-up by *,868745089.6,4,Google Pay top-up by *868745089.64
+14/01/2026,2026-01-14,revolut_text,Transfer,To EUR 50y BDay saving,-1.90,287.58,To EUR 50y BDay saving-1.90287.58
+14/01/2026,2026-01-14,revolut_text,Transfer,To EUR 50y BDay saving,-5089.6,4,To EUR 50y BDay saving-5089.64
+14/01/2026,2026-01-14,revolut_text,Transfer,To Holiday,-5044.6,4,To Holiday-5044.64
+15/01/2026,2026-01-15,aib_statement,debit,*MOBI RENT MILLPAR,250.00,,*MOBI RENT MILLPAR 250.00
+15/01/2026,2026-01-15,aib_statement,credit,V165179435150126NA,350.00,,V165179435150126NA 350.00
+15/01/2026,2026-01-15,aib_statement,debit,VDC-BOOTS RETAIL 1,31.27,,VDC-BOOTS RETAIL 1 31.27
+15/01/2026,2026-01-15,aib_statement,debit,VDC-CIRCLE K ROUND,29.48,224.50,VDC-CIRCLE K ROUND 29.48 224.50
+15/01/2026,2026-01-15,aib_statement,debit,VDP-Revolut**9877*,45.00,,VDP-Revolut**9877* 45.00
+15/01/2026,2026-01-15,revolut_text,Card Payment,Dunnes Stores,-43.24,00.59,Dunnes Stores-43.2400.59
+15/01/2026,2026-01-15,revolut_text,Transfer,To Holiday,-5043.8,3,To Holiday-5043.83
+16/01/2026,2026-01-16,aib_statement,debit,D/D eFlow,130.43,,D/D eFlow 130.43
+16/01/2026,2026-01-16,revolut_text,Card Refund,Temu,19.37,0119.96,Temu19.370119.96
+16/01/2026,2026-01-16,revolut_text,Transfer,To EUR 50y BDay saving,-5045.5,9,To EUR 50y BDay saving-5045.59
+16/01/2026,2026-01-16,revolut_text,Transfer,To Holiday,-5050.5,9,To Holiday-5050.59
+16/01/2026,2026-01-16,revolut_text,Transfer,Transfer from IOAO VICTOR DISANTO,55055.5,9,Transfer from IOAO VICTOR DISANTO55055.59
+17/01/2026,2026-01-17,revolut_text,Card Payment,Circle K Gas Station,-50014.9,6,Circle K Gas Station-50014.96
+17/01/2026,2026-01-17,revolut_text,Transfer,To EUR 50y BDay saving,-50109.9,6,To EUR 50y BDay saving-50109.96
+17/01/2026,2026-01-17,revolut_text,Transfer,To EUR 50y BDay saving,-10099.9,6,To EUR 50y BDay saving-10099.96
+17/01/2026,2026-01-17,revolut_text,Transfer,To EUR 50y BDay saving,-1800154.9,6,To EUR 50y BDay saving-1800154.96
+17/01/2026,2026-01-17,revolut_text,Transfer,To Holiday,-50114.9,6,To Holiday-50114.96
+17/01/2026,2026-01-17,revolut_text,Transfer,To Holiday,-80074.9,6,To Holiday-80074.96
+17/01/2026,2026-01-17,revolut_text,Transfer,Transfer from BARBARA AZIAGO BRASIL FERREIRA,550334.9,6,Transfer from BARBARA AZIAGO BRASIL FERREIRA550334.96
+17/01/2026,2026-01-17,revolut_text,Transfer,Transfer from JOYCE DE OLIVEIRA ALAMBERT,550100.5,9,Transfer from JOYCE DE OLIVEIRA ALAMBERT550100.59
+17/01/2026,2026-01-17,revolut_text,Transfer,Transfer from MONICA IZABEL GIEMBRA,600279.9,6,Transfer from MONICA IZABEL GIEMBRA600279.96
+17/01/2026,2026-01-17,revolut_text,Transfer,Transfer from NATAIZA ANGELA DE SOUSA ALVES,1200219.9,6,Transfer from NATAIZA ANGELA DE SOUSA ALVES1200219.96
+18/01/2026,2026-01-18,revolut_text,Transfer,From Holiday,30044.9,6,From Holiday30044.96
+18/01/2026,2026-01-18,revolut_text,Transfer,To EUR 50y BDay saving,-5064.9,6,To EUR 50y BDay saving-5064.96
+18/01/2026,2026-01-18,revolut_text,Transfer,To EUR 50y BDay saving,-9.90,35.06,To EUR 50y BDay saving-9.9035.06
+18/01/2026,2026-01-18,revolut_text,Transfer,To Holiday,-5069.9,6,To Holiday-5069.96
+18/01/2026,2026-01-18,revolut_text,Card Payment,Upwork,-16.01,090.03,Upwork-16.01090.03
+19/01/2026,2026-01-19,aib_statement,debit,HAP,29.20,53.88,HAP 29.20 53.88
+19/01/2026,2026-01-19,aib_statement,debit,VDP-NETFLIX.COM,10.99,,VDP-NETFLIX.COM 10.99
+19/01/2026,2026-01-19,revolut_text,Card Payment,Circle K,-1026.0,6,Circle K-1026.06
+19/01/2026,2026-01-19,revolut_text,Card Payment,Circle K Gas Station,-8017.0,6,Circle K Gas Station-8017.06
+19/01/2026,2026-01-19,revolut_text,Transfer,To EUR 50y BDay saving,-5025.0,6,To EUR 50y BDay saving-5025.06
+19/01/2026,2026-01-19,revolut_text,Transfer,To Holiday,-5030.0,6,To Holiday-5030.06
+20/01/2026,2026-01-20,revolut_text,Transfer,From Holiday,10027.0,6,From Holiday10027.06
+20/01/2026,2026-01-20,revolut_text,Transfer,From Holiday,20036.0,6,From Holiday20036.06
+20/01/2026,2026-01-20,revolut_text,Card Payment,Netlify,-7.72,0106.04,Netlify-7.720106.04
+20/01/2026,2026-01-20,revolut_text,Transfer,To EUR 50y BDay saving,-5016.0,6,To EUR 50y BDay saving-5016.06
+20/01/2026,2026-01-20,revolut_text,Transfer,To EUR 50y BDay saving,-2.80,33.26,To EUR 50y BDay saving-2.8033.26
+20/01/2026,2026-01-20,revolut_text,Transfer,To Holiday,-5021.0,6,To Holiday-5021.06
+21/01/2026,2026-01-21,aib_statement,debit,VDC-BOOTS RETAIL 1,14.99,38.89,VDC-BOOTS RETAIL 1 14.99 38.89
+21/01/2026,2026-01-21,revolut_text,Transfer,From EUR 50y BDay saving,400117.7,6,From EUR 50y BDay saving400117.76
+21/01/2026,2026-01-21,revolut_text,Transfer,From Holiday,50078.2,6,From Holiday50078.26
+21/01/2026,2026-01-21,revolut_text,Card Payment,Penneys,-15.60,154.03,Penneys-15.60154.03
+21/01/2026,2026-01-21,revolut_text,Card Payment,Therapie Clinic,-44.95,0109.08,Therapie Clinic-44.950109.08
+21/01/2026,2026-01-21,revolut_text,Transfer,To EUR 50y BDay saving,-0.50,77.76,To EUR 50y BDay saving-0.5077.76
+21/01/2026,2026-01-21,revolut_text,Transfer,To EUR 50y BDay saving,-40113.7,6,To EUR 50y BDay saving-40113.76
+21/01/2026,2026-01-21,revolut_text,Transfer,To EUR 50y BDay saving,-5085.0,3,To EUR 50y BDay saving-5085.03
+21/01/2026,2026-01-21,revolut_text,Transfer,To Holiday,-5028.2,6,To Holiday-5028.26
+22/01/2026,2026-01-22,aib_statement,balance_forward,BALANCE FORWARD,,384.59,BALANCE FORWARD 384.59
+22/01/2026,2026-01-22,aib_statement,credit,V165179435220126NA,350.00,,V165179435220126NA 350.00
+22/01/2026,2026-01-22,aib_statement,debit,VDC-GINOS GELATO L,4.30,384.59,VDC-GINOS GELATO L 4.30 384.59
+22/01/2026,2026-01-22,aib_statement,debit,VDC-Liffey Valley,2.50,382.09,VDC-Liffey Valley 2.50 382.09
+22/01/2026,2026-01-22,revolut_text,Card Payment,AA,-90.46,018.62,AA-90.46018.62
+22/01/2026,2026-01-22,revolut_text,Transfer,To EUR 50y BDay saving,-50175.0,3,To EUR 50y BDay saving-50175.03
+22/01/2026,2026-01-22,revolut_text,Transfer,To EUR 50y BDay saving,-5.40,169.63,To EUR 50y BDay saving-5.40169.63
+22/01/2026,2026-01-22,revolut_text,Transfer,To Holiday,-50180.0,3,To Holiday-50180.03
+22/01/2026,2026-01-22,revolut_text,Transfer,Transfer from CASSIO MARSILIO,450130.0,3,Transfer from CASSIO MARSILIO450130.03
+22/01/2026,2026-01-22,revolut_text,Transfer,Transfer from TAMY ARAUJO KOBAYASHI,550185.0,3,Transfer from TAMY ARAUJO KOBAYASHI550185.03
+23/01/2026,2026-01-23,aib_statement,debit,D/D ROYAL LONDON,64.03,,D/D ROYAL LONDON 64.03
+23/01/2026,2026-01-23,revolut_text,Card Payment,Netlify-8.,550,-54.43,Netlify-8.550-54.43
+23/01/2026,2026-01-23,revolut_text,Transfer,To EUR 50y BDay saving,-4.50,14.12,To EUR 50y BDay saving-4.5014.12
+23/01/2026,2026-01-23,revolut_text,Transfer,To Holiday,-509.1,2,To Holiday-509.12
+24/01/2026,2026-01-24,revolut_text,Transfer,From EUR 50y BDay saving,6005.5,7,From EUR 50y BDay saving6005.57
+24/01/2026,2026-01-24,revolut_text,Transfer,To Holiday,-500.5,7,To Holiday-500.57
+24/01/2026,2026-01-24,revolut_text,Charge,Ultra plan fee,055,-45.88,Ultra plan fee055-45.88
+25/01/2026,2026-01-25,revolut_text,Card Payment,Circle K Gas Station,-30025.5,7,Circle K Gas Station-30025.57
+25/01/2026,2026-01-25,revolut_text,Transfer,From Holiday,30075.5,7,From Holiday30075.57
+25/01/2026,2026-01-25,revolut_text,Transfer,To EUR 50y BDay saving,-10045.5,7,To EUR 50y BDay saving-10045.57
+25/01/2026,2026-01-25,revolut_text,Transfer,To EUR 50y BDay saving,-5065.5,7,To EUR 50y BDay saving-5065.57
+25/01/2026,2026-01-25,revolut_text,Transfer,To Holiday,-5070.5,7,To Holiday-5070.57
+25/01/2026,2026-01-25,revolut_text,Transfer,Transfer from TAMY ARAUJO KOBAYASHI,55055.5,7,Transfer from TAMY ARAUJO KOBAYASHI55055.57
+26/01/2026,2026-01-26,aib_statement,debit,D/D NAPS LOAN AIB,290.63,,D/D NAPS LOAN AIB 290.63
+26/01/2026,2026-01-26,aib_statement,debit,HAP,29.20,,HAP 29.20
+26/01/2026,2026-01-26,aib_statement,credit,IANARA ARAUJO FERN,50.00,,IANARA ARAUJO FERN 50.00
+26/01/2026,2026-01-26,revolut_text,Transfer,From EUR 50y BDay saving,500105.5,7,From EUR 50y BDay saving500105.57
+26/01/2026,2026-01-26,revolut_text,Transfer,From EUR 50y BDay saving,20087.4,7,From EUR 50y BDay saving20087.47
+26/01/2026,2026-01-26,revolut_text,Transfer,From EUR 50y BDay saving,800167.4,7,From EUR 50y BDay saving800167.47
+26/01/2026,2026-01-26,revolut_text,Card Payment,Stackblitz,-21.19,0296.95,Stackblitz-21.190296.95
+26/01/2026,2026-01-26,revolut_text,Transfer,To EUR 50y BDay saving,-5055.5,7,To EUR 50y BDay saving-5055.57
+26/01/2026,2026-01-26,revolut_text,Transfer,To EUR 50y BDay saving,-8.10,67.47,To EUR 50y BDay saving-8.1067.47
+26/01/2026,2026-01-26,revolut_text,Transfer,To EUR 50y BDay saving,-120047.4,7,To EUR 50y BDay saving-120047.47
+26/01/2026,2026-01-26,revolut_text,Transfer,To Holiday,-5060.5,7,To Holiday-5060.57
+26/01/2026,2026-01-26,revolut_text,Transfer,To Ianara Fernandes,-50055.5,7,To Ianara Fernandes-50055.57
+26/01/2026,2026-01-26,revolut_text,Transfer,Transfer from CARINE ILHA DALCOL,50075.5,7,Transfer from CARINE ILHA DALCOL50075.57
+27/01/2026,2026-01-27,aib_statement,credit,IANARA ARAUJO FERN,250.00,,IANARA ARAUJO FERN 250.00
+27/01/2026,2026-01-27,aib_statement,debit,STAMP DUTY 8687,0.24,295.00,STAMP DUTY 8687 0.24 295.00
+27/01/2026,2026-01-27,aib_statement,debit,VDC-MR PRICE,2.99,,VDC-MR PRICE 2.99
+27/01/2026,2026-01-27,revolut_text,Card Payment,Analyticacore.ie,-14.99,0295.3,Analyticacore.ie-14.990295.3
+27/01/2026,2026-01-27,revolut_text,Topup,Payment from IANARA ARAUJO FERNANDES,535.07,0572.54,Payment from IANARA ARAUJO FERNANDES535.070572.54
+27/01/2026,2026-01-27,revolut_text,Card Payment,Temu,-41.56,0255.39,Temu-41.560255.39
+27/01/2026,2026-01-27,revolut_text,Transfer,To EUR 50y BDay saving,-5037.4,7,To EUR 50y BDay saving-5037.47
+27/01/2026,2026-01-27,revolut_text,Transfer,To EUR 50y BDay saving,-4.40,568.14,To EUR 50y BDay saving-4.40568.14
+27/01/2026,2026-01-27,revolut_text,Transfer,To EUR 50y BDay saving,-0.10,255.29,To EUR 50y BDay saving-0.10255.29
+27/01/2026,2026-01-27,revolut_text,Transfer,To Holiday,-5042.4,7,To Holiday-5042.47
+27/01/2026,2026-01-27,revolut_text,Transfer,To Ianara Fernandes,-2500318.1,4,To Ianara Fernandes-2500318.14
+28/01/2026,2026-01-28,aib_statement,debit,D/D Electric Irela,236.60,,D/D Electric Irela 236.60
+28/01/2026,2026-01-28,revolut_text,Card Payment,McDonald's,-19.45,0303.75,McDonald's-19.450303.75
+28/01/2026,2026-01-28,revolut_text,Transfer,To EUR 50y BDay saving,-5028,5.3,To EUR 50y BDay saving-50285.3
+28/01/2026,2026-01-28,revolut_text,Transfer,To EUR 50y BDay saving,-1.60,283.7,To EUR 50y BDay saving-1.60283.7
+28/01/2026,2026-01-28,revolut_text,Transfer,To EUR 50y BDay saving,-5.50,278.2,To EUR 50y BDay saving-5.50278.2
+28/01/2026,2026-01-28,revolut_text,Transfer,To Holiday,-5029,0.3,To Holiday-50290.3
+28/01/2026,2026-01-28,revolut_text,Transfer,Transfer from Ariane Menegaro Gomes,550310.2,9,Transfer from Ariane Menegaro Gomes550310.29
+28/01/2026,2026-01-28,revolut_text,Card Payment,Wix,-20.84,0223.76,Wix-20.840223.76
+29/01/2026,2026-01-29,aib_statement,credit,V165179435290126NA,368.00,,V165179435290126NA 368.00
+29/01/2026,2026-01-29,revolut_text,Card Payment,Circle K Gas Station,-500293.7,5,Circle K Gas Station-500293.75
+29/01/2026,2026-01-29,revolut_text,Transfer,To EUR 50y BDay saving,-5032,3.2,To EUR 50y BDay saving-50323.2
+29/01/2026,2026-01-29,revolut_text,Transfer,To EUR 50y BDay saving,-100293.7,5,To EUR 50y BDay saving-100293.75
+29/01/2026,2026-01-29,revolut_text,Transfer,To Holiday,-5032,8.2,To Holiday-50328.2
+29/01/2026,2026-01-29,revolut_text,Transfer,Transfer from JULIO CESAR BATALHA DE SOUZA,600353.7,5,Transfer from JULIO CESAR BATALHA DE SOUZA600353.75
+29/01/2026,2026-01-29,revolut_text,Transfer,Transfer from MARA DA SILVA MORENO,55033,3.2,Transfer from MARA DA SILVA MORENO550333.2
+30/01/2026,2026-01-30,revolut_text,Card Payment,GoCar,-45.65,0244.6,GoCar-45.650244.6
+30/01/2026,2026-01-30,revolut_text,Transfer,To EUR 50y BDay saving,-50343.7,5,To EUR 50y BDay saving-50343.75
+30/01/2026,2026-01-30,revolut_text,Transfer,To EUR 50y BDay saving,-3.50,290.25,To EUR 50y BDay saving-3.50290.25
+30/01/2026,2026-01-30,revolut_text,Transfer,To Holiday,-50348.7,5,To Holiday-50348.75
+30/01/2026,2026-01-30,revolut_text,Transfer,Transfer from PAOLA RECH,100300.2,5,Transfer from PAOLA RECH100300.25
+31/01/2026,2026-01-31,revolut_text,Transfer,To EUR 50y BDay saving,-50290.2,5,To EUR 50y BDay saving-50290.25
+31/01/2026,2026-01-31,revolut_text,Transfer,To Holiday,-50295.2,5,To Holiday-50295.25
+01/02/2026,2026-02-01,revolut_text,Card Payment,GoCar,-80328.2,6,GoCar-80328.26
+01/02/2026,2026-02-01,revolut_text,Card Payment,GoCar,-4.80,323.46,GoCar-4.80323.46
+01/02/2026,2026-02-01,revolut_text,Card Payment,GoCar,-4.80,318.66,GoCar-4.80318.66
+01/02/2026,2026-02-01,revolut_text,Card Payment,Temu,-44.74,0273.92,Temu-44.740273.92
+01/02/2026,2026-02-01,revolut_text,Card Payment,Therapie Clinic,-159.90,208.86,Therapie Clinic-159.90208.86
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-50273.7,6,To EUR 50y BDay saving-50273.76
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-100373.7,6,To EUR 50y BDay saving-100373.76
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-20371.7,6,To EUR 50y BDay saving-20371.76
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-20369.7,6,To EUR 50y BDay saving-20369.76
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-10368.7,6,To EUR 50y BDay saving-10368.76
+01/02/2026,2026-02-01,revolut_text,Transfer,To EUR 50y BDay saving,-2.60,206.26,To EUR 50y BDay saving-2.60206.26
+01/02/2026,2026-02-01,revolut_text,Transfer,To Holiday,-50278.7,6,To Holiday-50278.76
+01/02/2026,2026-02-01,revolut_text,Transfer,Transfer from BRUNO GUSTAVO TREVIZOL TORRES,110,0,Transfer from BRUNO GUSTAVO TREVIZOL TORRES1100
+01/02/2026,2026-02-01,revolut_text,Transfer,Transfer from ELISANDRA DE CAMPOS MAZIERO,600283.7,6,Transfer from ELISANDRA DE CAMPOS MAZIERO600283.76
+01/02/2026,2026-02-01,revolut_text,Transfer,Transfer from MARA DA SILVA MORENO,550261.2,6,Transfer from MARA DA SILVA MORENO550261.26
+02/02/2026,2026-02-02,revolut_text,Transfer,To EUR 50y BDay saving,-50261.9,2,To EUR 50y BDay saving-50261.92
+02/02/2026,2026-02-02,revolut_text,Transfer,To Emergency Fundo,-70266.9,2,To Emergency Fundo-70266.92
+02/02/2026,2026-02-02,revolut_text,Transfer,Transfer from TACIANE BARBOSA MERLIM ABRANTES,570318.9,2,Transfer from TACIANE BARBOSA MERLIM ABRANTES570318.92
+02/02/2026,2026-02-02,revolut_text,Transfer,Transfer from Valeria C B Ridinger,750336.2,6,Transfer from Valeria C B Ridinger750336.26
+03/02/2026,2026-02-03,revolut_text,Card Payment,Google Play,-21.31,0333.71,Google Play-21.310333.71
+03/02/2026,2026-02-03,revolut_text,Transfer,To EUR 50y BDay saving,-50306.9,2,To EUR 50y BDay saving-50306.92
+03/02/2026,2026-02-03,revolut_text,Transfer,To EUR 50y BDay saving,-6.90,300.02,To EUR 50y BDay saving-6.90300.02
+03/02/2026,2026-02-03,revolut_text,Transfer,To Emergency Fundo,-70311.9,2,To Emergency Fundo-70311.92
+03/02/2026,2026-02-03,revolut_text,Transfer,Transfer from THIAGO TIZOTTI,550355.0,2,Transfer from THIAGO TIZOTTI550355.02
+04/02/2026,2026-02-04,revolut_text,Transfer,To EUR 50y BDay saving,-50278.7,1,To EUR 50y BDay saving-50278.71
+04/02/2026,2026-02-04,revolut_text,Transfer,To Emergency Fundo,-500283.7,1,To Emergency Fundo-500283.71
+05/02/2026,2026-02-05,revolut_text,Transfer,Allianz,-59.64,0204.07,Allianz-59.640204.07
+05/02/2026,2026-02-05,revolut_text,Card Payment,Circle K Gas Station,-500177.3,7,Circle K Gas Station-500177.37
+05/02/2026,2026-02-05,revolut_text,Card Payment,Mbeauty,-100227.3,7,Mbeauty-100227.37
+05/02/2026,2026-02-05,revolut_text,Card Payment,Tallaght Sports And L,-3.70,289.37,Tallaght Sports And L-3.70289.37
+05/02/2026,2026-02-05,revolut_text,Transfer,To EUR 50y BDay saving,-100268.7,1,To EUR 50y BDay saving-100268.71
+05/02/2026,2026-02-05,revolut_text,Transfer,To EUR 50y BDay saving,-50263.7,1,To EUR 50y BDay saving-50263.71
+05/02/2026,2026-02-05,revolut_text,Transfer,To EUR 50y BDay saving,-100144.0,7,To EUR 50y BDay saving-100144.07
+05/02/2026,2026-02-05,revolut_text,Transfer,To EUR 50y BDay saving,-30141.0,7,To EUR 50y BDay saving-30141.07
+05/02/2026,2026-02-05,revolut_text,Transfer,To Emergency Fundo,-500154.0,7,To Emergency Fundo-500154.07
+06/02/2026,2026-02-06,revolut_text,Card Payment,Pg Trivvo Tecnologia,-47.80,129.57,Pg Trivvo Tecnologia-47.80129.57
+06/02/2026,2026-02-06,revolut_text,Transfer,To EUR 50y BDay saving,-50293.0,7,To EUR 50y BDay saving-50293.07
+06/02/2026,2026-02-06,revolut_text,Transfer,To EUR 50y BDay saving,-20287.3,7,To EUR 50y BDay saving-20287.37
+06/02/2026,2026-02-06,revolut_text,Transfer,To Emergency Fundo,-500237.3,7,To Emergency Fundo-500237.37
+06/02/2026,2026-02-06,revolut_text,Transfer,Transfer from ALLAN GUERRA ALVES,450241.0,7,Transfer from ALLAN GUERRA ALVES450241.07
+06/02/2026,2026-02-06,revolut_text,Transfer,Transfer from ANDERSON ALVES RODRIGUES,570298.0,7,Transfer from ANDERSON ALVES RODRIGUES570298.07
+06/02/2026,2026-02-06,revolut_text,Transfer,Transfer from CHRISTIAN SUITA COSTA DOS SANTOS,550196.0,7,Transfer from CHRISTIAN SUITA COSTA DOS SANTOS550196.07
+07/02/2026,2026-02-07,revolut_text,Card Payment,Just Eat,-37.19,0139.28,Just Eat-37.190139.28
+07/02/2026,2026-02-07,revolut_text,Transfer,To EUR 50y BDay saving,-50124.5,7,To EUR 50y BDay saving-50124.57
+07/02/2026,2026-02-07,revolut_text,Transfer,To EUR 50y BDay saving,-8.10,116.47,To EUR 50y BDay saving-8.10116.47
+08/02/2026,2026-02-08,revolut_text,Transfer,From EUR 50y BDay saving,300114.2,8,From EUR 50y BDay saving300114.28
+08/02/2026,2026-02-08,revolut_text,Card Payment,Ryanair,-103.96,048.92,Ryanair-103.96048.92
+08/02/2026,2026-02-08,revolut_text,Transfer,To EUR 50y BDay saving,-50134.2,8,To EUR 50y BDay saving-50134.28
+08/02/2026,2026-02-08,revolut_text,Transfer,To EUR 50y BDay saving,-0.40,113.88,To EUR 50y BDay saving-0.40113.88
+08/02/2026,2026-02-08,revolut_text,Transfer,To Emergency Fundo,-50084.2,8,To Emergency Fundo-50084.28
+08/02/2026,2026-02-08,revolut_text,Transfer,Transfer from PAOLA PIZZANO,600176.4,7,Transfer from PAOLA PIZZANO600176.47
+09/02/2026,2026-02-09,revolut_text,Card Payment,Gough Brothers,-10152.8,8,Gough Brothers-10152.88
+09/02/2026,2026-02-09,revolut_text,Transfer,To EUR 50y BDay saving,-50108.8,8,To EUR 50y BDay saving-50108.88
+09/02/2026,2026-02-09,revolut_text,Transfer,Transfer from ALLANA BRUNA BONINSENHA,500158.8,8,Transfer from ALLANA BRUNA BONINSENHA500158.88
+10/02/2026,2026-02-10,revolut_text,Transfer,From EUR 50y BDay saving,50094.1,4,From EUR 50y BDay saving50094.14
+10/02/2026,2026-02-10,revolut_text,Topup,Payment from GOOGLE PAYMENT IRELAND LIMITED,0.22,044.14,Payment from GOOGLE PAYMENT IRELAND LIMITED0.22044.14
+10/02/2026,2026-02-10,revolut_text,Card Payment,Ryanair,-9001.6,4,Ryanair-9001.64
+10/02/2026,2026-02-10,revolut_text,Card Payment,Tallaght Hospital parking,-2.50,91.64,Tallaght Hospital parking-2.5091.64
+10/02/2026,2026-02-10,revolut_text,Transfer,To EUR 50y BDay saving,-50153.8,8,To EUR 50y BDay saving-50153.88
+10/02/2026,2026-02-10,revolut_text,Transfer,To EUR 50y BDay saving,-5043.9,2,To EUR 50y BDay saving-5043.92
+14/02/2026,2026-02-14,revolut_text,Transfer,From EUR Emergency Fundo,50051.6,4,From EUR Emergency Fundo50051.64
+14/02/2026,2026-02-14,revolut_text,Transfer,To EUR 50y BDay saving,-5046.6,4,To EUR 50y BDay saving-5046.64
+15/02/2026,2026-02-15,revolut_text,Card Payment,Cursor,-20.83,054.11,Cursor-20.83054.11
+15/02/2026,2026-02-15,revolut_text,Transfer,To EUR 50y BDay saving,-5041.6,4,To EUR 50y BDay saving-5041.64
+15/02/2026,2026-02-15,revolut_text,Transfer,To EUR 50y BDay saving,-1.70,39.94,To EUR 50y BDay saving-1.7039.94
+16/02/2026,2026-02-16,revolut_text,Card Payment,Circle K Gas Station,-20029.1,1,Circle K Gas Station-20029.11
+16/02/2026,2026-02-16,revolut_text,Transfer,To EUR 50y BDay saving,-10079.9,4,To EUR 50y BDay saving-10079.94
+16/02/2026,2026-02-16,revolut_text,Transfer,To EUR 50y BDay saving,-5074.9,4,To EUR 50y BDay saving-5074.94
+16/02/2026,2026-02-16,revolut_text,Transfer,Transfer from LORRAYNI TABELINI PACHECO GONCALVES,50089.9,4,Transfer from LORRAYNI TABELINI PACHECO GONCALVES50089.94
+17/02/2026,2026-02-17,revolut_text,Transfer,To EUR 50y BDay saving,-5049.1,1,To EUR 50y BDay saving-5049.11
+18/02/2026,2026-02-18,revolut_text,Transfer,To EUR 50y BDay saving,-5024.1,1,To EUR 50y BDay saving-5024.11
+19/02/2026,2026-02-19,revolut_text,Transfer,From EUR 50y BDay saving,80099.1,1,From EUR 50y BDay saving80099.11
+19/02/2026,2026-02-19,revolut_text,Card Payment,Tallaght Sports And L,-90054.1,1,Tallaght Sports And L-90054.11
+19/02/2026,2026-02-19,revolut_text,Transfer,To EUR 50y BDay saving,-5019.1,1,To EUR 50y BDay saving-5019.11
+20/02/2026,2026-02-20,revolut_text,Card Payment,Circle K Gas Station,-50083.0,1,Circle K Gas Station-50083.01
+20/02/2026,2026-02-20,revolut_text,Transfer,From EUR Emergency Fundo,1000154.1,1,From EUR Emergency Fundo1000154.11
+20/02/2026,2026-02-20,revolut_text,Transfer,To EUR 50y BDay saving,-50149.1,1,To EUR 50y BDay saving-50149.11
+20/02/2026,2026-02-20,revolut_text,Topup,Top-up by *****,450144.1,1,Top-up by *****450144.11
+21/02/2026,2026-02-21,revolut_text,Card Payment,Dunnes Stores,-63.22,019.79,Dunnes Stores-63.22019.79
+21/02/2026,2026-02-21,revolut_text,Card Payment,Netlify,-7.67,0171.62,Netlify-7.670171.62
+21/02/2026,2026-02-21,revolut_text,Transfer,To EUR 50y BDay saving,-3.30,145.81,To EUR 50y BDay saving-3.30145.81
+21/02/2026,2026-02-21,revolut_text,Transfer,To EUR 50y BDay saving,-7.80,138.01,To EUR 50y BDay saving-7.80138.01
+21/02/2026,2026-02-21,revolut_text,Transfer,To EUR 50y BDay saving,-50133.0,1,To EUR 50y BDay saving-50133.01
+22/02/2026,2026-02-22,revolut_text,Transfer,From EUR 50y BDay saving,1000114.7,9,From EUR 50y BDay saving1000114.79
+22/02/2026,2026-02-22,revolut_text,Card Payment,McDonald's,-13.45,0153.17,McDonald's-13.450153.17
+22/02/2026,2026-02-22,revolut_text,Transfer,To EUR 50y BDay saving,-5014.7,9,To EUR 50y BDay saving-5014.79
+22/02/2026,2026-02-22,revolut_text,Transfer,To EUR 50y BDay saving,-5.50,109.29,To EUR 50y BDay saving-5.50109.29
+22/02/2026,2026-02-22,revolut_text,Transfer,Transfer from TAMARA ROBERTA DOS SANTOS MUNHOZ,700179.2,9,Transfer from TAMARA ROBERTA DOS SANTOS MUNHOZ700179.29
+23/02/2026,2026-02-23,revolut_text,Transfer,To EUR 50y BDay saving,-50166.6,2,To EUR 50y BDay saving-50166.62
+23/02/2026,2026-02-23,revolut_text,Transfer,To EUR Emergency Fundo,-500103.1,7,To EUR Emergency Fundo-500103.17
+24/02/2026,2026-02-24,revolut_text,Transfer,To EUR 50y BDay saving,-5043.1,7,To EUR 50y BDay saving-5043.17
+24/02/2026,2026-02-24,revolut_text,Transfer,Transfer from TAINA NEVES PESSANHA,55098.1,7,Transfer from TAINA NEVES PESSANHA55098.17
+24/02/2026,2026-02-24,revolut_text,Charge,Ultra plan fee,05548.1,7,Ultra plan fee05548.17
+25/02/2026,2026-02-25,revolut_text,Card Payment,Amazon,-27.12,097.85,Amazon-27.12097.85
+25/02/2026,2026-02-25,revolut_text,Transfer,From EUR 50y BDay saving,1400238.1,7,From EUR 50y BDay saving1400238.17
+25/02/2026,2026-02-25,revolut_text,Transfer,From EUR 50y BDay saving,800118.1,7,From EUR 50y BDay saving800118.17
+25/02/2026,2026-02-25,revolut_text,Transfer,From EUR 50y BDay saving,800134.3,7,From EUR 50y BDay saving800134.37
+25/02/2026,2026-02-25,revolut_text,Transfer,To EUR 50y BDay saving,-150038.1,7,To EUR 50y BDay saving-150038.17
+25/02/2026,2026-02-25,revolut_text,Transfer,To EUR 50y BDay saving,-5063.1,7,To EUR 50y BDay saving-5063.17
+25/02/2026,2026-02-25,revolut_text,Transfer,To EUR 50y BDay saving,-8.80,54.37,To EUR 50y BDay saving-8.8054.37
+25/02/2026,2026-02-25,revolut_text,Transfer,To EUR Emergency Fundo,-500188.1,7,To EUR Emergency Fundo-500188.17
+25/02/2026,2026-02-25,revolut_text,Transfer,To EUR Emergency Fundo,-50068.1,7,To EUR Emergency Fundo-50068.17
+26/02/2026,2026-02-26,revolut_text,Card Payment,Behan Vending Services,-2.50,90.35,Behan Vending Services-2.5090.35
+26/02/2026,2026-02-26,revolut_text,Card Payment,GoCar,-30.65,059.7,GoCar-30.65059.7
+26/02/2026,2026-02-26,revolut_text,Transfer,To EUR 50y BDay saving,-50129.3,7,To EUR 50y BDay saving-50129.37
+26/02/2026,2026-02-26,revolut_text,Transfer,To EUR 50y BDay saving,-3.50,125.87,To EUR 50y BDay saving-3.50125.87
+26/02/2026,2026-02-26,revolut_text,Transfer,To EUR 50y BDay saving,-0.90,124.97,To EUR 50y BDay saving-0.90124.97
+26/02/2026,2026-02-26,revolut_text,Transfer,To EUR 50y BDay saving,-5092.8,5,To EUR 50y BDay saving-5092.85
+26/02/2026,2026-02-26,revolut_text,Card Payment,Zenklub,-19.91,0134.69,Zenklub-19.910134.69
+27/02/2026,2026-02-27,revolut_text,Card Payment,Analyticacore.ie,-14.99,0167.39,Analyticacore.ie-14.990167.39
+27/02/2026,2026-02-27,revolut_text,Card Payment,Circle K Gas Station,-350238.8,8,Circle K Gas Station-350238.88
+27/02/2026,2026-02-27,revolut_text,Transfer,From EUR 50y BDay saving,250158.7,9,From EUR 50y BDay saving250158.79
+27/02/2026,2026-02-27,revolut_text,Card Payment,Hickey?s Pharmacy,-56.50,182.38,Hickey?s Pharmacy-56.50182.38
+27/02/2026,2026-02-27,revolut_text,Card Payment,Lidl,-34.91,0273.88,Lidl-34.910273.88
+27/02/2026,2026-02-27,revolut_text,Transfer,To EUR 50y BDay saving,-5015,4.7,To EUR 50y BDay saving-50154.7
+27/02/2026,2026-02-27,revolut_text,Transfer,To EUR 50y BDay saving,-0.10,154.6,To EUR 50y BDay saving-0.10154.6
+27/02/2026,2026-02-27,revolut_text,Transfer,To EUR 50y BDay saving,-0.90,133.79,To EUR 50y BDay saving-0.90133.79
+27/02/2026,2026-02-27,revolut_text,Transfer,To EUR 50y BDay saving,-50153.7,9,To EUR 50y BDay saving-50153.79
+27/02/2026,2026-02-27,revolut_text,Transfer,Transfer from BRUNO GUSTAVO TREVIZOL TORRES,100015,9.7,Transfer from BRUNO GUSTAVO TREVIZOL TORRES1000159.7
+28/02/2026,2026-02-28,revolut_text,Card Payment,Booking.com,-169.98,0165.41,Booking.com-169.980165.41
+28/02/2026,2026-02-28,revolut_text,Transfer,From EUR Emergency Fundo,500217.3,9,From EUR Emergency Fundo500217.39
+28/02/2026,2026-02-28,revolut_text,Transfer,From EUR Emergency Fundo,1200337.1,9,From EUR Emergency Fundo1200337.19
+28/02/2026,2026-02-28,revolut_text,Card Payment,Ryanair,-67.82,04.97,Ryanair-67.8204.97
+28/02/2026,2026-02-28,revolut_text,Transfer,To EUR 50y BDay saving,-50253.7,9,To EUR 50y BDay saving-50253.79
+28/02/2026,2026-02-28,revolut_text,Transfer,To EUR 50y BDay saving,-0.20,217.19,To EUR 50y BDay saving-0.20217.19
+28/02/2026,2026-02-28,revolut_text,Transfer,To EUR 50y BDay saving,-1.80,335.39,To EUR 50y BDay saving-1.80335.39
+28/02/2026,2026-02-28,revolut_text,Transfer,Transfer from ANNA PAULA BONTEMPI,500258.7,9,Transfer from ANNA PAULA BONTEMPI500258.79
+28/02/2026,2026-02-28,revolut_text,Transfer,Transfer from Ariane Menegaro Gomes,550308.7,9,Transfer from Ariane Menegaro Gomes550308.79
+28/02/2026,2026-02-28,revolut_text,Transfer,Transfer from CHRISTIAN SUITA COSTA DOS SANTOS,550208.7,9,Transfer from CHRISTIAN SUITA COSTA DOS SANTOS550208.79
+01/03/2026,2026-03-01,revolut_text,Transfer,From EUR 50y BDay saving,200235.4,1,From EUR 50y BDay saving200235.41
+01/03/2026,2026-03-01,revolut_text,Transfer,To EUR 50y BDay saving,-50215.4,1,To EUR 50y BDay saving-50215.41
+01/03/2026,2026-03-01,revolut_text,Transfer,Transfer from TAMY ARAUJO KOBAYASHI,550220.4,1,Transfer from TAMY ARAUJO KOBAYASHI550220.41
+02/03/2026,2026-03-02,revolut_text,Transfer,AA Ireland,-98.01,0132.4,AA Ireland-98.010132.4
+02/03/2026,2026-03-02,revolut_text,Transfer,Allianz,-59.61,072.79,Allianz-59.61072.79
+02/03/2026,2026-03-02,revolut_text,Transfer,From EUR Emergency Fundo,500285.4,1,From EUR Emergency Fundo500285.41
+02/03/2026,2026-03-02,revolut_text,Transfer,To EUR 50y BDay saving,-50230.4,1,To EUR 50y BDay saving-50230.41
+02/03/2026,2026-03-02,revolut_text,Transfer,To Ianara Fernandes,-500235.4,1,To Ianara Fernandes-500235.41
+04/03/2026,2026-03-04,revolut_text,Card Payment,Liffey Valley parking,-2.50,72.47,Liffey Valley parking-2.5072.47
+05/03/2026,2026-03-05,revolut_text,Card Payment,D Nail,-50012.4,7,D Nail-50012.47
+05/03/2026,2026-03-05,revolut_text,Transfer,From EUR Emergency Fundo,30074.9,7,From EUR Emergency Fundo30074.97
+05/03/2026,2026-03-05,revolut_text,Transfer,To EUR 50y BDay saving,-5044.9,7,To EUR 50y BDay saving-5044.97
+05/03/2026,2026-03-05,revolut_text,Transfer,To EUR 50y BDay saving,-10062.4,7,To EUR 50y BDay saving-10062.47
+05/03/2026,2026-03-05,revolut_text,Transfer,Transfer from MARIA HELENA DOS SANTOS FERREIRA,45049.9,7,Transfer from MARIA HELENA DOS SANTOS FERREIRA45049.97
+06/03/2026,2026-03-06,revolut_text,Transfer,To EUR 50y BDay saving,-507.4,7,To EUR 50y BDay saving-507.47
+07/03/2026,2026-03-07,revolut_text,Transfer,To EUR 50y BDay saving,-502.4,7,To EUR 50y BDay saving-502.47
+08/03/2026,2026-03-08,revolut_text,Card Payment,Circle K,-1066.4,7,Circle K-1066.47
+08/03/2026,2026-03-08,revolut_text,Card Payment,Circle K Gas Station,-14052.4,7,Circle K Gas Station-14052.47
+08/03/2026,2026-03-08,revolut_text,Transfer,From EUR 50y BDay saving,30032.4,7,From EUR 50y BDay saving30032.47
+08/03/2026,2026-03-08,revolut_text,Transfer,To EUR 50y BDay saving,-10022.4,7,To EUR 50y BDay saving-10022.47
+08/03/2026,2026-03-08,revolut_text,Transfer,To EUR 50y BDay saving,-5017.4,7,To EUR 50y BDay saving-5017.47
+08/03/2026,2026-03-08,revolut_text,Transfer,Transfer from TAMY ARAUJO KOBAYASHI,55072.4,7,Transfer from TAMY ARAUJO KOBAYASHI55072.47
+09/03/2026,2026-03-09,revolut_text,Card Payment,Intch,-31.99,060.38,Intch-31.99060.38
+09/03/2026,2026-03-09,revolut_text,Transfer,To EUR 50y BDay saving,-5067.4,7,To EUR 50y BDay saving-5067.47
+09/03/2026,2026-03-09,revolut_text,Transfer,To EUR 50y BDay saving,-0.10,52.37,To EUR 50y BDay saving-0.1052.37
+10/03/2026,2026-03-10,revolut_text,Card Payment,Circle K Gas Station,-20035.3,8,Circle K Gas Station-20035.38
+10/03/2026,2026-03-10,revolut_text,Transfer,To EUR 50y BDay saving,-10097.3,7,To EUR 50y BDay saving-10097.37
+10/03/2026,2026-03-10,revolut_text,Transfer,To EUR 50y BDay saving,-5092.3,7,To EUR 50y BDay saving-5092.37
+10/03/2026,2026-03-10,revolut_text,Transfer,Transfer from FELIPE BERTANHA,550107.3,7,Transfer from FELIPE BERTANHA550107.37
+11/03/2026,2026-03-11,revolut_text,Card Payment,Cursor,-21.30,153.78,Cursor-21.30153.78
+11/03/2026,2026-03-11,revolut_text,Transfer,To EUR 50y BDay saving,-5055.3,8,To EUR 50y BDay saving-5055.38
+11/03/2026,2026-03-11,revolut_text,Transfer,To EUR 50y BDay saving,-7028.3,8,To EUR 50y BDay saving-7028.38
+12/03/2026,2026-03-12,revolut_text,Card Payment,Dunnes Stores,-43.87,0104.91,Dunnes Stores-43.870104.91
+12/03/2026,2026-03-12,revolut_text,Transfer,From EUR 50y BDay saving,48076.3,8,From EUR 50y BDay saving48076.38
+12/03/2026,2026-03-12,revolut_text,Topup,Google Pay top-up by *,86871000176.3,8,Google Pay top-up by *86871000176.38
+12/03/2026,2026-03-12,revolut_text,Transfer,To EUR 50y BDay saving,-1.30,175.08,To EUR 50y BDay saving-1.30175.08
+12/03/2026,2026-03-12,revolut_text,Transfer,To EUR 50y BDay saving,-50148.7,8,To EUR 50y BDay saving-50148.78
+13/03/2026,2026-03-13,revolut_text,Card Payment,Circle K Gas Station,-200245.5,7,Circle K Gas Station-200245.57
+13/03/2026,2026-03-13,revolut_text,Transfer,To EUR 50y BDay saving,-5099.9,1,To EUR 50y BDay saving-5099.91
+13/03/2026,2026-03-13,revolut_text,Transfer,To EUR 50y BDay saving,-10089.9,1,To EUR 50y BDay saving-10089.91
+14/03/2026,2026-03-14,revolut_text,Transfer,From EUR 50y BDay saving,260160.9,1,From EUR 50y BDay saving260160.91
+14/03/2026,2026-03-14,revolut_text,Transfer,From EUR Emergency Fundo,4.66,0165.57,From EUR Emergency Fundo4.660165.57
+14/03/2026,2026-03-14,revolut_text,Topup,Google Pay top-up by *,86871000265.5,7,Google Pay top-up by *86871000265.57
+14/03/2026,2026-03-14,revolut_text,Transfer,To EUR 50y BDay saving,-50134.9,1,To EUR 50y BDay saving-50134.91
+14/03/2026,2026-03-14,revolut_text,Transfer,Transfer from JESSE' MORELATTO BENATO,500139.9,1,Transfer from JESSE' MORELATTO BENATO500139.91
+15/03/2026,2026-03-15,revolut_text,Card Payment,Dublin Airport,-34033.9,3,Dublin Airport-34033.93
+15/03/2026,2026-03-15,revolut_text,Card Payment,Eurocamp,-153.04,067.93,Eurocamp-153.04067.93
+15/03/2026,2026-03-15,revolut_text,Transfer,To EUR 50y BDay saving,-9.60,235.97,To EUR 50y BDay saving-9.60235.97
+15/03/2026,2026-03-15,revolut_text,Transfer,To EUR 50y BDay saving,-50230.9,7,To EUR 50y BDay saving-50230.97
+15/03/2026,2026-03-15,revolut_text,Transfer,To EUR 50y BDay saving,-100220.9,7,To EUR 50y BDay saving-100220.97
+16/03/2026,2026-03-16,revolut_text,Card Payment,Dunnes Stores,-24.57,0167.36,Dunnes Stores-24.570167.36
+16/03/2026,2026-03-16,revolut_text,Transfer,From EUR 50y BDay saving,30054.6,3,From EUR 50y BDay saving30054.63
+16/03/2026,2026-03-16,revolut_text,Topup,Google Pay top-up by *,86871500204.6,3,Google Pay top-up by *86871500204.63
+16/03/2026,2026-03-16,revolut_text,Card Payment,McDonald's,-17.25,0147.13,McDonald's-17.250147.13
+16/03/2026,2026-03-16,revolut_text,Card Payment,Mr Price,-2.98,0164.38,Mr Price-2.980164.38
+16/03/2026,2026-03-16,revolut_text,Transfer,To EUR 50y BDay saving,-5024.6,3,To EUR 50y BDay saving-5024.63
+16/03/2026,2026-03-16,revolut_text,Transfer,To EUR Emergency Fundo,-4.30,29.63,To EUR Emergency Fundo-4.3029.63
+16/03/2026,2026-03-16,revolut_text,Transfer,To EUR Emergency Fundo,-0.20,204.43,To EUR Emergency Fundo-0.20204.43
+16/03/2026,2026-03-16,revolut_text,Transfer,To EUR Emergency Fundo,-7.50,196.93,To EUR Emergency Fundo-7.50196.93
+17/03/2026,2026-03-17,revolut_text,Card Payment,Bellova,-18096.6,3,Bellova-18096.63
+17/03/2026,2026-03-17,revolut_text,Card Payment,Coca-Cola,-2.70,83.88,Coca-Cola-2.7083.88
+17/03/2026,2026-03-17,revolut_text,Card Payment,Monoprix,-19.60,98.18,Monoprix-19.6098.18
+17/03/2026,2026-03-17,revolut_text,Card Payment,RATP,-7.85,090.33,RATP-7.85090.33
+17/03/2026,2026-03-17,revolut_text,Card Payment,Ryanair,-3.75,086.58,Ryanair-3.75086.58
+17/03/2026,2026-03-17,revolut_text,Card Payment,SNCF,-7.85,0117.78,SNCF-7.850117.78
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR 50y BDay saving,-50191.9,3,To EUR 50y BDay saving-50191.93
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-30144.1,3,To EUR Emergency Fundo-30144.13
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-100134.1,3,To EUR Emergency Fundo-100134.13
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-1.50,132.63,To EUR Emergency Fundo-1.50132.63
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-1.50,131.13,To EUR Emergency Fundo-1.50131.13
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-40127.1,3,To EUR Emergency Fundo-40127.13
+17/03/2026,2026-03-17,revolut_text,Transfer,To EUR Emergency Fundo,-2.50,124.63,To EUR Emergency Fundo-2.50124.63
+18/03/2026,2026-03-18,revolut_text,Card Payment,Disneyland Paris,-10093.8,8,Disneyland Paris-10093.88
+18/03/2026,2026-03-18,revolut_text,Card Payment,Disneyland Paris,-18075.8,8,Disneyland Paris-18075.88
+18/03/2026,2026-03-18,revolut_text,Card Payment,Euro Disney,-150285.5,3,Euro Disney-150285.53
+18/03/2026,2026-03-18,revolut_text,Card Payment,Euro Disney,-100275.5,3,Euro Disney-100275.53
+18/03/2026,2026-03-18,revolut_text,Transfer,From EUR 50y BDay saving,100103.8,8,From EUR 50y BDay saving100103.88
+18/03/2026,2026-03-18,revolut_text,Transfer,From EUR Emergency Fundo,440135.6,3,From EUR Emergency Fundo440135.63
+18/03/2026,2026-03-18,revolut_text,Transfer,From EUR Emergency Fundo,30093.8,8,From EUR Emergency Fundo30093.88
+18/03/2026,2026-03-18,revolut_text,Transfer,To EUR 50y BDay saving,-5091.6,3,To EUR 50y BDay saving-5091.63
+18/03/2026,2026-03-18,revolut_text,Transfer,To EUR Emergency Fundo,-100114.6,3,To EUR Emergency Fundo-100114.63
+18/03/2026,2026-03-18,revolut_text,Transfer,To EUR Emergency Fundo,-100125.6,3,To EUR Emergency Fundo-100125.63
+18/03/2026,2026-03-18,revolut_text,Transfer,To EUR Emergency Fundo,-10073.8,8,To EUR Emergency Fundo-10073.88
+18/03/2026,2026-03-18,revolut_text,Transfer,To EUR Emergency Fundo,-10063.8,8,To EUR Emergency Fundo-10063.88
+19/03/2026,2026-03-19,revolut_text,Card Payment,Airport Bus Express,-27.80,312.58,Airport Bus Express-27.80312.58
+19/03/2026,2026-03-19,revolut_text,Card Payment,Beauvais,-27.20,241.33,Beauvais-27.20241.33
+19/03/2026,2026-03-19,revolut_text,Card Payment,DSAS,-20273.5,3,DSAS-20273.53
+19/03/2026,2026-03-19,revolut_text,Card Payment,Epc,-12.05,0221.43,Epc-12.050221.43
+19/03/2026,2026-03-19,revolut_text,Topup,Payment from PAOLA RECH,3100379.3,8,Payment from PAOLA RECH3100379.38
+19/03/2026,2026-03-19,revolut_text,Card Payment,RATP,-2.05,0310.53,RATP-2.050310.53
+19/03/2026,2026-03-19,revolut_text,Card Payment,RATP,-7.85,0233.48,RATP-7.850233.48
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR 50y BDay saving,-5069.3,8,To EUR 50y BDay saving-5069.38
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-1.50,74.38,To EUR Emergency Fundo-1.5074.38
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-9.50,369.88,To EUR Emergency Fundo-9.50369.88
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-9.50,360.38,To EUR Emergency Fundo-9.50360.38
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-20358.3,8,To EUR Emergency Fundo-20358.38
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-80350.3,8,To EUR Emergency Fundo-80350.38
+19/03/2026,2026-03-19,revolut_text,Transfer,To EUR Emergency Fundo,-100340.3,8,To EUR Emergency Fundo-100340.38
+20/03/2026,2026-03-20,revolut_text,Card Payment,Circle K Gas Station,-500104.6,3,Circle K Gas Station-500104.63
+20/03/2026,2026-03-20,revolut_text,Card Payment,Circle K Gas Station,-80024.6,3,Circle K Gas Station-80024.63
+20/03/2026,2026-03-20,revolut_text,Transfer,To EUR 50y BDay saving,-50268.5,3,To EUR 50y BDay saving-50268.53
+20/03/2026,2026-03-20,revolut_text,Transfer,To EUR Emergency Fundo,-100300.5,3,To EUR Emergency Fundo-100300.53
+20/03/2026,2026-03-20,revolut_text,Transfer,To EUR Emergency Fundo,-500171.4,3,To EUR Emergency Fundo-500171.43
+20/03/2026,2026-03-20,revolut_text,Transfer,To EUR Emergency Fundo,-100161.4,3,To EUR Emergency Fundo-100161.43
+21/03/2026,2026-03-21,revolut_text,Card Payment,Burger King,-13.95,0113.16,Burger King-13.950113.16
+21/03/2026,2026-03-21,revolut_text,Card Payment,Netlify,-7.82,096.53,Netlify-7.82096.53
+21/03/2026,2026-03-21,revolut_text,Topup,Payment from XENEO,1300154.6,3,Payment from XENEO1300154.63
+21/03/2026,2026-03-21,revolut_text,Card Payment,Temu,-30.58,059.35,Temu-30.58059.35
+21/03/2026,2026-03-21,revolut_text,Transfer,To EUR 50y BDay saving,-50154.6,3,To EUR 50y BDay saving-50154.63
+21/03/2026,2026-03-21,revolut_text,Transfer,To EUR Emergency Fundo,-1.80,159.63,To EUR Emergency Fundo-1.80159.63
+21/03/2026,2026-03-21,revolut_text,Transfer,To EUR Emergency Fundo,-130024.6,3,To EUR Emergency Fundo-130024.63
+21/03/2026,2026-03-21,revolut_text,Transfer,To EUR Emergency Fundo,-0.50,94.13,To EUR Emergency Fundo-0.5094.13
+21/03/2026,2026-03-21,revolut_text,Transfer,To EUR Emergency Fundo,-4.20,89.93,To EUR Emergency Fundo-4.2089.93
+21/03/2026,2026-03-21,revolut_text,Transfer,Transfer from Valeria C B Ridinger,70094.6,3,Transfer from Valeria C B Ridinger70094.63
+22/03/2026,2026-03-22,revolut_text,Card Refund,Temu,30.58,0127.11,Temu30.580127.11
+22/03/2026,2026-03-22,revolut_text,Transfer,To EUR 50y BDay saving,-5054.3,5,To EUR 50y BDay saving-5054.35
+22/03/2026,2026-03-22,revolut_text,Transfer,Transfer from PEDRO HENRIQUE RODRIGUES GONCALVES,500104.3,5,Transfer from PEDRO HENRIQUE RODRIGUES GONCALVES500104.35
+23/03/2026,2026-03-23,revolut_text,Card Payment,Circle K Gas Station,-49.40,41.42,Circle K Gas Station-49.4041.42
+23/03/2026,2026-03-23,revolut_text,Transfer,From EUR 50y BDay saving,10065.1,6,From EUR 50y BDay saving10065.16
+23/03/2026,2026-03-23,revolut_text,Card Payment,Mr Price,-10.74,090.82,Mr Price-10.74090.82
+23/03/2026,2026-03-23,revolut_text,Transfer,To EUR 50y BDay saving,-50108.1,6,To EUR 50y BDay saving-50108.16
+23/03/2026,2026-03-23,revolut_text,Transfer,To EUR Emergency Fundo,-53055.1,6,To EUR Emergency Fundo-53055.16
+23/03/2026,2026-03-23,revolut_text,Transfer,To EUR Emergency Fundo,-60119.1,6,To EUR Emergency Fundo-60119.16
+23/03/2026,2026-03-23,revolut_text,Transfer,To EUR Emergency Fundo,-2.60,116.56,To EUR Emergency Fundo-2.60116.56
+23/03/2026,2026-03-23,revolut_text,Transfer,Transfer from CARLOS HENRIQUE SILVA SANTANA,600125.1,6,Transfer from CARLOS HENRIQUE SILVA SANTANA600125.16
+24/03/2026,2026-03-24,revolut_text,Transfer,From EUR Emergency Fundo,1500191.4,2,From EUR Emergency Fundo1500191.42
+24/03/2026,2026-03-24,revolut_text,Transfer,From EUR Emergency Fundo,59060.4,2,From EUR Emergency Fundo59060.42
+24/03/2026,2026-03-24,revolut_text,Transfer,To EUR 50y BDay saving,-50101.5,6,To EUR 50y BDay saving-50101.56
+24/03/2026,2026-03-24,revolut_text,Transfer,To Ianara Fernandes,-19001.4,2,To Ianara Fernandes-19001.42
+24/03/2026,2026-03-24,revolut_text,Transfer,To Ianara Fernandes,-6000.4,2,To Ianara Fernandes-6000.42
+24/03/2026,2026-03-24,revolut_text,Transfer,Transfer from STHEFANY VITORIA GONSALVES DE SOUSA,450106.5,6,Transfer from STHEFANY VITORIA GONSALVES DE SOUSA450106.56
+24/03/2026,2026-03-24,revolut_text,Charge,Ultra plan fee,05561.5,6,Ultra plan fee05561.56
+25/03/2026,2026-03-25,revolut_text,Transfer,From EUR 50y BDay saving,20020.4,2,From EUR 50y BDay saving20020.42
+25/03/2026,2026-03-25,revolut_text,Transfer,To EUR 50y BDay saving,-5015.4,2,To EUR 50y BDay saving-5015.42
+25/03/2026,2026-03-25,revolut_text,Transfer,Transfer from ALLANA BRUNA BONINSENHA,10025.4,2,Transfer from ALLANA BRUNA BONINSENHA10025.42
+26/03/2026,2026-03-26,revolut_text,Transfer,To EUR 50y BDay saving,-5020.4,2,To EUR 50y BDay saving-5020.42
+26/03/2026,2026-03-26,revolut_text,Transfer,Transfer from DRIUSVANE RIBAS DOS SANTOS SILVA,65085.4,2,Transfer from DRIUSVANE RIBAS DOS SANTOS SILVA65085.42
+27/03/2026,2026-03-27,revolut_text,Card Payment,Analyticacore.ie,-14.99,0146.84,Analyticacore.ie-14.990146.84
+27/03/2026,2026-03-27,revolut_text,Card Payment,Gough Brothers,-10161.8,3,Gough Brothers-10161.83
+27/03/2026,2026-03-27,revolut_text,Card Payment,McDonald's,-19.75,0127.09,McDonald's-19.750127.09
+27/03/2026,2026-03-27,revolut_text,Card Payment,Motor Tax Online,-53069.0,9,Motor Tax Online-53069.09
+27/03/2026,2026-03-27,revolut_text,Transfer,To EUR 50y BDay saving,-5080.4,2,To EUR 50y BDay saving-5080.42
+27/03/2026,2026-03-27,revolut_text,Transfer,To EUR Emergency Fundo,-10070.4,2,To EUR Emergency Fundo-10070.42
+27/03/2026,2026-03-27,revolut_text,Transfer,To EUR Emergency Fundo,-10060.4,2,To EUR Emergency Fundo-10060.42
+27/03/2026,2026-03-27,revolut_text,Transfer,To EUR Emergency Fundo,-0.10,170.33,To EUR Emergency Fundo-0.10170.33
+27/03/2026,2026-03-27,revolut_text,Transfer,To EUR Emergency Fundo,-2.50,167.83,To EUR Emergency Fundo-2.50167.83
+27/03/2026,2026-03-27,revolut_text,Transfer,Transfer from GIOVANA BALARINI ZAMPIERI,0.01,060.43,Transfer from GIOVANA BALARINI ZAMPIERI0.01060.43
+27/03/2026,2026-03-27,revolut_text,Transfer,Transfer from GIOVANA BALARINI ZAMPIERI,1100170.4,3,Transfer from GIOVANA BALARINI ZAMPIERI1100170.43
+28/03/2026,2026-03-28,revolut_text,Transfer,To EUR 50y BDay saving,-50162.8,3,To EUR 50y BDay saving-50162.83
+29/03/2026,2026-03-29,revolut_text,Transfer,To EUR 50y BDay saving,-50122.0,9,To EUR 50y BDay saving-50122.09
+30/03/2026,2026-03-30,revolut_text,Transfer,AA Ireland,-98.01,0111.08,AA Ireland-98.010111.08
+30/03/2026,2026-03-30,revolut_text,Transfer,Allianz,-59.61,051.47,Allianz-59.61051.47
+30/03/2026,2026-03-30,revolut_text,Card Payment,Circle K Gas Station,-35011.4,7,Circle K Gas Station-35011.47
+30/03/2026,2026-03-30,revolut_text,Transfer,From EUR Emergency Fundo,1200189.0,9,From EUR Emergency Fundo1200189.09
+30/03/2026,2026-03-30,revolut_text,Transfer,To EUR 50y BDay saving,-50209.0,9,To EUR 50y BDay saving-50209.09
+30/03/2026,2026-03-30,revolut_text,Transfer,To EUR Emergency Fundo,-100264.0,9,To EUR Emergency Fundo-100264.09
+30/03/2026,2026-03-30,revolut_text,Transfer,To EUR Emergency Fundo,-500214.0,9,To EUR Emergency Fundo-500214.09
+30/03/2026,2026-03-30,revolut_text,Transfer,Transfer from CAMILA CRISTINA AGOSTINI,850274.0,9,Transfer from CAMILA CRISTINA AGOSTINI850274.09
+31/03/2026,2026-03-31,revolut_text,Card Payment,Amazon,-9.51,01.96,Amazon-9.5101.96
+31/03/2026,2026-03-31,revolut_text,Transfer,To EUR 50y BDay saving,-5046.4,7,To EUR 50y BDay saving-5046.47
+01/04/2026,2026-04-01,revolut_text,Transfer,From EUR 50y BDay saving,350106.4,7,From EUR 50y BDay saving350106.47
+01/04/2026,2026-04-01,revolut_text,Transfer,From EUR Emergency Fundo,60071.4,7,From EUR Emergency Fundo60071.47
+01/04/2026,2026-04-01,revolut_text,Transfer,To EUR 50y BDay saving,-5011.4,7,To EUR 50y BDay saving-5011.47
+01/04/2026,2026-04-01,revolut_text,Transfer,To Ianara Fernandes,-90016.4,7,To Ianara Fernandes-90016.47
+01/04/2026,2026-04-01,revolut_text,Transfer,Transfer from THAIZI SILVA DE JESUS DOS SANTOS,40041.9,6,Transfer from THAIZI SILVA DE JESUS DOS SANTOS40041.96
+02/04/2026,2026-04-02,revolut_text,Transfer,To EUR 50y BDay saving,-5036.9,6,To EUR 50y BDay saving-5036.96
+03/04/2026,2026-04-03,revolut_text,Transfer,To EUR 50y BDay saving,-5079.9,6,To EUR 50y BDay saving-5079.96
+03/04/2026,2026-04-03,revolut_text,Transfer,Transfer from LUIS EDUARDO FARIAS,550134.9,6,Transfer from LUIS EDUARDO FARIAS550134.96
+03/04/2026,2026-04-03,revolut_text,Transfer,Transfer from VANESSA AMADO DE CARVALHO,48084.9,6,Transfer from VANESSA AMADO DE CARVALHO48084.96
+04/04/2026,2026-04-04,revolut_text,Transfer,To EUR 50y BDay saving,-5094.9,6,To EUR 50y BDay saving-5094.96
+04/04/2026,2026-04-04,revolut_text,Transfer,To EUR Emergency Fundo,-100099.9,6,To EUR Emergency Fundo-100099.96
+04/04/2026,2026-04-04,revolut_text,Transfer,Transfer from EOIN BRENDAN NEWELL,650199.9,6,Transfer from EOIN BRENDAN NEWELL650199.96
+05/04/2026,2026-04-05,revolut_text,Transfer,To EUR 50y BDay saving,-50149.9,6,To EUR 50y BDay saving-50149.96
+05/04/2026,2026-04-05,revolut_text,Transfer,To EUR Emergency Fundo,-100049.9,6,To EUR Emergency Fundo-100049.96
+05/04/2026,2026-04-05,revolut_text,Transfer,Transfer from ALLANA BRUNA BONINSENHA,600154.9,6,Transfer from ALLANA BRUNA BONINSENHA600154.96
+06/04/2026,2026-04-06,revolut_text,Card Payment,Circle K Gas Station,-35059.9,6,Circle K Gas Station-35059.96
+06/04/2026,2026-04-06,revolut_text,Transfer,To EUR 50y BDay saving,-5044.9,6,To EUR 50y BDay saving-5044.96
+06/04/2026,2026-04-06,revolut_text,Transfer,Transfer from JESSE' MORELATTO BENATO,50094.9,6,Transfer from JESSE' MORELATTO BENATO50094.96
+07/04/2026,2026-04-07,revolut_text,Transfer,To EUR 50y BDay saving,-5054.9,6,To EUR 50y BDay saving-5054.96
+08/04/2026,2026-04-08,revolut_text,Transfer,To EUR Emergency Fundo,-5004.9,6,To EUR Emergency Fundo-5004.96
+09/04/2026,2026-04-09,revolut_text,Card Payment,APCOA Parking,-202.9,6,APCOA Parking-202.96
+10/04/2026,2026-04-10,revolut_text,Card Payment,Circle K Gas Station,-400114.5,6,Circle K Gas Station-400114.56
+10/04/2026,2026-04-10,revolut_text,Card Payment,Gough Brothers,-10154.5,6,Gough Brothers-10154.56
+10/04/2026,2026-04-10,revolut_text,Topup,Payment from PAOLA RECH,1500207.9,6,Payment from PAOLA RECH1500207.96
+10/04/2026,2026-04-10,revolut_text,Transfer,To EUR 50y BDay saving,-5067.9,6,To EUR 50y BDay saving-5067.96
+10/04/2026,2026-04-10,revolut_text,Transfer,To EUR Emergency Fundo,-10072.9,6,To EUR Emergency Fundo-10072.96
+10/04/2026,2026-04-10,revolut_text,Transfer,To EUR Emergency Fundo,-10057.9,6,To EUR Emergency Fundo-10057.96
+10/04/2026,2026-04-10,revolut_text,Transfer,To EUR Emergency Fundo,-1000107.9,6,To EUR Emergency Fundo-1000107.96
+10/04/2026,2026-04-10,revolut_text,Transfer,Transfer from PAULA STTENYA LIMA DE SOUSA,80082.9,6,Transfer from PAULA STTENYA LIMA DE SOUSA80082.96
+11/04/2026,2026-04-11,revolut_text,Card Payment,Eurasia Supermarket,-2.69,011.3,Eurasia Supermarket-2.69011.3
+11/04/2026,2026-04-11,revolut_text,Transfer,From EUR Emergency Fundo,600162.9,6,From EUR Emergency Fundo600162.96
+11/04/2026,2026-04-11,revolut_text,Card Payment,Lidl,-9.63,018.99,Lidl-9.63018.99
+11/04/2026,2026-04-11,revolut_text,Card Payment,Smyths Toys Superstores,-85.94,028.62,Smyths Toys Superstores-85.94028.62
+11/04/2026,2026-04-11,revolut_text,Transfer,To EUR 50y BDay saving,-50102.9,6,To EUR 50y BDay saving-50102.96
+11/04/2026,2026-04-11,revolut_text,Transfer,To EUR Emergency Fundo,-0.60,162.36,To EUR Emergency Fundo-0.60162.36
+11/04/2026,2026-04-11,revolut_text,Transfer,To EUR Emergency Fundo,-3.10,159.26,To EUR Emergency Fundo-3.10159.26
+11/04/2026,2026-04-11,revolut_text,Transfer,To EUR Emergency Fundo,-3.70,155.56,To EUR Emergency Fundo-3.70155.56
+12/04/2026,2026-04-12,revolut_text,Transfer,To EUR 50y BDay saving,-5013.9,9,To EUR 50y BDay saving-5013.99
+12/04/2026,2026-04-12,revolut_text,Transfer,Transfer from FERNANDA LARISSA BORDIN,5506,6.3,Transfer from FERNANDA LARISSA BORDIN55066.3
+13/04/2026,2026-04-13,revolut_text,Card Payment,Dunnes Stores,-55.57,01.43,Dunnes Stores-55.5701.43
+13/04/2026,2026-04-13,revolut_text,Transfer,To EUR 50y BDay saving,-505,7,To EUR 50y BDay saving-5057
+13/04/2026,2026-04-13,revolut_text,Transfer,To EUR Emergency Fundo,-4.30,62,To EUR Emergency Fundo-4.3062
+14/04/2026,2026-04-14,revolut_text,Transfer,From EUR 50y BDay saving,55056.4,3,From EUR 50y BDay saving55056.43
+14/04/2026,2026-04-14,revolut_text,Transfer,From EUR 50y BDay saving,5044.9,3,From EUR 50y BDay saving5044.93
+14/04/2026,2026-04-14,revolut_text,Transfer,From EUR Emergency Fundo,20064.9,3,From EUR Emergency Fundo20064.93
+14/04/2026,2026-04-14,revolut_text,Transfer,From EUR Emergency Fundo,19080.2,3,From EUR Emergency Fundo19080.23
+14/04/2026,2026-04-14,revolut_text,Transfer,From EUR Emergency Fundo,300109.4,3,From EUR Emergency Fundo300109.43
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-17.63,091.8,Temu-17.63091.8
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-15.55,076.25,Temu-15.55076.25
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-12.68,063.57,Temu-12.68063.57
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-14.30,49.27,Temu-14.3049.27
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-29.14,020.13,Temu-29.14020.13
+14/04/2026,2026-04-14,revolut_text,Card Payment,Temu,-15.92,04.21,Temu-15.9204.21
+14/04/2026,2026-04-14,revolut_text,Transfer,To EUR 50y BDay saving,-5044.4,3,To EUR 50y BDay saving-5044.43
+14/04/2026,2026-04-14,revolut_text,Transfer,To EUR Emergency Fundo,-7049.4,3,To EUR Emergency Fundo-7049.43
+14/04/2026,2026-04-14,revolut_text,Transfer,To EUR Emergency Fundo,-4.50,39.93,To EUR Emergency Fundo-4.5039.93
+14/04/2026,2026-04-14,revolut_text,Transfer,To EUR Emergency Fundo,-3.70,61.23,To EUR Emergency Fundo-3.7061.23
+14/04/2026,2026-04-14,revolut_text,Transfer,To EUR Emergency Fundo,-0.80,79.43,To EUR Emergency Fundo-0.8079.43
+15/04/2026,2026-04-15,revolut_text,Transfer,From EUR Emergency Fundo,50054.2,1,From EUR Emergency Fundo50054.21
+15/04/2026,2026-04-15,revolut_text,Card Payment,Liffey Valley parking,-2.50,28.11,Liffey Valley parking-2.5028.11
+15/04/2026,2026-04-15,revolut_text,Card Payment,LinkedIn,-15.24,00.37,LinkedIn-15.2400.37
+15/04/2026,2026-04-15,revolut_text,Card Payment,Penneys,-12.50,15.61,Penneys-12.5015.61
+15/04/2026,2026-04-15,revolut_text,Transfer,To EUR 50y BDay saving,-5039.2,1,To EUR 50y BDay saving-5039.21
+15/04/2026,2026-04-15,revolut_text,Transfer,To EUR Emergency Fundo,-5049.2,1,To EUR Emergency Fundo-5049.21
+15/04/2026,2026-04-15,revolut_text,Transfer,To EUR Emergency Fundo,-5044.2,1,To EUR Emergency Fundo-5044.21
+15/04/2026,2026-04-15,revolut_text,Transfer,To EUR Emergency Fundo,-7.60,31.61,To EUR Emergency Fundo-7.6031.61
+16/04/2026,2026-04-16,revolut_text,Transfer,From EUR Emergency Fundo,39070.6,1,From EUR Emergency Fundo39070.61
+16/04/2026,2026-04-16,revolut_text,Transfer,To Ianara Fernandes,-40030.6,1,To Ianara Fernandes-40030.61
+18/04/2026,2026-04-18,revolut_text,Card Payment,Eurocamp,-153.03,077.64,Eurocamp-153.03077.64
+18/04/2026,2026-04-18,revolut_text,Transfer,From EUR Emergency Fundo,2000200.3,7,From EUR Emergency Fundo2000200.37
+18/04/2026,2026-04-18,revolut_text,Transfer,To EUR 50y BDay saving,-50185.6,7,To EUR 50y BDay saving-50185.67
+18/04/2026,2026-04-18,revolut_text,Transfer,To EUR Emergency Fundo,-9.70,190.67,To EUR Emergency Fundo-9.70190.67
+18/04/2026,2026-04-18,revolut_text,Transfer,Transfer from FERNANDA PEREIRA CHAVES,450230.6,7,Transfer from FERNANDA PEREIRA CHAVES450230.67
+19/04/2026,2026-04-19,revolut_text,Transfer,To EUR 50y BDay saving,-5072.6,4,To EUR 50y BDay saving-5072.64
+20/04/2026,2026-04-20,revolut_text,Transfer,To EUR 50y BDay saving,-5067.6,4,To EUR 50y BDay saving-5067.64
+21/04/2026,2026-04-21,revolut_text,Card Payment,Netlify,-7.68,061.76,Netlify-7.68061.76
+21/04/2026,2026-04-21,revolut_text,Transfer,To EUR 50y BDay saving,-5039.4,4,To EUR 50y BDay saving-5039.44
+21/04/2026,2026-04-21,revolut_text,Transfer,To EUR Emergency Fundo,-3.20,64.44,To EUR Emergency Fundo-3.2064.44
+21/04/2026,2026-04-21,revolut_text,Transfer,To Ianara Fernandes,-20044.4,4,To Ianara Fernandes-20044.44
+21/04/2026,2026-04-21,revolut_text,Transfer,Transfer from SABRINA MELO DOS SANTOS,30069.4,4,Transfer from SABRINA MELO DOS SANTOS30069.44
+22/04/2026,2026-04-22,revolut_text,Transfer,From EUR 50y BDay saving,25086.7,6,From EUR 50y BDay saving25086.76
+22/04/2026,2026-04-22,revolut_text,Transfer,From EUR Emergency Fundo,13099.7,6,From EUR Emergency Fundo13099.76
+22/04/2026,2026-04-22,revolut_text,Transfer,To EUR 50y BDay saving,-5044.7,6,To EUR 50y BDay saving-5044.76
+22/04/2026,2026-04-22,revolut_text,Transfer,To EUR Emergency Fundo,-50049.7,6,To EUR Emergency Fundo-50049.76
+23/04/2026,2026-04-23,revolut_text,Card Payment,Dunnes Stores,-43.77,079.63,Dunnes Stores-43.77079.63
+23/04/2026,2026-04-23,revolut_text,Transfer,From EUR Emergency Fundo,50094.7,6,From EUR Emergency Fundo50094.76
+23/04/2026,2026-04-23,revolut_text,Topup,Payment from IANARA ARAUJO FERNANDES,100.94,0190.7,Payment from IANARA ARAUJO FERNANDES100.940190.7
+23/04/2026,2026-04-23,revolut_text,Card Payment,Tallaght Sports And L,-90011.6,3,Tallaght Sports And L-90011.63
+23/04/2026,2026-04-23,revolut_text,Card Refund,Temu,5.05,016.68,Temu5.05016.68
+23/04/2026,2026-04-23,revolut_text,Transfer,To EUR 50y BDay saving,-5089.7,6,To EUR 50y BDay saving-5089.76
+23/04/2026,2026-04-23,revolut_text,Transfer,To EUR Emergency Fundo,-10018,0.7,To EUR Emergency Fundo-100180.7
+23/04/2026,2026-04-23,revolut_text,Transfer,To EUR Emergency Fundo,-2.30,178.4,To EUR Emergency Fundo-2.30178.4
+24/04/2026,2026-04-24,revolut_text,Transfer,From EUR 50y BDay saving,100101.6,3,From EUR 50y BDay saving100101.63
+24/04/2026,2026-04-24,revolut_text,Transfer,From EUR Emergency Fundo,12091.6,3,From EUR Emergency Fundo12091.63
+24/04/2026,2026-04-24,revolut_text,Transfer,To EUR 50y BDay saving,-5011.6,8,To EUR 50y BDay saving-5011.68
+24/04/2026,2026-04-24,revolut_text,Charge,Ultra plan fee,05512,3.4,Ultra plan fee055123.4
+25/04/2026,2026-04-25,revolut_text,Card Payment,Circle K,-1030.6,8,Circle K-1030.68
+25/04/2026,2026-04-25,revolut_text,Transfer,To EUR 50y BDay saving,-506.6,8,To EUR 50y BDay saving-506.68
+25/04/2026,2026-04-25,revolut_text,Transfer,To EUR Emergency Fundo,-10036.6,8,To EUR Emergency Fundo-10036.68
+25/04/2026,2026-04-25,revolut_text,Transfer,Transfer from FERNANDA PEREIRA CHAVES,40046.6,8,Transfer from FERNANDA PEREIRA CHAVES40046.68
+26/04/2026,2026-04-26,revolut_text,Transfer,To EUR 50y BDay saving,-5031.6,8,To EUR 50y BDay saving-5031.68
+27/04/2026,2026-04-27,revolut_text,Card Payment,Analyticacore.ie,-14.99,065.59,Analyticacore.ie-14.99065.59
+27/04/2026,2026-04-27,revolut_text,Transfer,From EUR 50y BDay saving,20070.6,8,From EUR 50y BDay saving20070.68
+27/04/2026,2026-04-27,revolut_text,Transfer,From EUR Emergency Fundo,10080.6,8,From EUR Emergency Fundo10080.68
+27/04/2026,2026-04-27,revolut_text,Transfer,To EUR 50y BDay saving,-5050.6,8,To EUR 50y BDay saving-5050.68
+27/04/2026,2026-04-27,revolut_text,Transfer,To EUR Emergency Fundo,-0.10,80.58,To EUR Emergency Fundo-0.1080.58
+27/04/2026,2026-04-27,revolut_text,Transfer,To Ianara Fernandes,-30055.6,8,To Ianara Fernandes-30055.68
+27/04/2026,2026-04-27,revolut_text,Transfer,Transfer from THIAGO TIZOTTI,55085.6,8,Transfer from THIAGO TIZOTTI55085.68
+28/04/2026,2026-04-28,revolut_text,Topup,Google Pay top-up by *,86871000165.5,9,Google Pay top-up by *86871000165.59
+28/04/2026,2026-04-28,revolut_text,Transfer,To EUR 50y BDay saving,-50160.5,9,To EUR 50y BDay saving-50160.59
+29/04/2026,2026-04-29,revolut_text,Transfer,Allianz,-59.61,088.85,Allianz-59.61088.85
+29/04/2026,2026-04-29,revolut_text,Card Payment,Lidl,-52.76,0229.89,Lidl-52.760229.89
+29/04/2026,2026-04-29,revolut_text,Card Payment,Lidl,-3.49,0226.4,Lidl-3.490226.4
+29/04/2026,2026-04-29,revolut_text,Topup,Payment from PAOLA RECH,1500298.8,5,Payment from PAOLA RECH1500298.85
+29/04/2026,2026-04-29,revolut_text,Topup,Payment from STRIPE TECHNOLOGY EUROPE LTD,42.87,0203.46,Payment from STRIPE TECHNOLOGY EUROPE LTD42.870203.46
+29/04/2026,2026-04-29,revolut_text,Transfer,To EUR 50y BDay saving,-50148.4,6,To EUR 50y BDay saving-50148.46
+29/04/2026,2026-04-29,revolut_text,Transfer,To EUR Emergency Fundo,-500153.4,6,To EUR Emergency Fundo-500153.46
+29/04/2026,2026-04-29,revolut_text,Transfer,To EUR Emergency Fundo,-2.40,296.45,To EUR Emergency Fundo-2.40296.45
+29/04/2026,2026-04-29,revolut_text,Transfer,To EUR Emergency Fundo,-5.10,291.35,To EUR Emergency Fundo-5.10291.35
+29/04/2026,2026-04-29,revolut_text,Transfer,Transfer from ANNA PAULA BONTEMPI,600148.8,5,Transfer from ANNA PAULA BONTEMPI600148.85
+30/04/2026,2026-04-30,revolut_text,Transfer,To EUR 50y BDay saving,-50282.6,5,To EUR 50y BDay saving-50282.65
+30/04/2026,2026-04-30,revolut_text,Transfer,To EUR Emergency Fundo,-3.70,287.65,To EUR Emergency Fundo-3.70287.65
