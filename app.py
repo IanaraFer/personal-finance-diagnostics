@@ -832,7 +832,7 @@ def checkout_success():
         if user:
             u = User(id=user['email'], email=user['email'], is_admin=user.get('is_admin', 0))
             login_user(u)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('index'))
     # Fallback: payment received but session expired — ask user to log in
     return render_template('checkout_success.html')
 

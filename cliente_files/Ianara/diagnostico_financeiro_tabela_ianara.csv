@@ -1,6 +1,0 @@
-periodo,tipo,entradas,saidas,saldo,fonte
-2026-01,renda_mensal_identificada,13268.00,,,combined_transactions_chronological
-2026-02,renda_mensal_identificada,8102.00,,,combined_transactions_chronological
-2026-03,renda_mensal_identificada,7550.01,,,combined_transactions_chronological
-2026-04,renda_mensal_identificada,11402.00,,,combined_transactions_chronological
-2026-04-10 a 2026-04-30,diagnostico_questionario,1240.0,958.0,282.0,ianara_apr_2026_diagnostic_input.json
